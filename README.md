@@ -14,6 +14,10 @@ Personal dotfile collection for Linux desktop personalization.
 - **Klassy**
   - [GitHub](https://github.com/paulmcauley/klassy)
 
+- **Active accent border**
+  - [KDE Store](https://store.kde.org/p/2118297)
+  - [GitHub](https://github.com/nclarius/Plasma-window-decorations)
+
 - **Active Blur**
   - [KDE Store](https://store.kde.org/p/2134907)
   - [GitHub](https://github.com/bouteillerAlan/blurredwallpaper)
@@ -27,3 +31,8 @@ Personal dotfile collection for Linux desktop personalization.
 
 - **Latte Dock**
   - [GitHub](https://github.com/KDE/latte-dock)
+
+- **Sugar Candy**
+  - [Framagit](https://github.com/KDE/latte-dock)
+
+---
