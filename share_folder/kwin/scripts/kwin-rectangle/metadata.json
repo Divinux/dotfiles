@@ -1,0 +1,22 @@
+{
+  "KPlugin": {
+    "Authors": [
+      {
+        "Email": "acristoffers@startmail.com",
+        "Name": "Álan Crístoffer e Sousa"
+      }
+    ],
+    "Description": "Shortcuts to move windows around.",
+    "Icon": "preferences-system-windows-script-test",
+    "Id": "kwin-rectangle",
+    "License": "GPL",
+    "Name": "KWin Rectangle",
+    "ServiceTypes": ["KWin/Script"],
+    "Version": "1.2.11"
+  },
+  "X-KDE-ParentComponents": ["kwin-rectangle"],
+  "X-KDE-PluginKeyword": "kwin-rectangle",
+  "X-Plasma-API": "javascript",
+  "X-Plasma-MainScript": "code/main.js",
+  "X-KDE-ConfigModule": "kwin/effects/configs/kcm_kwin4_genericscripted"
+}
