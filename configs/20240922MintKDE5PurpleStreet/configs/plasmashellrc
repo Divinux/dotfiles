@@ -1,0 +1,67 @@
+[ActionsWidget]
+ColumnState=AAAA/wAAAAAAAAABAAAAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAk8AAAACAQAAAQAAAAAAAAAAAAAAAGT/////AAAAgQAAAAAAAAACAAAA+gAAAAEAAAAAAAABVQAAAAEAAAAAAAAD6AAAAABk
+
+[ConfigDialog]
+1680x964 screen: Height=550
+1680x964 screen: Width=801
+
+[General]
+Number of Actions=0
+
+[KFileDialog Settings]
+Recent Files[$e]=brutalismPolandHouseHospital Stalownik Bielsko-Biała.jpg,file:$HOME/Downloads/brutalismPolandHouseHospital Stalownik Bielsko-Biała.jpg
+Recent URLs[$e]=file:$HOME/Downloads/
+detailViewIconSize=16
+
+[PlasmaTransientsConfig]
+PreloadWeight=0
+
+[PlasmaViews][Panel 2]
+alignment=132
+floating=0
+panelOpacity=2
+
+[PlasmaViews][Panel 2][Defaults]
+thickness=44
+
+[PlasmaViews][Panel 22][Defaults]
+thickness=44
+
+[PlasmaViews][Panel 23][Defaults]
+thickness=27
+
+[PlasmaViews][Panel 40]
+floating=1
+panelOpacity=2
+panelVisibility=0
+
+[PlasmaViews][Panel 40][Defaults]
+thickness=48
+
+[PlasmaViews][Panel 42][Defaults]
+thickness=44
+
+[PlasmaViews][Panel 65]
+floating=1
+
+[PlasmaViews][Panel 65][Defaults]
+offset=0
+thickness=26
+
+[PlasmaViews][Panel 85]
+alignment=132
+floating=1
+panelVisibility=2
+
+[PlasmaViews][Panel 85][Defaults]
+maxLength=1281
+minLength=100
+offset=0
+thickness=66
+
+[PlasmaViews][Panel 85][Horizontal1280]
+maxLength=1281
+minLength=100
+
+[Updates]
+performed=/usr/share/plasma/shells/org.kde.plasma.desktop/contents/updates/keyboardlayout_remove_shortcut.js,/usr/share/plasma/shells/org.kde.plasma.desktop/contents/updates/maintain_existing_desktop_icon_sizes.js,/usr/share/plasma/shells/org.kde.plasma.desktop/contents/updates/containmentactions_middlebutton.js,/usr/share/plasma/shells/org.kde.plasma.desktop/contents/updates/move_desktop_layout_config.js,/usr/share/plasma/shells/org.kde.plasma.desktop/contents/updates/no_middle_click_paste_on_panels.js,/usr/share/plasma/shells/org.kde.plasma.desktop/contents/updates/keyboardlayout_migrateiconsetting.js,/usr/share/plasma/shells/org.kde.plasma.desktop/contents/updates/folderview_fix_recursive_screenmapping.js,/usr/share/plasma/shells/org.kde.plasma.desktop/contents/updates/mediaframe_migrate_useBackground_setting.js,/usr/share/plasma/shells/org.kde.plasma.desktop/contents/updates/klipper_clear_config.js,/usr/share/plasma/shells/org.kde.plasma.desktop/contents/updates/digitalclock_migrate_font_settings.js,/usr/share/plasma/shells/org.kde.plasma.desktop/contents/updates/digitalclock_rename_timezonedisplay_key.js,/usr/share/plasma/shells/org.kde.plasma.desktop/contents/updates/unlock_widgets.js,/usr/share/plasma/shells/org.kde.plasma.desktop/contents/updates/systemloadviewer_systemmonitor.js

@@ -1,0 +1,66 @@
+1680x1050 screen: Height=462
+1680x1050 screen: Width=820
+1680x1050 screen: XPosition=12
+1680x1050 screen: YPosition=528
+1680x964 screen: Height=493
+1680x964 screen: Width=585
+1680x964 screen: XPosition=584
+1680x964 screen: YPosition=403
+MenuBar=Disabled
+State=AAAA/wAAAAD9AAAAAQAAAAAAAAAAAAAAAPwCAAAAAvsAAAAiAFEAdQBpAGMAawBDAG8AbQBtAGEAbgBkAHMARABvAGMAawAAAAAA/////wAAAXwBAAAD+wAAABwAUwBTAEgATQBhAG4AYQBnAGUAcgBEAG8AYwBrAAAAAAD/////AAABFQEAAAMAAAM0AAABoAAAAAQAAAAEAAAACAAAAAj8AAAAAQAAAAIAAAACAAAAFgBtAGEAaQBuAFQAbwBvAGwAQgBhAHIAAAAAAP////8AAAAAAAAAAAAAABwAcwBlAHMAcwBpAG8AbgBUAG8AbwBsAGIAYQByAQAAAAD/////AAAAAAAAAAA=
+Virtual1=Virtual1
+
+[Desktop Entry]
+DefaultProfile=Profile 1.profile
+
+[General]
+ConfigVersion=1
+
+[MainWindow]
+1017x817 screen: Height=349
+1017x817 screen: Width=508
+1017x817 screen: XPosition=509
+1017x817 screen: YPosition=28
+1280x800 screen: Height=326
+1280x800 screen: Width=688
+1280x800 screen: XPosition=8
+1280x800 screen: YPosition=164
+1366x768 screen: Height=707
+1366x768 screen: Width=789
+1680x1050 screen: Height=447
+1680x1050 screen: Width=688
+1680x1050 screen: XPosition=-15
+1680x1050 screen: YPosition=717
+1680x964 screen: Height=899
+1680x964 screen: Width=972
+1680x964 screen: XPosition=704
+1680x964 screen: YPosition=13
+4096x2160 screen: Height=331
+4096x2160 screen: Width=1695
+640x480 screen: Height=192
+640x480 screen: Width=320
+640x480 screen: XPosition=320
+640x480 screen: YPosition=28
+MenuBar=Disabled
+State=AAAA/wAAAAD9AAAAAQAAAAAAAAAAAAAAAPwCAAAAAvsAAAAiAFEAdQBpAGMAawBDAG8AbQBtAGEAbgBkAHMARABvAGMAawAAAAAA/////wAAAXwBAAAD+wAAABwAUwBTAEgATQBhAG4AYQBnAGUAcgBEAG8AYwBrAAAAAAD/////AAABFQEAAAMAAAM0AAABzgAAAAQAAAAEAAAACAAAAAj8AAAAAQAAAAIAAAACAAAAFgBtAGEAaQBuAFQAbwBvAGwAQgBhAHIAAAAAAP////8AAAAAAAAAAAAAABwAcwBlAHMAcwBpAG8AbgBUAG8AbwBsAGIAYQByAAAAAAD/////AAAAAAAAAAA=
+Virtual1=Virtual1
+
+[MainWindow][Toolbar mainToolBar]
+ToolButtonStyle=IconOnly
+
+[MainWindow][Toolbar sessionToolbar]
+ToolButtonStyle=IconOnly
+
+[Notification Messages]
+CloseAllEmptyTabs=true
+CloseAllTabs=true
+CloseSingleTab=true
+
+[Toolbar mainToolBar]
+ToolButtonStyle=IconOnly
+
+[Toolbar sessionToolbar]
+ToolButtonStyle=IconOnly
+
+[UiSettings]
+ColorScheme=
