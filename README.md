@@ -2,7 +2,7 @@
 
 Personal collection of dotfiles for linux desktop personalization.
 
-![Application Screenshot](screenshots/main.png)
+![Application Screenshot](screenshots/shot.png)
 
 ![Application Video](screenshots/preview.gif)
 
