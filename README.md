@@ -8,7 +8,7 @@ Personal collection of dotfiles for linux desktop personalization.
 
 ## Prerequisites
 
-- **KDE Plasma 6** - Desktop Environment
+- **KDE Plasma** - Desktop Environment
   - [KDE Plasma Desktop](https://kde.org/de/plasma-desktop/)
 
 - **Sugar Candy** - SDDM Theme
