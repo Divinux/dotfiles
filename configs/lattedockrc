@@ -1,12 +1,27 @@
+[ActionsWidget]
+ColumnState=AAAA/wAAAAAAAAABAAAAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAk8AAAACAQAAAQAAAAAAAAAAAAAAAGT/////AAAAgQAAAAAAAAACAAAA+gAAAAEAAAAAAAABVQAAAAEAAAAAAAAD6AAAAABk
+
+[ConfigDialog]
+1680x1050 screen: Height=550
+1680x1050 screen: Width=784
+1680x1050 screen: Window-Maximized=true
+
+[General]
+Number of Actions=0
+
+[KPropertiesDialog]
+1680x964 screen: Height=537
+1680x964 screen: Width=422
+
 [LatteSettingsDialog]
 downloadWindowSize=980,600
-windowSize=1100,750
+windowSize=1100,744
 
 [LatteSettingsDialog][DetailsDialog]
 windowSize=560,640
 
 [LatteSettingsDialog][TabLayouts]
-columnWidths=48,508,129,104
+columnWidths=49,508,129,104
 sortColumn=3
 sortOrder=0
 
@@ -14,27 +29,26 @@ sortOrder=0
 columnWidths=59,256,142,135,131
 sortColumn=2
 sortOrder=0
-windowSize=1277,824
+windowSize=980,631
 
 [PlasmaThemeExtended]
 outlineWidth=1
 
 [ScreenConnectors]
-10=Virtual-1:::0,0 1680x964
-11=Virtual1:::0,0 1280x800
+10=Virtual1:::0,0 1680x964
 
 [UniversalSettings]
-badges3DStyle=false
-canDisableBorders=false
+badges3DStyle=true
+canDisableBorders=true
 contextMenuActionsAlwaysShown=_layouts,_preferences,_quit_latte,_separator1,_add_latte_widgets,_add_view
-inAdvancedModeForEditSettings=false
+inAdvancedModeForEditSettings=true
 isAvailableGeometryBroadcastedToPlasma=true
-launchers=
+launchers=applications:org.kde.plasma-systemmonitor.desktop,applications:org.kde.konsole.desktop,applications:firefox.desktop
 memoryUsage=0
 metaPressAndHoldEnabled=true
 mouseSensitivity=2
 screenTrackerInterval=2500
 showInfoWindow=true
-singleModeLayoutName=Default - 2
+singleModeLayoutName=Siri
 userConfiguredAutostart=true
 version=2
