@@ -12,9 +12,11 @@ Personal collection of dotfiles for linux desktop personalization.
   - [KDE Plasma Desktop](https://kde.org/de/plasma-desktop/)
 
 - **Sugar Candy** - SDDM Theme
+  - [KDE Store](https://store.kde.org/p/1312658/)
   - [Framagit](https://framagit.org/MarianArlt/sddm-sugar-candy)
 
 - **Klassy** - Global Theme
+  - [KDE Store](https://store.kde.org/p/2137614)
   - [GitHub](https://github.com/paulmcauley/klassy)
 
 - **Candy Icons** - Icon Pack
@@ -33,7 +35,7 @@ Personal collection of dotfiles for linux desktop personalization.
   - [KDE Store](https://store.kde.org/p/2134907)
   - [GitHub](https://github.com/bouteillerAlan/blurredwallpaper)
 
-- **KZones** - KWin Script
+- **KZones** - KWin Script for tiling zones
   - [KDE Store](https://store.kde.org/p/1909220)
   - [GitHub](https://github.com/gerritdevriese/kzones)
 
