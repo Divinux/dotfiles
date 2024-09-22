@@ -1,0 +1,6 @@
+[Libinput][3599][3][VMware VMware Virtual USB Mouse]
+PointerAcceleration=1.000
+PointerAccelerationProfile=1
+
+[Mouse]
+X11LibInputXAccelProfileFlat=true
