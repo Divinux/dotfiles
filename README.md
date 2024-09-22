@@ -39,10 +39,13 @@ Personal collection of dotfiles for linux desktop personalization.
   - [KDE Store](https://store.kde.org/p/1909220)
   - [GitHub](https://github.com/gerritdevriese/kzones)
 
+- **Latte Dock** - Dock replacement
+  - [GitHub](https://github.com/KDE/latte-dock)
+
 - **pywal16** - Color scheme generator
   - [GitHub](https://github.com/eylles/pywal16)
 
-- **Latte Dock** - Dock replacement
-  - [GitHub](https://github.com/KDE/latte-dock)
+- **Konsave** - dotfiles backup and reload
+  - [GitHub](https://github.com/Prayag2/konsave)
 
 ---
