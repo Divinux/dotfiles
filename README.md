@@ -17,6 +17,10 @@ Personal dotfile collection for Linux desktop personalization.
   - [KDE Store](https://store.kde.org/p/1305251/)
   - [GitHub](https://github.com/EliverLara/candy-icons)
 
+- **Colorful Dark Icons** - Icon Pack
+  - [KDE Store](https://store.kde.org/p/2091068)
+  - [GitHub](https://github.com/L4ki/Colorful-Plasma-Themes)
+
 - **Active accent border** - Window decorations
   - [KDE Store](https://store.kde.org/p/2118297)
   - [GitHub](https://github.com/nclarius/Plasma-window-decorations)
