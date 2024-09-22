@@ -1,8 +1,8 @@
 # dotfiles
 
-![Application Screenshot 1](screenshots/shot1.png)
+![Application Screenshot 1](screenshots/shot.png)
 
-![Application Screenshot 2](screenshots/shot2.png)
+![Application Screenshot 2](screenshots/shot1.png)
 
 
 Personal dotfile collection for Linux desktop personalization.
