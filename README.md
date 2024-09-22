@@ -2,6 +2,8 @@
 
 ![Application Screenshot](screenshots/shot.png)
 
+![Application Video](screenshots/preview.gif)
+
 Personal dotfile collection for Linux desktop personalization.
 
 ## Prerequisites
