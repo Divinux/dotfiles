@@ -6,7 +6,7 @@
       }
     },
     "display": {
-        "separator": "->   ",
+        "separator": "->      ",
         "color": {
             "separator": "1" // Bold
         },
@@ -42,28 +42,23 @@
         },
         {
             "key": "Kernel       ",
-            "keyColor": "cyan",
+            "keyColor": "green",
             "type": "kernel"
         },
         {
-            "key": "Init System  ",
-            "keyColor": "cyan",
-            "type": "initsystem"
-        },
-        {
             "key": "Packages     ",
-            "keyColor": "cyan",
+            "keyColor": "green",
             "type": "packages"
         },
         {
             "type": "command",
             "key": "OS Age       ",
-            "keyColor": "cyan",
+            "keyColor": "green",
             "text": "birth_install=$(stat -c %W /); current=$(date +%s); time_progression=$((current - birth_install)); days_difference=$((time_progression / 86400)); echo $days_difference days"
         },
         {
             "key": "Uptime       ",
-            "keyColor": "cyan",
+            "keyColor": "green",
             "type": "uptime"
         },
         "break",
@@ -101,17 +96,17 @@
         },
         {
             "key": "DE           ",
-            "keyColor": "yellow",
+            "keyColor": "green",
             "type": "de"
         },
         {
             "key": "Shell        ",
-            "keyColor": "yellow",
+            "keyColor": "green",
             "type": "shell"
         },
         {
             "key": "Terminal     ",
-            "keyColor": "yellow",
+            "keyColor": "green",
             "type": "terminal"
         },
         "break",
