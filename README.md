@@ -43,8 +43,11 @@ Personal collection of dotfiles for linux desktop personalization.
   - [KDE Store](https://store.kde.org/p/1909220)
   - [GitHub](https://github.com/gerritdevriese/kzones)
 
-- **Latte Dock** - Dock replacement
+- **Latte Dock** - Dock replacement KDE5
   - [GitHub](https://github.com/KDE/latte-dock)
+
+- **Panel Colorizer** - Dock replacement KDE6
+  - [GitHub](https://github.com/luisbocanegra/plasma-panel-colorizer)
 
 - **pywal16** - Color scheme generator
   - [GitHub](https://github.com/eylles/pywal16)
