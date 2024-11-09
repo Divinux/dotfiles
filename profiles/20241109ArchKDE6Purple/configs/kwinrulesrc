@@ -1,12 +1,28 @@
 [4c60cd30-84df-4796-af2b-a39817dab086]
 Description=Window settings for Nemo
 clientmachine=localhost
-opacityactive=86
+opacityactive=66
 opacityactiverule=2
+opacityinactive=66
+opacityinactiverule=2
 title=Home
 types=1
 wmclass=nemo Nemo
 wmclasscomplete=true
+wmclassmatch=1
+
+[5523688f-6232-4d0b-bcfd-0f46b1116c30]
+Description=Window settings for konsole
+clientmachine=localhost
+opacityactive=95
+opacityactiverule=2
+opacityinactive=51
+opacityinactiverule=2
+title=build : bash — Konsole
+types=1
+windowrole=MainWindow#1
+windowrolematch=1
+wmclass=konsole
 wmclassmatch=1
 
 [863a9fb7-d8e4-4aae-9872-eb6d74107682]
@@ -20,15 +36,15 @@ wmclass=konsole
 wmclassmatch=1
 
 [General]
-count=4
-rules=ad565684-9f1c-4d10-ab47-929bc99639fe,fdc54c3c-9e26-4f55-895f-98ad2be4be52,4c60cd30-84df-4796-af2b-a39817dab086,863a9fb7-d8e4-4aae-9872-eb6d74107682
+count=5
+rules=5523688f-6232-4d0b-bcfd-0f46b1116c30,ad565684-9f1c-4d10-ab47-929bc99639fe,fdc54c3c-9e26-4f55-895f-98ad2be4be52,4c60cd30-84df-4796-af2b-a39817dab086,863a9fb7-d8e4-4aae-9872-eb6d74107682
 
 [ad565684-9f1c-4d10-ab47-929bc99639fe]
 Description=Window settings for plasma-systemmonitor
 clientmachine=localhost
-opacityactive=94
+opacityactive=77
 opacityactiverule=2
-opacityinactive=79
+opacityinactive=77
 opacityinactiverule=2
 title=Overview — System Monitor
 titlematch=1
@@ -39,8 +55,10 @@ wmclassmatch=1
 [fdc54c3c-9e26-4f55-895f-98ad2be4be52]
 Description=Window settings for discord
 clientmachine=localhost
-opacityactive=94
+opacityactive=71
 opacityactiverule=2
+opacityinactive=71
+opacityinactiverule=2
 title=#🌴║coastal-chat | Castaways - Discord
 types=1
 windowrole=browser-window

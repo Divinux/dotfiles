@@ -29,7 +29,7 @@ immutability=1
 plugin=org.kde.plasma.weather
 
 [Applets][189][Configuration]
-PreloadWeight=57
+PreloadWeight=62
 
 [Applets][189][Configuration][Appearance]
 showPressureInTooltip=true

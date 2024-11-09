@@ -3,6 +3,21 @@ Id_1=141b2cbe-e101-4ef4-89eb-367da4dcf0cb
 Number=1
 Rows=1
 
+[Effect-blur]
+NoiseStrength=14
+
+[Effect-blurplus]
+BlurDecorations=true
+BlurDocks=true
+BlurMenus=true
+BlurStrength=8
+FakeBlur=true
+NoiseStrength=7
+PaintAsTranslucent=true
+TopCornerRadius=8
+TransparentBlur=false
+WindowClasses=plasma-systemmonitor\nnemo\nNemo\ndiscord\nkonsole
+
 [Effect-translucency]
 ComboboxPopups=98
 Dialogs=98
@@ -11,7 +26,24 @@ Menus=98
 MoveResize=100
 
 [Plugins]
+blurEnabled=false
+contrastEnabled=false
+dialogparentEnabled=false
+eyeonscreenEnabled=true
+forceblurEnabled=true
+glideEnabled=true
+kzonesEnabled=true
+scaleEnabled=false
+screenedgeEnabled=false
+slidingpopupsEnabled=false
+squashEnabled=false
+trackmouseEnabled=true
+windowapertureEnabled=false
 wobblywindowsEnabled=true
+zoomEnabled=false
+
+[Script-kzones]
+enableZoneOverlay=false
 
 [Tiling]
 padding=4

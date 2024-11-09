@@ -133,8 +133,7 @@ ForegroundPositive=39,174,96
 ForegroundVisited=30,27,77
 
 [General]
-ColorScheme=KlassyDark2
-ColorSchemeHash=ad549e102de85c6ba29ada0630b001db3852ec04
+ColorSchemeHash=a7fc5abea2aeb336f4f7ba24f4386f47d5857ddf
 
 [Icons]
 Theme=candy-icons-white
