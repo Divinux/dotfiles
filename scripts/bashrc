@@ -92,20 +92,20 @@ fi
 # colored GCC warnings and errors
 export GCC_COLORS='error=01;31:warning=01;35:note=01;36:caret=01;32:locus=01:quote=01'
 
-
+#aliases
 # Detect distribution and set alias for package updates
 if [ -f /etc/arch-release ]; then
     # Arch Linux
     alias u='sudo pacman -Syu'
+    alias i='sudo pacman -S '
+    alias r='sudo pacman -Rs '
 elif [ -f /etc/lsb-release ]; then
+    # Debian
     alias u='sudo apt update && sudo apt upgrade'
+    alias i='sudo apt install '
+    alias r='sudo apt remove '
 fi
 
-
-#aliases
-#alias u='sudo pacman -Syu'
-alias i='sudo pacman -S '
-alias r='sudo pacman -Rs '
 alias ff='fastfetch'
 
 alias ll='ls -alF'
@@ -138,28 +138,20 @@ if ! shopt -oq posix; then
     . /etc/bash_completion
   fi
 fi
-[ -r /home/siri/.config/byobu/prompt ] && . /home/siri/.config/byobu/prompt   #byobu-prompt#
-
-#eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
-
-# Created by `pipx` on 2024-09-18 23:51:00
-export PATH="$PATH:/home/siri/.local/bin"
 
 
 # Import colorscheme from 'wal' asynchronously
 # &   # Run the process in the background.
 # ( ) # Hide shell job control messages.
 # Not supported in the "fish" shell.
-(cat ~/.cache/wal/sequences &)
+#(cat ~/.cache/wal/sequences &)
 
 # Alternative (blocks terminal for 0-3ms)
 # cat ~/.cache/wal/sequences
 
 # To add support for TTYs this line can be optionally added.
-source ~/.cache/wal/colors-tty.sh
+#source ~/.cache/wal/colors-tty.sh
 
-# uncomment to enable blesh
-#source ~/.local/share/blesh/ble.sh
 
 PS1='\[\e[91;1m\]\u\[\e[94m\]@\[\e[92m\]\H\[\e[93m\]\w\[\e[91m\]:\[\e[94m\]\$\[\e[0m\] '
 
@@ -203,10 +195,11 @@ echo -e "${BLYELLOW}This is some red text, ${ENDCOLOR}"
 echo -e "${BGREEN}And this is some green text${ENDCOLOR}"
 echo ""
 printf "${BLYELLOW}"
-inxi
+#inxi
 echo "Hello $USER, today is $(date +"%A, %d %B %Y"). It is $(date +"%H:%M")"
 echo ""
 #notify-send "Hello $USER, today is $(date +"%A, %d %B %Y"). It is $(date +"%H:%M")"
+#inxi -xxxw City,Country
 date +"Welcome!"
 printf "${BBLUE}"
 echo ""
