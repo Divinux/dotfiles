@@ -37,7 +37,7 @@ export HISTIGNORE=ls:ll:la:l:cd:pwd:exit:mc:su:df:clear:cls
 shopt -s histappend
 
 # for setting history length see HISTSIZE and HISTFILESIZE in bash(1)
-HISTSIZE=10000
+HISTSIZE=100000
 HISTFILESIZE=2000000
 
 # Save and reload history after each command finishes
@@ -47,11 +47,13 @@ export PROMPT_COMMAND="history -a; history -c; history -r; $PROMPT_COMMAND"
 # Aliases
 # Detect distribution and set alias for package updates
 if [ -f /etc/arch-release ]; then
-    # Arch Linux
+    # Arch
     alias u='sudo pacman -Syu'
     alias i='sudo pacman -S '
     alias f='pacman -Ss '
     alias r='sudo pacman -Rs '
+    alias rr='sudo pacman -Rns '
+    alias c='sudo pacman -Sc'
     alias y='yay -S '
 elif [ -f /etc/lsb-release ]; then
     # Debian
@@ -59,6 +61,8 @@ elif [ -f /etc/lsb-release ]; then
     alias i='sudo apt install '
     alias f='apt search '
     alias r='sudo apt remove '
+    alias rr='sudo apt purge '
+    alias c='sudo apt autoremove && sudo apt clean'
 else
     echo "Unsupported distribution or cannot detect distribution."
 fi
@@ -101,7 +105,7 @@ fi
 #eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
 
 # Created by `pipx` on 2024-09-18 23:51:00
-export PATH="$PATH:/home/siri/.local/bin"
+#export PATH="$PATH:/home/siri/.local/bin"
 
 #pywal
 # Import colorscheme from 'wal' asynchronously
@@ -177,16 +181,12 @@ export GCC_COLORS='error=01;31:warning=01;35:note=01;36:caret=01;32:locus=01:quo
 #echo -e "${BGREEN}And this is some green text${ENDCOLOR}"
 echo ""
 printf "${BLYELLOW}"
-echo "Hello $USER, today is $(date +"%A, %d %B %Y"). It is $(date +"%H:%M")"
+#echo "Hello $USER, today is $(date +"%A, %d %B %Y"). It is $(date +"%H:%M")"
+echo "$(date +"%A, %d %B %Y"). It is $(date +"%H:%M")"
 echo ""
 printf "${BRED}"
 #inxi
-echo ""
 #notify-send "Hello $USER, today is $(date +"%A, %d %B %Y"). It is $(date +"%H:%M")"
-#inxi -xxxw City,Country
-echo ""
-printf "${BMAGENTA}"
-date +"Welcome!"
 printf "${BBLUE}"
 echo ""
 date +"%A,"| figlet -f script
@@ -194,6 +194,9 @@ printf "${BRED}"
 date +"%d %B %Y"| figlet -f smscript
 printf "${BLGRAY}"
 date +"%H:%M"| figlet -f smscript
+echo ""
+printf "${BMAGENTA}"
+date +"Welcome!"
 echo ""
 printf "${RED}"
 
@@ -217,5 +220,37 @@ bu () {
   echo "Backup of $1 created"
 }
 
+# Uncomment this to automatically connect to tmux on load
+autoconnect_enabled=true;
 
+#function to check for existiing tmux session and connect, or create a new one
+tmux_auto_connect() {
+    # Name prefix for sessions
+    local session_prefix="main"
 
+    # Check if any tmux sessions exist
+    if tmux ls 2>/dev/null; then
+        # Try to find a session without attachments
+        local detached_session
+        detached_session=$(tmux ls 2>/dev/null | grep -v "(attached)" | awk -F: '{print $1}' | head -n 1)
+
+        if [ -n "$detached_session" ]; then
+            # Attach to the first session without attachments
+            tmux attach-session -t "$detached_session"
+        else
+            # All sessions are attached; create a new session with a sequential name
+            local session_count
+            session_count=$(tmux ls 2>/dev/null | wc -l)
+            local new_session_name="${session_prefix}_$((session_count + 1))"
+            tmux new-session -s "$new_session_name"
+        fi
+    else
+        # No sessions exist; create the first session
+        tmux new-session -s "${session_prefix}_1"
+    fi
+}
+
+# Automatically run tmux_auto_connect when starting a new terminal
+if [ -n "$PS1" ] && [ "$TERM" != "screen" ] && [ -z "$TMUX" ] && [ $autoconnect_enabled ]; then
+    tmux_auto_connect
+fi
