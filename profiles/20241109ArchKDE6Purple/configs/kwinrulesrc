@@ -11,33 +11,9 @@ wmclass=nemo Nemo
 wmclasscomplete=true
 wmclassmatch=1
 
-[5523688f-6232-4d0b-bcfd-0f46b1116c30]
-Description=Window settings for konsole
-clientmachine=localhost
-opacityactive=95
-opacityactiverule=2
-opacityinactive=51
-opacityinactiverule=2
-title=build : bash — Konsole
-types=1
-windowrole=MainWindow#1
-windowrolematch=1
-wmclass=konsole
-wmclassmatch=1
-
-[863a9fb7-d8e4-4aae-9872-eb6d74107682]
-Description=Application settings for konsole
-clientmachine=localhost
-opacityactive=93
-opacityactiverule=2
-opacityinactive=93
-opacityinactiverule=2
-wmclass=konsole
-wmclassmatch=1
-
 [General]
-count=5
-rules=5523688f-6232-4d0b-bcfd-0f46b1116c30,ad565684-9f1c-4d10-ab47-929bc99639fe,fdc54c3c-9e26-4f55-895f-98ad2be4be52,4c60cd30-84df-4796-af2b-a39817dab086,863a9fb7-d8e4-4aae-9872-eb6d74107682
+count=3
+rules=ad565684-9f1c-4d10-ab47-929bc99639fe,fdc54c3c-9e26-4f55-895f-98ad2be4be52,4c60cd30-84df-4796-af2b-a39817dab086
 
 [ad565684-9f1c-4d10-ab47-929bc99639fe]
 Description=Window settings for plasma-systemmonitor

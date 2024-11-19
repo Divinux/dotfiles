@@ -65,6 +65,12 @@ save:
             - lightlyrc
             - ksplashrc
             - khotkeysrc
+            - btop
+            - fastfetch
+            - nemo
+            - openrgb
+            - panel-colorizer
+
 
     app_layouts:
         location: "$HOME/.local/share/kxmlgui5"
@@ -108,10 +114,10 @@ export:
     
         
     # You can add more files to export like this
-    # name:
-    #     location: "path/to/parent/directory"
-    #     entries:
-    #         - file1
+    name:
+        location: "/home/siri/.config/konsave"
+        entries:
+            - conf.yaml
     #         - file2
     #         - folder1
     #         - folder2

@@ -6,7 +6,7 @@ immutability=1
 plugin=org.kde.plasma.weather
 
 [Applets][124][Configuration]
-PreloadWeight=49
+PreloadWeight=41
 
 [Applets][124][Configuration][Appearance]
 showPressureInTooltip=true
@@ -29,7 +29,7 @@ immutability=1
 plugin=org.kde.plasma.weather
 
 [Applets][189][Configuration]
-PreloadWeight=62
+PreloadWeight=0
 
 [Applets][189][Configuration][Appearance]
 showPressureInTooltip=true
@@ -51,11 +51,15 @@ source=wettercom|weather|Fröndenberg, Nordrhein-Westfalen, DE|DE0002967;Frönde
 1680x1050 screen: Height=550
 1680x1050 screen: Width=1042
 
+[FileDialogSize]
+1680x1050 screen: Height=762
+1680x1050 screen: Width=1104
+
 [General]
 Number of Actions=0
 
-[PlasmaTransientsConfig]
-PreloadWeight=0
+[KFileDialog Settings]
+detailViewIconSize=128
 
 [PlasmaViews][Panel 125]
 floating=0

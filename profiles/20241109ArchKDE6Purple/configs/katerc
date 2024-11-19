@@ -19,8 +19,11 @@ Text Font Features=
 Word Wrap Marker=false
 
 [MainWindow]
-1680x1050 screen: Height=817
-1680x1050 screen: Width=1061
+1680x1050 screen: Height=823
+1680x1050 screen: Width=1118
+
+[UiSettings]
+ColorScheme=Stone
 
 [filetree]
 editShade=31,81,106
@@ -32,3 +35,26 @@ showFullPathOnRoots=false
 showToolbar=true
 sortRole=0
 viewShade=81,49,95
+
+[lspclient]
+AllowedServerCommandLines=/usr/bin/bash-language-server start
+AutoHover=true
+AutoImport=true
+BlockedServerCommandLines=
+CompletionDocumentation=true
+CompletionParens=true
+Diagnostics=true
+FormatOnSave=false
+HighlightGoto=true
+IncrementalSync=false
+InlayHints=false
+Messages=true
+ReferencesDeclaration=true
+SemanticHighlighting=true
+ServerConfiguration=
+SignatureHelp=true
+SymbolDetails=false
+SymbolExpand=true
+SymbolSort=false
+SymbolTree=true
+TypeFormatting=false

@@ -2,15 +2,25 @@
 count=0
 
 [Session: saved at previous logout]
-clientId1=10c7cc6172000173108360200000008960004
-clientId2=10c7cc6172000173108360300000008960007
-count=2
-discardCommand2[$e]=rm,$HOME/.config/session/konsole_10c7cc6172000173108360300000008960007_1731084176_383130
+clientId1=10c7cc6172000173189218500000009170006
+clientId2=10c7cc6172000173188876800000009170008
+clientId3=10c7cc6172000173190058200000009170035
+clientId4=10c7cc6172000173191107700000009170098
+count=4
+discardCommand4[$e]=rm,-f,$HOME/.cache/sessions/Thunar-10c7cc6172000173191107700000009170098
 program1=/usr/lib/DiscoverNotifier
-program2=/usr/bin/konsole
-restartCommand1=/usr/lib/DiscoverNotifier,-session,10c7cc6172000173108360200000008960004_1731084176_383126
-restartCommand2=/usr/bin/konsole,-session,10c7cc6172000173108360300000008960007_1731084176_383130
+program2=firefox
+program3=/usr/bin/plasma-systemmonitor
+program4=Thunar
+restartCommand1=/usr/lib/DiscoverNotifier,-session,10c7cc6172000173189218500000009170006_1731924752_876740
+restartCommand2=/usr/lib/firefox/firefox,--sm-client-id,10c7cc6172000173188876800000009170008
+restartCommand3=/usr/bin/plasma-systemmonitor,-session,10c7cc6172000173190058200000009170035_1731924752_876750
+restartCommand4=Thunar,--sm-client-id,10c7cc6172000173191107700000009170098,--daemon
 restartStyleHint1=0
 restartStyleHint2=0
+restartStyleHint3=0
+restartStyleHint4=0
 userId1=siri
 userId2=siri
+userId3=siri
+userId4=siri
