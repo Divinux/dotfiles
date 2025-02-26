@@ -10,36 +10,34 @@
 # Setup:
 # 1. Save this file in your home directory (or anywhere else)
 # 2. Source the file in your bashrc. This can be done manually or (assuming you saved it in your home dir) by running
-#        echo 'source ~/gamifier' >> ~/.bashrc
+#        echo 'source ~/.gamifier' >> ~/.bashrc
 # 3. Ensure your history is reloaded after each command, then call update_exp
 #    If you have not yet modified your PROMPT_COMMAND, you can simply run
 #        echo 'export PROMPT_COMMAND="history -a; history -n; update_exp; $PROMPT_COMMAND"' >> ~/.bashrc
 # 4. Restart your terminal or run `source ~/.bashrc`.
 #
 # Additional info:
-# 1.  This script creates two additional files; .exp and .usedcommands
-#     .exp is used to track the current experience amount and level
-#     .usedcommands contains all commands the user used so far
-#     To continue tracking your progress on a new install, just copy these files over to your new home directory
-# 2.  You may want to increase your HISTSIZE and HISTFILESIZE.
-#     Setting them to nothing, i.e. "HISTSIZE=" and "HISTFILESIZE=" makes them unlimited
-# 3.  You can use checklvl at any time to check your current progress.
-# 4.  Use gamifier_help to display a short info message.
+# This script creates two additional files; .exp and .usedcommands
+# .exp is used to track the current experience amount and level
+# .usedcommands contains all commands the user used so far
+# To continue tracking your progress on a new install, just copy these files over to your new home directory
+#
+# You can use checklvl at any time to check your current progress
 
 EXP_FILE="$HOME/.exp"
 USED_COMMANDS_FILE="$HOME/.usedcommands"
 
 # Notification settings
 notifyOnNewCommand=true
-notifyOnReusedCommand=true
+notifyOnReusedCommand=false
 notifyOnFalseNewCommand=true
-notifyOnReusedFalseCommand=true
+notifyOnReusedFalseCommand=false
 
 # Custom messages
 msgNewCommand="New command discovered!"
-msgReusedCommand="Experience gained!"
+msgReusedCommand="Already discovered command used"
 msgFalseNewCommand="Incorrect command! At least you tried!"
-msgReusedFalseCommand="Trying incorrect command again..."
+msgReusedFalseCommand="Trying incorrect command again"
 
 # Level-up message
 LEVEL_UP_MESSAGE() {
@@ -101,7 +99,7 @@ level_up() {
 
     while [ "$exp" -ge "$needed" ]; do
         new_lvl=$((lvl + 1))
-        echo -e "${LEVEL_UP_MESSAGE//\{level\}/$new_lvl}"
+        LEVEL_UP_MESSAGE "$new_lvl"
         sed -i "s/^LVL=.*/LVL=$new_lvl/" "$EXP_FILE"
         exp=$((exp - needed))
         needed=$(exp_needed_for_level)
@@ -135,10 +133,6 @@ handle_command() {
     # If notification is enabled, print message
     if [ "$notify" = true ]; then
         echo "$message"
-		# If any EXP was gained, echo the new EXP to the console
-        if [ "$exp_increment" -gt 0 ]; then
-            echo "Current EXP: $new_exp"
-        fi
     fi
 }
 
