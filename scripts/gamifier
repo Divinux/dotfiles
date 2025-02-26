@@ -10,7 +10,7 @@
 # Setup:
 # 1. Save this file in your home directory (or anywhere else)
 # 2. Source the file in your bashrc. This can be done manually or (assuming you saved it in your home dir) by running
-#        echo 'source ~/.gamifier' >> ~/.bashrc
+#        echo 'source ~/gamifier' >> ~/.bashrc
 # 3. Ensure your history is reloaded after each command, then call update_exp
 #    If you have not yet modified your PROMPT_COMMAND, you can simply run
 #        echo 'export PROMPT_COMMAND="history -a; history -n; update_exp; $PROMPT_COMMAND"' >> ~/.bashrc
@@ -40,6 +40,19 @@ msgNewCommand="New command discovered!"
 msgReusedCommand="Experience gained!"
 msgFalseNewCommand="Incorrect command! At least you tried!"
 msgReusedFalseCommand="Trying incorrect command again..."
+
+# Level-up message
+LEVEL_UP_MESSAGE() {
+    local level=$1
+    printf "\n================================\n"
+    printf "||          LEVEL UP!         ||\n"
+    printf "||    You reached level %-5s ||\n" "$level"
+    printf "||                            ||\n"
+    printf "||   ░░░░░░░░░▄▄▄▄▄░░░░░░░░   ||\n"
+    printf "||   ░░░░░▄██████████▄░░░░░   ||\n"
+    printf "||   ░░░▄██████████████▄░░░   ||\n"
+    printf "================================\n\n"
+}
 
 # Initialize .exp file if it doesn't exist
 if [ ! -f "$EXP_FILE" ]; then
@@ -188,17 +201,4 @@ You can use checklvl at any time to check your current progress.
 Use ghelp to display this message.
 
 EOF
-}
-
-# Level-up message
-LEVEL_UP_MESSAGE() {
-    local level=$1
-    printf "\n================================\n"
-    printf "||          LEVEL UP!         ||\n"
-    printf "||    You reached level %-5s ||\n" "$level"
-    printf "||                            ||\n"
-    printf "||   ░░░░░░░░░▄▄▄▄▄░░░░░░░░   ||\n"
-    printf "||   ░░░░░▄██████████▄░░░░░   ||\n"
-    printf "||   ░░░▄██████████████▄░░░   ||\n"
-    printf "================================\n\n"
 }
