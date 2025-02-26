@@ -186,11 +186,16 @@ checkrank() {
     local exp_padding_right=$(( 26 - ${#exp} - ${#needed} - 6 - exp_padding_left ))
     local exp_line="||$(printf '%*s' "$exp_padding_left") EXP: $exp/$needed $(printf '%*s' "$exp_padding_right")||"
 
+
+    local quote=$(get_quote "$level")
+
     printf "\n================================\n"
     printf "||       CURRENT LEVEL        ||\n"
     printf "||         Level: %-5s       ||\n" "$level"
     printf "%s\n" "$exp_line"
     printf "%s\n" "$rank_line"
+    printf "================================\n"
+    printf "%s\n" "$quote"
     printf "================================\n\n"
 }
 
@@ -202,6 +207,7 @@ LEVEL_UP_MESSAGE() {
     local rank_padding_right=$(( 26 - ${#rank} - rank_padding_left ))
     local rank_line="||$(printf '%*s' $rank_padding_left) $rank $(printf '%*s' $rank_padding_right)||"
 
+    local quote=$(get_quote "$level")
     printf "\n================================\n"
     printf "||          LEVEL UP!         ||\n"
     printf "||    You reached level %-5s ||\n" "$level"
@@ -210,6 +216,8 @@ LEVEL_UP_MESSAGE() {
     printf "||   ░░░░░░░░░▄▄▄▄▄░░░░░░░░   ||\n"
     printf "||   ░░░░░▄██████████▄░░░░░   ||\n"
     printf "||   ░░░▄██████████████▄░░░   ||\n"
+    printf "================================\n"
+    printf "%s\n" "$quote"
     printf "================================\n\n"
 }
 
@@ -217,19 +225,41 @@ LEVEL_UP_MESSAGE() {
 get_rank() {
     local lvl=$1
     case $lvl in
-        [1-4]) echo "Noob Scripter" ;;
+        [1-4]) echo "Terminal Newbie" ;;
         [5-9]) echo "Script Kiddie" ;;
         1[0-4]) echo "Command Line Enthusiast" ;;
         1[5-9]) echo "Shell Apprentice" ;;
-        2[0-9]) echo "Terminal Tinkerer" ;;
-        3[0-9]) echo "CLI Adept" ;;
-        4[0-9]) echo "Bash Wizard" ;;
-        5[0-9]) echo "Unix Warrior" ;;
-        6[0-9]) echo "System Sorcerer" ;;
-        7[0-9]) echo "Elite Hacker" ;;
-        8[0-9]) echo "Kernel Conqueror" ;;
+        2[0-4]) echo "Daemon Handler" ;;
+        2[5-9]) echo "System Sorcerer" ;;
+        3[0-9]) echo "Unix Warrior" ;;
+        4[0-9]) echo "Pipe Artisan" ;;
+        5[0-9]) echo "Network Nomad" ;;
+        6[0-9]) echo "Bash Wizard" ;;
+        7[0-9]) echo "Shell Savant" ;;
+        8[0-9]) echo "Linux Warlock" ;;
         9[0-9]) echo "Archmage of the CLI" ;;
         *) echo "Root God" ;;
+    esac
+}
+
+# rank quotes
+get_quote() {
+    local lvl=$1
+    case $lvl in
+        [1-4]) printf -- "  -\"Wait, how do I exit Vim?\"" ;;
+        [5-9]) printf -- "  -\"I copied this from Stack \n    Overflow… hope it works.\"" ;;
+        1[0-4]) printf -- "  -\"I run htop just to watch \n    the colors.\"" ;;
+        1[5-9]) printf -- " -\"My .bashrc is literal art.\"" ;;
+        2[0-4]) printf -- "  -\"I made a service… and it \n    stays running!\"" ;;
+        2[5-9]) printf -- "  -\"My one-liner fixed your \n    DNS, and brewed coffee.\"" ;;
+        3[0-9]) printf -- "  -\"I herd servers like cats.\"" ;;
+        4[0-9]) printf -- "    -\"My scripts have error\n    handling… and comments.\"" ;;
+        5[0-9]) printf -- "  -\"I SSH through three hops\n    just to say ‘hi’.\"" ;;
+        6[0-9]) printf -- "  -\"I see regex in my sleep.\"" ;;
+        7[0-9]) printf -- "   -\"I use vi to edit emacs\n       configs. Fight me.\"" ;;
+        8[0-9]) printf -- "    -\"I filed a bug report…\n       and then fixed it.\"" ;;
+        9[0-9]) printf -- "  -\"I speak in ANSI escape\n    codes and dream in JSON.\"" ;;
+        *) printf -- "       -\"/dev/null is my\n         recycling bin.\"" ;;
     esac
 }
 
