@@ -26,6 +26,11 @@
 #     Setting them to nothing, i.e. "HISTSIZE=" and "HISTFILESIZE=" makes them unlimited
 # 3.  You can use checkrank at any time to check your current progress.
 # 4.  Use ghelp to display a short info message.
+#
+# Uninstall:
+# 1. Remove 'source ~/gamifier' and update_exp; from your bashrc
+# 2. Delete the gamifier, .exp and .usedcommands files
+# 3. Restart your terminal
 
 EXP_FILE="$HOME/.exp"
 USED_COMMANDS_FILE="$HOME/.usedcommands"
