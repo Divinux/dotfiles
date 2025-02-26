@@ -24,8 +24,8 @@
 #     To continue tracking your progress on a new install, just copy these files over to your new home directory
 # 2.  You may want to increase your HISTSIZE and HISTFILESIZE.
 #     Setting them to nothing, i.e. "HISTSIZE=" and "HISTFILESIZE=" makes them unlimited
-# 3.  You can use checklvl at any time to check your current progress.
-# 4.  Use gamifierhelp to display a short info message.
+# 3.  You can use checkrank at any time to check your current progress.
+# 4.  Use ghelp to display a short info message.
 
 EXP_FILE="$HOME/.exp"
 USED_COMMANDS_FILE="$HOME/.usedcommands"
@@ -169,7 +169,7 @@ update_exp() {
 }
 
 # Checks the current level
-checklvl() {
+checkrank() {
     local level=$(get_lvl)
     local exp=$(get_exp)
     local needed=$(exp_needed_for_level)
@@ -234,7 +234,7 @@ get_rank() {
 }
 
 # Displays help information
-gamifierhelp() {
+ghelp() {
     cat <<EOF
 
 ===========================
@@ -244,8 +244,8 @@ This script gamifies your terminal by tracking experience points and levels
 based on the number of commands you execute. Newly used commands give more exp,
 repeated commands less, wrong commands still give a little. At least you tried.
 
-You can use checklvl at any time to check your current progress.
-Use gamifyhelp to display this message.
+You can use checkrank at any time to check your current progress.
+Use ghelp to display this message.
 
 EOF
 }
