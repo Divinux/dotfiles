@@ -40,26 +40,6 @@ msgNewCommand="New command discovered!"
 msgReusedCommand="Experience gained!"
 msgFalseNewCommand="Incorrect command! At least you tried!"
 msgReusedFalseCommand="Trying incorrect command again..."
-# Level-up ranks
-get_rank() {
-    local lvl=$1
-    case $lvl in
-        [1-4]) echo "Noob Scripter" ;;
-        [5-9]) echo "Script Kiddie" ;;
-        1[0-4]) echo "Command Line Enthusiast" ;;
-        1[5-9]) echo "Shell Apprentice" ;;
-        2[0-9]) echo "Terminal Tinkerer" ;;
-        3[0-9]) echo "CLI Adept" ;;
-        4[0-9]) echo "Bash Wizard" ;;
-        5[0-9]) echo "Unix Warrior" ;;
-        6[0-9]) echo "System Sorcerer" ;;
-        7[0-9]) echo "Elite Hacker" ;;
-        8[0-9]) echo "Kernel Conqueror" ;;
-        9[0-9]) echo "Archmage of the CLI" ;;
-        *) echo "Root God" ;;
-    esac
-}
-
 
 # Initialize .exp file if it doesn't exist
 if [ ! -f "$EXP_FILE" ]; then
@@ -187,7 +167,6 @@ update_exp() {
     fi
 }
 
-
 # Checks the current level
 checklvl() {
     local level=$(get_lvl)
@@ -232,6 +211,27 @@ LEVEL_UP_MESSAGE() {
     printf "||   ░░░▄██████████████▄░░░   ||\n"
     printf "================================\n\n"
 }
+
+# Level-up ranks
+get_rank() {
+    local lvl=$1
+    case $lvl in
+        [1-4]) echo "Noob Scripter" ;;
+        [5-9]) echo "Script Kiddie" ;;
+        1[0-4]) echo "Command Line Enthusiast" ;;
+        1[5-9]) echo "Shell Apprentice" ;;
+        2[0-9]) echo "Terminal Tinkerer" ;;
+        3[0-9]) echo "CLI Adept" ;;
+        4[0-9]) echo "Bash Wizard" ;;
+        5[0-9]) echo "Unix Warrior" ;;
+        6[0-9]) echo "System Sorcerer" ;;
+        7[0-9]) echo "Elite Hacker" ;;
+        8[0-9]) echo "Kernel Conqueror" ;;
+        9[0-9]) echo "Archmage of the CLI" ;;
+        *) echo "Root God" ;;
+    esac
+}
+
 # Displays help information
 gamifyhelp() {
     cat <<EOF
