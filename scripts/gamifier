@@ -24,6 +24,7 @@
 # To continue tracking your progress on a new install, just copy these files over to your new home directory
 #
 # You can use checklvl at any time to check your current progress
+# Use gamifyhelp to display this message.
 
 EXP_FILE="$HOME/.exp"
 USED_COMMANDS_FILE="$HOME/.usedcommands"
@@ -39,19 +40,26 @@ msgNewCommand="New command discovered!"
 msgReusedCommand="Experience gained!"
 msgFalseNewCommand="Incorrect command! At least you tried!"
 msgReusedFalseCommand="Trying incorrect command again..."
-
-# Level-up message
-LEVEL_UP_MESSAGE() {
-    local level=$1
-    printf "\n================================\n"
-    printf "||          LEVEL UP!         ||\n"
-    printf "||    You reached level %-5s ||\n" "$level"
-    printf "||                            ||\n"
-    printf "||   ░░░░░░░░░▄▄▄▄▄░░░░░░░░   ||\n"
-    printf "||   ░░░░░▄██████████▄░░░░░   ||\n"
-    printf "||   ░░░▄██████████████▄░░░   ||\n"
-    printf "================================\n\n"
+# Level-up ranks
+get_rank() {
+    local lvl=$1
+    case $lvl in
+        [1-4]) echo "Noob Scripter" ;;
+        [5-9]) echo "Script Kiddie" ;;
+        1[0-4]) echo "Command Line Enthusiast" ;;
+        1[5-9]) echo "Shell Apprentice" ;;
+        2[0-9]) echo "Terminal Tinkerer" ;;
+        3[0-9]) echo "CLI Adept" ;;
+        4[0-9]) echo "Bash Wizard" ;;
+        5[0-9]) echo "Unix Warrior" ;;
+        6[0-9]) echo "System Sorcerer" ;;
+        7[0-9]) echo "Elite Hacker" ;;
+        8[0-9]) echo "Kernel Conqueror" ;;
+        9[0-9]) echo "Archmage of the CLI" ;;
+        *) echo "Root God" ;;
+    esac
 }
+
 
 # Initialize .exp file if it doesn't exist
 if [ ! -f "$EXP_FILE" ]; then
@@ -82,7 +90,7 @@ get_lvl() {
 # Function to determine EXP required for next level
 exp_needed_for_level() {
     local XP_BASE=10
-    local PERCENT_INCREASE=20
+    local PERCENT_INCREASE=5
     local lvl=$(get_lvl)
 
     if [ "$lvl" -eq 1 ]; then
@@ -179,14 +187,53 @@ update_exp() {
     fi
 }
 
+
 # Checks the current level
 checklvl() {
-    echo "Current level: $(get_lvl)"
-    echo "Current exp: $(get_exp)/$(exp_needed_for_level)"
+    local level=$(get_lvl)
+    local exp=$(get_exp)
+    local needed=$(exp_needed_for_level)
+    local rank=$(get_rank "$level")
+    local rank_padding_left=$(( (26 - ${#rank}) / 2 ))
+    local rank_padding_right=$(( 26 - ${#rank} - rank_padding_left ))
+    local rank_line="||$(printf '%*s' $rank_padding_left) $rank $(printf '%*s' $rank_padding_right)||"
+
+    #local exp_padding=$(( (26 - ${#exp} - ${#needed} - 5) / 2 ))
+    #local exp_line="||$(printf '%*s' $exp_padding) EXP: $exp/$needed $(printf '%*s' $exp_padding)||"
+
+    local exp_padding_left=$(( (26 - ${#exp} - ${#needed} - 6) / 2 ))  # 6 accounts for "EXP: " and "/"
+    local exp_padding_right=$(( 26 - ${#exp} - ${#needed} - 6 - exp_padding_left ))
+    local exp_line="||$(printf '%*s' "$exp_padding_left") EXP: $exp/$needed $(printf '%*s' "$exp_padding_right")||"
+
+    printf "\n================================\n"
+    printf "||       CURRENT LEVEL        ||\n"
+    printf "||         Level: %-5s       ||\n" "$level"
+    printf "%s\n" "$exp_line"
+    printf "%s\n" "$rank_line"
+    printf "================================\n\n"
 }
 
+# Level-up message
+LEVEL_UP_MESSAGE() {
+    local level=$1
+    local rank=$(get_rank "$level")
+    local rank_padding_left=$(( (26 - ${#rank}) / 2 ))
+    local rank_padding_right=$(( 26 - ${#rank} - rank_padding_left ))
+    local rank_line="||$(printf '%*s' $rank_padding_left) $rank $(printf '%*s' $rank_padding_right)||"
+
+
+    printf "\n================================\n"
+    printf "||          LEVEL UP!         ||\n"
+    printf "||    You reached level %-5s ||\n" "$level"
+    printf "%s\n" "$rank_line"
+    printf "||                            ||\n"
+    printf "||   ░░░░░░░░░▄▄▄▄▄░░░░░░░░   ||\n"
+    printf "||   ░░░░░▄██████████▄░░░░░   ||\n"
+    printf "||   ░░░▄██████████████▄░░░   ||\n"
+    printf "================================\n\n"
+}
 # Displays help information
-ghelp() {
+gamifyhelp() {
     cat <<EOF
 
 ===========================
@@ -197,7 +244,7 @@ based on the number of commands you execute. Newly used commands give more exp,
 repeated commands less, wrong commands still give a little. At least you tried.
 
 You can use checklvl at any time to check your current progress.
-Use ghelp to display this message.
+Use gamifyhelp to display this message.
 
 EOF
 }
