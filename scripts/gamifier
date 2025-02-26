@@ -9,6 +9,7 @@
 #
 # Setup:
 # 1. Save this file in your home directory (or anywhere else)
+#    wget https://raw.githubusercontent.com/Divinux/dotfiles/refs/heads/main/scripts/gamifier
 # 2. Source the file in your bashrc. This can be done manually or (assuming you saved it in your home dir) by running
 #        echo 'source ~/.gamifier' >> ~/.bashrc
 # 3. Ensure your history is reloaded after each command, then call update_exp
