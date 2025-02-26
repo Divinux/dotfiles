@@ -182,10 +182,6 @@ checkrank() {
     local rank_padding_left=$(( (26 - ${#rank}) / 2 ))
     local rank_padding_right=$(( 26 - ${#rank} - rank_padding_left ))
     local rank_line="||$(printf '%*s' $rank_padding_left) $rank $(printf '%*s' $rank_padding_right)||"
-
-    #local exp_padding=$(( (26 - ${#exp} - ${#needed} - 5) / 2 ))
-    #local exp_line="||$(printf '%*s' $exp_padding) EXP: $exp/$needed $(printf '%*s' $exp_padding)||"
-
     local exp_padding_left=$(( (26 - ${#exp} - ${#needed} - 6) / 2 ))  # 6 accounts for "EXP: " and "/"
     local exp_padding_right=$(( 26 - ${#exp} - ${#needed} - 6 - exp_padding_left ))
     local exp_line="||$(printf '%*s' "$exp_padding_left") EXP: $exp/$needed $(printf '%*s' "$exp_padding_right")||"
@@ -205,8 +201,6 @@ LEVEL_UP_MESSAGE() {
     local rank_padding_left=$(( (26 - ${#rank}) / 2 ))
     local rank_padding_right=$(( 26 - ${#rank} - rank_padding_left ))
     local rank_line="||$(printf '%*s' $rank_padding_left) $rank $(printf '%*s' $rank_padding_right)||"
-
-
     printf "\n================================\n"
     printf "||          LEVEL UP!         ||\n"
     printf "||    You reached level %-5s ||\n" "$level"
