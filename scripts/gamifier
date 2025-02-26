@@ -1,0 +1,204 @@
+#!/bin/bash
+
+# ===========================
+# Linux Terminal Gamifier v1
+# ===========================
+# This script gamifies your terminal by tracking experience points and levels
+# based on the number of commands you execute. Newly used commands give more exp,
+# repeated commands less, wrong commands still give a little. At least you tried.
+#
+# Setup:
+# 1. Save this file in your home directory (or anywhere else)
+# 2. Source the file in your bashrc. This can be done manually or (assuming you saved it in your home dir) by running
+#        echo 'source ~/.gamifier' >> ~/.bashrc
+# 3. Ensure your history is reloaded after each command, then call update_exp
+#    If you have not yet modified your PROMPT_COMMAND, you can simply run
+#        echo 'export PROMPT_COMMAND="history -a; history -n; update_exp; $PROMPT_COMMAND"' >> ~/.bashrc
+# 4. Restart your terminal or run `source ~/.bashrc`.
+#
+# Additional info:
+# 1.  This script creates two additional files; .exp and .usedcommands
+#     .exp is used to track the current experience amount and level
+#     .usedcommands contains all commands the user used so far
+#     To continue tracking your progress on a new install, just copy these files over to your new home directory
+# 2.  You may want to increase your HISTSIZE and HISTFILESIZE.
+#     Setting them to nothing, i.e. "HISTSIZE=" and "HISTFILESIZE=" makes them unlimited
+# 3.  You can use checklvl at any time to check your current progress.
+# 4.  Use gamifier_help to display a short info message.
+
+EXP_FILE="$HOME/.exp"
+USED_COMMANDS_FILE="$HOME/.usedcommands"
+
+# Notification settings
+notifyOnNewCommand=true
+notifyOnReusedCommand=true
+notifyOnFalseNewCommand=true
+notifyOnReusedFalseCommand=true
+
+# Custom messages
+msgNewCommand="New command discovered!"
+msgReusedCommand="Experience gained!"
+msgFalseNewCommand="Incorrect command! At least you tried!"
+msgReusedFalseCommand="Trying incorrect command again..."
+
+# Initialize .exp file if it doesn't exist
+if [ ! -f "$EXP_FILE" ]; then
+    echo "EXP=0" > "$EXP_FILE"
+    echo "LVL=1" >> "$EXP_FILE"
+fi
+
+# Initialize .usedcommands file if it doesn't exist
+if [ ! -f "$USED_COMMANDS_FILE" ]; then
+    touch "$USED_COMMANDS_FILE"
+fi
+
+# Function to get the current EXP
+get_exp() {
+    grep "EXP=" "$EXP_FILE" | cut -d'=' -f2
+}
+
+# Function to set EXP
+set_exp() {
+    sed -i "s/^EXP=.*/EXP=$1/" "$EXP_FILE"
+}
+
+# Function to get the current LVL
+get_lvl() {
+    grep "LVL=" "$EXP_FILE" | cut -d'=' -f2
+}
+
+# Function to determine EXP required for next level
+exp_needed_for_level() {
+    local XP_BASE=10
+    local PERCENT_INCREASE=20
+    local lvl=$(get_lvl)
+
+    if [ "$lvl" -eq 1 ]; then
+        echo "$XP_BASE"
+    else
+        echo $(echo "$XP_BASE * (($PERCENT_INCREASE + 100) ^ ($lvl - 1)) / (100 ^ ($lvl - 1))" | bc)
+    fi
+}
+
+# Function to level up if needed
+level_up() {
+    local exp=$(get_exp)
+    local lvl=$(get_lvl)
+    local needed=$(exp_needed_for_level)
+
+    while [ "$exp" -ge "$needed" ]; do
+        new_lvl=$((lvl + 1))
+        echo -e "${LEVEL_UP_MESSAGE//\{level\}/$new_lvl}"
+        sed -i "s/^LVL=.*/LVL=$new_lvl/" "$EXP_FILE"
+        exp=$((exp - needed))
+        needed=$(exp_needed_for_level)
+        lvl=$new_lvl
+    done
+    set_exp "$exp"
+}
+
+# Get initial history count
+HISTFILE="$HOME/.bash_history"
+PREV_HISTORY_COUNT=$(wc -l < "$HISTFILE")
+
+# Helper function to handle command use
+handle_command() {
+    local command=$1
+    local exp_increment=$2
+    local message=$3
+    local notify=$4
+
+    # Check if the command has been used before
+    if ! grep -qx "$command" "$USED_COMMANDS_FILE"; then
+        # If it's new, add it to the .usedcommands file
+        echo "$command" >> "$USED_COMMANDS_FILE"
+    fi
+
+    # Update EXP
+    exp=$(get_exp)
+    new_exp=$((exp + exp_increment))
+    set_exp "$new_exp"
+
+    # If notification is enabled, print message
+    if [ "$notify" = true ]; then
+        echo "$message"
+		# If any EXP was gained, echo the new EXP to the console
+        if [ "$exp_increment" -gt 0 ]; then
+            echo "Current EXP: $new_exp"
+        fi
+    fi
+}
+
+# Hook into the shell prompt
+update_exp() {
+    local new_count=$(wc -l < "$HISTFILE")
+
+    if [ "$new_count" -gt "$PREV_HISTORY_COUNT" ]; then
+        PREV_HISTORY_COUNT="$new_count"
+
+        # Get the last command entered
+        local last_command=$(tail -n 1 "$HISTFILE")
+        local first_word=$(echo "$last_command" | awk '{print $1}')
+
+        # If command starts with sudo, extract the actual command being run
+        if [[ "$first_word" == "sudo" ]]; then
+            first_word=$(echo "$last_command" | awk '{print $2}')
+        fi
+
+        # Check if the command is valid (not "command not found")
+        if [ -n "$(command -v "$first_word")" ]; then
+            # If valid, handle it with 5 EXP for first-time use, 2 EXP for subsequent use
+            if ! grep -qx "$last_command" "$USED_COMMANDS_FILE"; then
+                handle_command "$last_command" 5 "$msgNewCommand" "$notifyOnNewCommand"
+            else
+                handle_command "$last_command" 2 "$msgReusedCommand" "$notifyOnReusedCommand"
+            fi
+        else
+            # If invalid, handle it with 1 EXP for first-time use, 0 EXP for subsequent invalid use
+            if ! grep -qx "$last_command" "$USED_COMMANDS_FILE"; then
+                handle_command "$last_command" 1 "$msgFalseNewCommand" "$notifyOnFalseNewCommand"
+            else
+                handle_command "$last_command" 0 "$msgReusedFalseCommand" "$notifyOnReusedFalseCommand"
+            fi
+        fi
+
+        # Check for level up
+        level_up
+    fi
+}
+
+# Checks the current level
+checklvl() {
+    echo "Current level: $(get_lvl)"
+    echo "Current exp: $(get_exp)/$(exp_needed_for_level)"
+}
+
+# Displays help information
+ghelp() {
+    cat <<EOF
+
+===========================
+Linux Terminal Gamifier v1
+===========================
+This script gamifies your terminal by tracking experience points and levels
+based on the number of commands you execute. Newly used commands give more exp,
+repeated commands less, wrong commands still give a little. At least you tried.
+
+You can use checklvl at any time to check your current progress.
+Use ghelp to display this message.
+
+EOF
+}
+
+# Level-up message
+LEVEL_UP_MESSAGE() {
+    local level=$1
+    printf "\n================================\n"
+    printf "||          LEVEL UP!         ||\n"
+    printf "||    You reached level %-5s ||\n" "$level"
+    printf "||                            ||\n"
+    printf "||   ░░░░░░░░░▄▄▄▄▄░░░░░░░░   ||\n"
+    printf "||   ░░░░░▄██████████▄░░░░░   ||\n"
+    printf "||   ░░░▄██████████████▄░░░   ||\n"
+    printf "================================\n\n"
+}
