@@ -201,6 +201,7 @@ LEVEL_UP_MESSAGE() {
     local rank_padding_left=$(( (26 - ${#rank}) / 2 ))
     local rank_padding_right=$(( 26 - ${#rank} - rank_padding_left ))
     local rank_line="||$(printf '%*s' $rank_padding_left) $rank $(printf '%*s' $rank_padding_right)||"
+
     printf "\n================================\n"
     printf "||          LEVEL UP!         ||\n"
     printf "||    You reached level %-5s ||\n" "$level"
