@@ -9,23 +9,24 @@
 #
 # Setup:
 # 1. Save this file in your home directory (or anywhere else)
-#    wget https://raw.githubusercontent.com/Divinux/dotfiles/refs/heads/main/scripts/gamifier
+#        curl --output ~/gamifier "https://raw.githubusercontent.com/Divinux/dotfiles/refs/heads/main/scripts/gamifier"
 # 2. Source the file in your bashrc. This can be done manually or (assuming you saved it in your home dir) by running
 #        echo 'source ~/gamifier' >> ~/.bashrc
 # 3. Ensure your history is reloaded after each command, then call update_exp
 #    If you have not yet modified your PROMPT_COMMAND, you can simply run
 #        echo 'export PROMPT_COMMAND="history -a; history -n; update_exp; $PROMPT_COMMAND"' >> ~/.bashrc
-# 4. Restart your terminal or run `source ~/.bashrc`.
+# 4. Restart your terminal or run 
+#        source ~/.bashrc
 #
 # Additional info:
-# 1.  This script creates two additional files; .exp and .usedcommands
-#     .exp is used to track the current experience amount and level
-#     .usedcommands contains all commands the user used so far
-#     To continue tracking your progress on a new install, just copy these files over to your new home directory
-# 2.  You may want to increase your HISTSIZE and HISTFILESIZE.
-#     Setting them to nothing, i.e. "HISTSIZE=" and "HISTFILESIZE=" makes them unlimited
-# 3.  You can use checkrank at any time to check your current progress.
-# 4.  Use ghelp to display a short info message.
+# 1. This script creates two additional files; .exp and .usedcommands
+#    .exp is used to track the current experience amount and level
+#    .usedcommands contains all commands the user used so far
+#    To continue tracking your progress on a new install, just copy these files over to your new home directory
+# 2. You may want to increase your HISTSIZE and HISTFILESIZE.
+#    Setting them to nothing, i.e. "HISTSIZE=" and "HISTFILESIZE=" makes them unlimited
+# 3. You can use checkrank at any time to check your current progress.
+# 4. Use ghelp to display a short info message.
 #
 # Uninstall:
 # 1. Remove 'source ~/gamifier' and update_exp; from your bashrc
@@ -158,7 +159,7 @@ update_exp() {
         fi
 
         # Check if the command is valid (not "command not found")
-        if command -v "$last_command" &> /dev/null; then
+        if command -v "$first_word" &> /dev/null; then
             # If valid, handle it with EXP_NEW_COMMAND for first-time use, EXP_REUSED_COMMAND for subsequent use
             if ! grep -qx "$last_command" "$USED_COMMANDS_FILE"; then
                 handle_command "$last_command" "$EXP_NEW_COMMAND" "$msgNewCommand" "$notifyOnNewCommand"
@@ -191,8 +192,6 @@ checkrank() {
     local exp_padding_left=$(( (26 - ${#exp} - ${#needed} - 6) / 2 ))  # 6 accounts for "EXP: " and "/"
     local exp_padding_right=$(( 26 - ${#exp} - ${#needed} - 6 - exp_padding_left ))
     local exp_line="||$(printf '%*s' "$exp_padding_left") EXP: $exp/$needed $(printf '%*s' "$exp_padding_right")||"
-
-
     local quote=$(get_quote "$level")
 
     printf "\n================================\n"
@@ -212,8 +211,8 @@ LEVEL_UP_MESSAGE() {
     local rank_padding_left=$(( (26 - ${#rank}) / 2 ))
     local rank_padding_right=$(( 26 - ${#rank} - rank_padding_left ))
     local rank_line="||$(printf '%*s' $rank_padding_left) $rank $(printf '%*s' $rank_padding_right)||"
-
     local quote=$(get_quote "$level")
+	
     printf "\n================================\n"
     printf "||          LEVEL UP!         ||\n"
     printf "||    You reached level %-5s ||\n" "$level"
