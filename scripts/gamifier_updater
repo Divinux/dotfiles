@@ -1,5 +1,12 @@
 #!/bin/bash
 
+# Used to update the gamifier script from v1 to v1.1
+# Run the following commands to update:
+#    curl --output ~/gamifier_updater "https://raw.githubusercontent.com/Divinux/dotfiles/refs/heads/main/scripts/gamifier_updater"
+#    chmod +x gamifier_updater
+#    ./gamifier_updater
+# Then restart your terminal
+
 # Define file paths
 TARGET_DIR="$HOME/.local/share/gamifier"
 USED_COMMANDS_FILE="$HOME/.usedcommands"
