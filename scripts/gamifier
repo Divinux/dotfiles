@@ -47,6 +47,12 @@ msgReusedCommand="Experience gained!"
 msgFalseNewCommand="Incorrect command! At least you tried!"
 msgReusedFalseCommand="Trying incorrect command again..."
 
+# EXP settings
+EXP_NEW_COMMAND=5
+EXP_REUSED_COMMAND=2
+EXP_FALSE_NEW_COMMAND=1
+EXP_REUSED_FALSE_COMMAND=0
+
 # Initialize .exp file if it doesn't exist
 if [ ! -f "$EXP_FILE" ]; then
     echo "EXP=0" > "$EXP_FILE"
@@ -152,19 +158,19 @@ update_exp() {
         fi
 
         # Check if the command is valid (not "command not found")
-        if [ -n "$(command -v "$first_word")" ]; then
-            # If valid, handle it with 5 EXP for first-time use, 2 EXP for subsequent use
+        if command -v "$last_command" &> /dev/null; then
+            # If valid, handle it with EXP_NEW_COMMAND for first-time use, EXP_REUSED_COMMAND for subsequent use
             if ! grep -qx "$last_command" "$USED_COMMANDS_FILE"; then
-                handle_command "$last_command" 5 "$msgNewCommand" "$notifyOnNewCommand"
+                handle_command "$last_command" "$EXP_NEW_COMMAND" "$msgNewCommand" "$notifyOnNewCommand"
             else
-                handle_command "$last_command" 2 "$msgReusedCommand" "$notifyOnReusedCommand"
+                handle_command "$last_command" "$EXP_REUSED_COMMAND" "$msgReusedCommand" "$notifyOnReusedCommand"
             fi
         else
-            # If invalid, handle it with 1 EXP for first-time use, 0 EXP for subsequent invalid use
+            # If invalid, handle it with EXP_FALSE_NEW_COMMAND for first-time use, EXP_REUSED_FALSE_COMMAND for subsequent invalid use
             if ! grep -qx "$last_command" "$USED_COMMANDS_FILE"; then
-                handle_command "$last_command" 1 "$msgFalseNewCommand" "$notifyOnFalseNewCommand"
+                handle_command "$last_command" "$EXP_FALSE_NEW_COMMAND" "$msgFalseNewCommand" "$notifyOnFalseNewCommand"
             else
-                handle_command "$last_command" 0 "$msgReusedFalseCommand" "$notifyOnReusedFalseCommand"
+                handle_command "$last_command" "$EXP_REUSED_FALSE_COMMAND" "$msgReusedFalseCommand" "$notifyOnReusedFalseCommand"
             fi
         fi
 
