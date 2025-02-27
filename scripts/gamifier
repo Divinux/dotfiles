@@ -19,7 +19,7 @@
 #        source ~/.bashrc
 #
 # Additional info:
-# 1. This script creates a directory under $XDG_DATA_HOME (defaults to ~/.local/share/ and uses it as a 
+# 1. This script creates a directory under $XDG_DATA_HOME (defaults to ~/.local/share/ and uses it as a
 #    fallback if $XDG_DATA_HOME is not set) with two additional files:
 #        .exp is used to track the current experience amount and level
 #        .usedcommands contains all commands the user used so far
