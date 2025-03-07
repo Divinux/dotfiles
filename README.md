@@ -6,8 +6,6 @@ Personal collection of dotfiles for linux desktop personalization.
 
 <img src="screenshots/main.png" width="800">
 
-<img src="screenshots/preview.gif" width="800">
-
 ## Prerequisites
 
 - **KDE Plasma** - Desktop Environment
