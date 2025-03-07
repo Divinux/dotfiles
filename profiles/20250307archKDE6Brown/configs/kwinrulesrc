@@ -1,0 +1,60 @@
+[220f8319-3d50-4349-97ed-ebe8fa23c542]
+desktopfilerule=2
+
+[4c60cd30-84df-4796-af2b-a39817dab086]
+Description=Window settings for Nemo
+clientmachine=localhost
+opacityactive=98
+opacityactiverule=2
+opacityinactive=89
+opacityinactiverule=2
+title=Home
+types=1
+wmclass=nemo Nemo
+wmclasscomplete=true
+wmclassmatch=1
+
+[513b09be-481e-4ca5-aa83-87755dc3fba9]
+Description=Window settings for konsole
+clientmachine=localhost
+opacityactive=89
+opacityactiverule=2
+opacityinactive=75
+opacityinactiverule=2
+title=siri@ddarch:~ — Konsole
+types=1
+windowrole=MainWindow#1
+windowrolematch=1
+wmclass=konsole
+wmclassmatch=1
+
+[General]
+count=4
+rules=513b09be-481e-4ca5-aa83-87755dc3fba9,ad565684-9f1c-4d10-ab47-929bc99639fe,fdc54c3c-9e26-4f55-895f-98ad2be4be52,4c60cd30-84df-4796-af2b-a39817dab086
+
+[ad565684-9f1c-4d10-ab47-929bc99639fe]
+Description=Window settings for plasma-systemmonitor
+clientmachine=localhost
+opacityactive=77
+opacityactiverule=2
+opacityinactive=77
+opacityinactiverule=2
+title=Overview — System Monitor
+titlematch=1
+types=1
+wmclass=plasma-systemmonitor
+wmclassmatch=1
+
+[fdc54c3c-9e26-4f55-895f-98ad2be4be52]
+Description=Window settings for discord
+clientmachine=localhost
+opacityactive=92
+opacityactiverule=2
+opacityinactive=92
+opacityinactiverule=2
+title=#🌴║coastal-chat | Castaways - Discord
+types=1
+windowrole=browser-window
+windowrolematch=1
+wmclass=discord
+wmclassmatch=1

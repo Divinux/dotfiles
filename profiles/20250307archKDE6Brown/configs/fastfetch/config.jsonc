@@ -1,0 +1,129 @@
+{
+    "$schema": "https://github.com/fastfetch-cli/fastfetch/raw/dev/doc/json_schema.json",
+    "logo": {
+        "color": {
+        "1": "white",
+        "2": "yellow"
+        },
+      "padding": {
+        "top": 4,
+        "left": 4
+      }
+    },
+    "display": {
+        "separator": "->      ",
+        "color": {
+            "separator": "1" // Bold
+        },
+        "constants": [
+            "───────────────────────────"
+        ],
+        "key": {
+            "type": "both",
+            "paddingLeft": 4
+        }
+    },
+    "modules": [
+        {
+            "type": "title",
+            "format": "                                {1}{7}{2}"
+        },
+        "break",
+        {
+            "type": "custom",
+            "format": "┌{$1} {#1}System Information{#} {$1}┐"
+        },
+        "break",
+        {
+            "key": "Machine      ",
+            "keyColor": "white",
+            "type": "host"
+        },
+        "break",
+        {
+            "key": "OS           ",
+            "keyColor": "white",
+            "type": "os"
+        },
+        {
+            "key": "Kernel       ",
+            "keyColor": "green",
+            "type": "kernel"
+        },
+        {
+            "key": "Packages     ",
+            "keyColor": "green",
+            "type": "packages"
+        },
+        {
+            "type": "command",
+            "key": "OS Age       ",
+            "keyColor": "green",
+            "text": "birth_install=$(stat -c %W /); current=$(date +%s); time_progression=$((current - birth_install)); days_difference=$((time_progression / 86400)); echo $days_difference days"
+        },
+        {
+            "key": "Uptime       ",
+            "keyColor": "green",
+            "type": "uptime"
+        },
+        "break",
+        {
+            "key": "CPU          ",
+            "keyColor": "white",
+            "type": "cpu"
+        },
+        {
+            "key": "Memory       ",
+            "keyColor": "green",
+            "type": "memory"
+        },
+        {
+            "key": "Disk         ",
+            "keyColor": "green",
+            "type": "disk"
+        },
+        {
+            "key": "GPU          ",
+            "keyColor": "green",
+            "type": "gpu"
+        },
+        {
+            "key": "Resolution   ",
+            "keyColor": "green",
+            "type": "display",
+            "compactType": "original-with-refresh-rate"
+        },
+        "break",
+        {
+            "key": "WM           ",
+            "keyColor": "white",
+            "type": "wm"
+        },
+        {
+            "key": "DE           ",
+            "keyColor": "green",
+            "type": "de"
+        },
+        {
+            "key": "Shell        ",
+            "keyColor": "green",
+            "type": "shell"
+        },
+        {
+            "key": "Terminal     ",
+            "keyColor": "green",
+            "type": "terminal"
+        },
+        "break",
+        {
+            "type": "custom",
+            "format": "└{$1}────────────────────{$1}┘"
+        },
+        "break",
+        {
+            "type": "colors",
+            "paddingLeft": 30,
+            "symbol": "circle"
+        }
+    ]
+}

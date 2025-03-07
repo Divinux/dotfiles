@@ -1,0 +1,20 @@
+MenuBar=Disabled
+
+[Desktop Entry]
+DefaultProfile=Profile 1.profile
+
+[General]
+ConfigVersion=1
+
+[KonsoleWindow]
+AllowMenuAccelerators=true
+ShowWindowTitleOnTitleBar=true
+
+[MainWindow]
+ToolBarsMovable=Disabled
+
+[Notification Messages]
+CloseAllTabs=true
+
+[UiSettings]
+ColorScheme=

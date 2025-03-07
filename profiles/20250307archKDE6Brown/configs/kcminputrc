@@ -1,0 +1,15 @@
+[Keyboard]
+NumLock=0
+
+[Libinput][1133][50504][Logitech USB Receiver Mouse]
+PointerAcceleration=0.900
+PointerAccelerationProfile=1
+
+[Libinput][1452][592][Keychron K4 Keychron K4]
+PointerAccelerationProfile=1
+
+[Mouse]
+X11LibInputXAccelProfileFlat=true
+XLbInptAccelProfileFlat=true
+XLbInptPointerAcceleration=1
+cursorTheme=bridge
