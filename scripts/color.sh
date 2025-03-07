@@ -1,6 +1,8 @@
 #!/bin/bash
-#this script is used to recolor all .svg files in a folder (and subfolders) to white
-#intended to be used on lineart icon packs like Candy Icons to make them more minimalistic
+# this script is used to recolor all .svg files in a folder (and subfolders) to white
+# intended to be used on lineart icon packs like Candy Icons to make them more minimalistic
+# make a copy of your icons folder
+# save this script in the newly created folder and run it
 
 # Find all .svg files recursively in the current directory and its subdirectories
 find . -type f -name "*.svg" | while read file; do
