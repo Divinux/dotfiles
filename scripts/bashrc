@@ -5,17 +5,6 @@ case $- in
       *) return;;
 esac
 
-# enable programmable completion features (you don't need to enable
-# this, if it's already enabled in /etc/bash.bashrc and /etc/profile
-# sources /etc/bash.bashrc).
-if ! shopt -oq posix; then
-  if [ -f /usr/share/bash-completion/bash_completion ]; then
-    . /usr/share/bash-completion/bash_completion
-  elif [ -f /etc/bash_completion ]; then
-    . /etc/bash_completion
-  fi
-fi
-
 # check the window size after each command and, if necessary,
 # update the values of LINES and COLUMNS.
 shopt -s checkwinsize
@@ -27,11 +16,10 @@ shopt -s checkwinsize
 # make less more friendly for non-text input files, see lesspipe(1)
 [ -x /usr/bin/lesspipe ] && eval "$(SHELL=/bin/sh lesspipe)"
 
-
 # History
 # don't put duplicate lines or lines starting with space in the history.
 export HISTCONTROL=ignoreboth
-export HISTIGNORE=ls:ll:la:l:cd:pwd:exit:mc:su:df:clear:cls
+export HISTIGNORE=ls:ll:la:l:cd:pwd:exit:mc:su:df
 
 # append to the history file, don't overwrite it
 shopt -s histappend
@@ -41,8 +29,7 @@ HISTSIZE=100000
 HISTFILESIZE=2000000
 
 # Save and reload history after each command finishes
-export PROMPT_COMMAND="history -a; history -c; history -r; $PROMPT_COMMAND"
-
+export PROMPT_COMMAND="history -a; history -n; $PROMPT_COMMAND"
 
 # Aliases
 # Detect distribution and set alias for package updates
@@ -55,6 +42,7 @@ if [ -f /etc/arch-release ]; then
     alias rr='sudo pacman -Rns '
     alias c='sudo pacman -Sc'
     alias y='yay -S '
+    alias p='paru'
 elif [ -f /etc/lsb-release ]; then
     # Debian
     alias u='sudo apt update && sudo apt upgrade'
@@ -81,11 +69,15 @@ alias ...="cd ../.."
 alias ....="cd ../../.."
 alias .....="cd ../../../.."
 
-alias please='sudo '
-alias pls='sudo $(history -p !!)'
+# git
+alias gs="git status"
+alias ga='git add .'
+alias gc='git commit -m "Add files"'
+alias gp='git push origin main'
+alias gstash="git stash"
 
 # Add an "alert" alias for long running commands.  Use like so:
-#   sleep 10; alert
+# sleep 10; alert
 alias alert='notify-send --urgency=low -i "$([ $? = 0 ] && echo terminal || echo error)" "$(history|tail -n1|sed -e '\''s/^\s*[0-9]\+\s*//;s/[;&|]\s*alert$//'\'')"'
 alias showscheme='echo -e "${BBLACK}#${BRED}#${BGREEN}#${BYELLOW}#${BBLUE}#${BMAGENTA}#${BCYAN}#${BLGRAY}#\n${BGRAY}#${BLRED}#${BLGREEN}#${BLYELLOW}#${BLBLUE}#${BLMAGENTA}#${BLCYAN}#${BWHITE}#\n
 ${BBLACK}###BLACK##${BRED}####RED###${BGREEN}###GREEN##${BYELLOW}##YELLOW##${BBLUE}###BLUE###${BMAGENTA}##MAGENTA#${BCYAN}###CYAN###${BLGRAY}##LGRAY###\n${BGRAY}###GRAY###${BLRED}###LRED###${BLGREEN}##LGREEN##${BLYELLOW}#LYELLOW##${BLBLUE}##LBLUE###${BLMAGENTA}#LMAGENTA#${BLCYAN}##LCYAN###${BWHITE}##WHITE###"'
@@ -99,7 +91,6 @@ if [ -f ~/.bash_aliases ]; then
     . ~/.bash_aliases
 fi
 
-
 #env
 #brew
 #eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
@@ -112,14 +103,13 @@ fi
 # &   # Run the process in the background.
 # ( ) # Hide shell job control messages.
 # Not supported in the "fish" shell.
-(cat ~/.cache/wal/sequences &)
+#(cat ~/.cache/wal/sequences &)
 
 # Alternative (blocks terminal for 0-3ms)
 # cat ~/.cache/wal/sequences
 
 # To add support for TTYs this line can be optionally added.
-source ~/.cache/wal/colors-tty.sh
-
+#source ~/.cache/wal/colors-tty.sh
 
 # Prompt and colors
 BLACK="\e[30m"
@@ -175,9 +165,10 @@ fi
 # colored GCC warnings and errors
 export GCC_COLORS='error=01;31:warning=01;35:note=01;36:caret=01;32:locus=01:quote=01'
 
-
+# Functions
 # MOTD
-#echo -e "${BLYELLOW}This is some red text, ${ENDCOLOR}"
+motd(){
+#echo -e "${BLYELLOW}This is some yellow text, ${ENDCOLOR}"
 #echo -e "${BGREEN}And this is some green text${ENDCOLOR}"
 echo ""
 printf "${BLYELLOW}"
@@ -185,8 +176,7 @@ printf "${BLYELLOW}"
 echo "$(date +"%A, %d %B %Y"). It is $(date +"%H:%M")"
 echo ""
 printf "${BRED}"
-#inxi
-#notify-send "Hello $USER, today is $(date +"%A, %d %B %Y"). It is $(date +"%H:%M")"
+curl wttr.in/LOCATION?format=2
 printf "${BBLUE}"
 echo ""
 date +"%A,"| figlet -f script
@@ -194,17 +184,18 @@ printf "${BRED}"
 date +"%d %B %Y"| figlet -f smscript
 printf "${BLGRAY}"
 date +"%H:%M"| figlet -f smscript
-echo ""
+#echo ""
 printf "${BMAGENTA}"
-date +"Welcome!"
+#date +"Welcome!"
+source ~/rss
 echo ""
 printf "${RED}"
+}
 
-# Functions
-# Function that calls ls -lA after a cd
+# Function that calls ls -AF after a cd
 # to display the contents of the folder that was changed into
 cd() {
-    builtin cd "$@" && ls -lA
+    builtin cd "$@" && ls -AF
 }
 
 # Backup function that copies a given file and renames it to file-datetime.bu
@@ -246,7 +237,10 @@ tmux_auto_connect() {
         fi
     else
         # No sessions exist; create the first session
-        tmux new-session -s "${session_prefix}_1"
+        # tmux new-session -s "${session_prefix}_1"
+        # If it is the first session, show motd
+        tmux new-session -s "${session_prefix}_1" \; send-keys "source ~/.bashrc; clear; motd" C-m
+
     fi
 }
 
