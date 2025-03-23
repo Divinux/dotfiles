@@ -1,0 +1,13 @@
+#!/bin/bash
+# Script to read the three most recent headlines from the arch rss feed
+RSS_URL="https://www.archlinux.org/feeds/news/"
+
+# Fetch the RSS feed once and store it in a variable
+rss_feed=$(wget -qO- "$RSS_URL")
+
+# Loop through the first 3 items
+for i in 1 2 3; do
+    title=$(echo "$rss_feed" | xmlstarlet sel -T -t -v "/rss/channel/item[$i]/title")
+    date=$(echo "$rss_feed" | xmlstarlet sel -T -t -v "/rss/channel/item[$i]/pubDate" | awk '{print $2 " " $3 " " $4}')
+    echo "$date - $title"
+done
