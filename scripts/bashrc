@@ -25,8 +25,8 @@ export HISTIGNORE=ls:ll:la:l:cd:pwd:exit:mc:su:df
 shopt -s histappend
 
 # for setting history length see HISTSIZE and HISTFILESIZE in bash(1)
-HISTSIZE=100000
-HISTFILESIZE=2000000
+HISTSIZE=
+HISTFILESIZE=
 
 # Save and reload history after each command finishes
 export PROMPT_COMMAND="history -a; history -n; $PROMPT_COMMAND"
