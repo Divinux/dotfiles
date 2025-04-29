@@ -2,10 +2,10 @@
 # converts a folder with images to ASCII art
 # used to convert from a rendered 3d animation to animated ASCII
 
-# Base directory containing all logo variations
-BASE_DIR="$HOME/LogoVariations"
-
+# Enter the foldername that is to be converted. assumes the folder was downloaded and is in the download folder
 FOLDER_NAME="enterhere"
+
+BASE_DIR="$HOME/LogoVariations"
 input_dir="$HOME/Downloads/$FOLDER_NAME"
 output_dir="$BASE_DIR/$FOLDER_NAME"
 
