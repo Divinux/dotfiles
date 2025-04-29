@@ -2,8 +2,12 @@
 # converts a folder with images to ASCII art
 # used to convert from a rendered 3d animation to animated ASCII
 
-input_dir="/home/siri/input"
-output_dir="/home/siri/output"
+# Base directory containing all logo variations
+BASE_DIR="$HOME/LogoVariations"
+
+FOLDER_NAME="enterhere"
+input_dir="$HOME/Downloads/$FOLDER_NAME"
+output_dir="$BASE_DIR/$FOLDER_NAME"
 
 mkdir -p "$output_dir"
 
