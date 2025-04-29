@@ -1,0 +1,30 @@
+#!/bin/bash
+
+# Directory containing ASCII frames
+FRAMES_DIR="/home/siri/animframes"
+frames=("$FRAMES_DIR"/*)
+total=${#frames[@]}
+current=0
+
+# 1. Generate cached system info (run ONCE)
+# Use `--ascii none` to skip ASCII art, then trim output alignment
+# Neofetch version
+# cached_info=$(neofetch --ascii none --stdout | sed 's/\s*$//')
+# Fastfetch version
+cached_info=$(fastfetch -l none | sed 's/\s*$//')
+
+# 2. Pre-calculate terminal rows needed for ASCII art
+ascii_height=$(wc -l < "${frames[0]}" | tr -d ' ')
+
+# 3. Animation loop (no repeated `neofetch` calls!)
+while true; do
+  # Clear screen and reset cursor
+  clear
+
+  # Combine cached info with current ASCII frame
+  paste -d ' ' <(cat "${frames[current]}") <(echo "$cached_info") | head -n "$ascii_height"
+
+  # Cycle frames
+  current=$(( (current + 1) % total ))
+  sleep 0.1
+done
