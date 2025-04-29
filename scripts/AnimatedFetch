@@ -1,4 +1,9 @@
 #!/bin/bash
+# Script used to animate the ASCII art in neo-/fastfetch outputs
+# Convert gif with
+# ascii-image-converter /path/source.gif -W 60 >> animation.txt
+# Split into separate files by frame and save in a separate folder
+# Call this script to display
 
 # Directory containing ASCII frames
 FRAMES_DIR="/home/siri/animframes"
