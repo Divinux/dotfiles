@@ -1,0 +1,21 @@
+#!/bin/bash
+# converts a folder with images to ASCII art
+# used to convert from a rendered 3d animation to animated ASCII
+
+input_dir="/home/siri/input"
+output_dir="/home/siri/output"
+
+mkdir -p "$output_dir"
+
+shopt -s nullglob
+for file in "$input_dir"/*.png; do
+    # Extract the filename
+    filename=$(basename "$file")
+
+    # Check if the filename ends in 4 digits before .png
+    if [[ "$filename" =~ ([0-9]{4})\.png$ ]]; then
+        digits="${BASH_REMATCH[1]}"
+        output_file="$output_dir/$digits"
+        ascii-image-converter "$file" -W 60 -c -C -m " <=>+|#&$%@"> "$output_file"
+    fi
+done
