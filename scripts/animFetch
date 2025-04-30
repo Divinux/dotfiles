@@ -6,7 +6,7 @@
 # Call this script to display
 
 # Base directory containing all logo variations
-BASE_DIR="$HOME/LogoVariations"
+BASE_DIR="$HOME/logoVariations"
 
 # Function to list available folders
 list_available() {
