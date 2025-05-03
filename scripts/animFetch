@@ -36,9 +36,8 @@ total=${#frames[@]}
 current=0
 
 # Neofetch version
-# cached_info=$(neofetch --ascii none --stdout | sed 's/\s*$//')
+# cached_info=$(neofetch --ascii none --stdout | sed 's/\x1b\[[0-9;]*[GKHF]//g')
 # Fastfetch version
-#cached_info=$(fastfetch -l none | sed 's/\s*$//')
 cached_info=$(fastfetch -l none --pipe false | sed 's/\x1b\[[0-9;]*[GKHF]//g')
 
 # Determine frame height for display
