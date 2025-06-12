@@ -1,3 +1,4 @@
+# bashrc from archinstall250
 # General features
 # If not running interactively, don't do anything
 case $- in
@@ -28,7 +29,6 @@ shopt -s histappend
 HISTSIZE=
 HISTFILESIZE=
 
-# Save and reload history after each command finishes
 export PROMPT_COMMAND="history -a; history -n; $PROMPT_COMMAND"
 
 # Aliases
@@ -60,6 +60,9 @@ alias h='history'
 alias hg='history | grep '
 alias con='lsof -i'
 
+alias rss='cleed'
+alias rsss='neix'
+
 alias ll='ls -alF'
 alias la='ls -A'
 alias l='ls -CF'
@@ -69,6 +72,8 @@ alias ...="cd ../.."
 alias ....="cd ../../.."
 alias .....="cd ../../../.."
 
+alias pls='sudo $(history -p !!)'
+
 # git
 alias gs="git status"
 alias ga='git add .'
@@ -77,7 +82,7 @@ alias gp='git push origin main'
 alias gstash="git stash"
 
 # Add an "alert" alias for long running commands.  Use like so:
-# sleep 10; alert
+#   sleep 10; alert
 alias alert='notify-send --urgency=low -i "$([ $? = 0 ] && echo terminal || echo error)" "$(history|tail -n1|sed -e '\''s/^\s*[0-9]\+\s*//;s/[;&|]\s*alert$//'\'')"'
 alias showscheme='echo -e "${BBLACK}#${BRED}#${BGREEN}#${BYELLOW}#${BBLUE}#${BMAGENTA}#${BCYAN}#${BLGRAY}#\n${BGRAY}#${BLRED}#${BLGREEN}#${BLYELLOW}#${BLBLUE}#${BLMAGENTA}#${BLCYAN}#${BWHITE}#\n
 ${BBLACK}###BLACK##${BRED}####RED###${BGREEN}###GREEN##${BYELLOW}##YELLOW##${BBLUE}###BLUE###${BMAGENTA}##MAGENTA#${BCYAN}###CYAN###${BLGRAY}##LGRAY###\n${BGRAY}###GRAY###${BLRED}###LRED###${BLGREEN}##LGREEN##${BLYELLOW}#LYELLOW##${BLBLUE}##LBLUE###${BLMAGENTA}#LMAGENTA#${BLCYAN}##LCYAN###${BWHITE}##WHITE###"'
@@ -96,7 +101,7 @@ fi
 #eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
 
 # Created by `pipx` on 2024-09-18 23:51:00
-#export PATH="$PATH:/home/siri/.local/bin"
+export PATH="$PATH:/home/siri/.local/bin"
 
 #pywal
 # Import colorscheme from 'wal' asynchronously
@@ -112,40 +117,40 @@ fi
 #source ~/.cache/wal/colors-tty.sh
 
 # Prompt and colors
-BLACK="\e[30m"
-RED="\e[31m"
-GREEN="\e[32m"
-YELLOW="\e[33m"
-BLUE="\e[34m"
-MAGENTA="\e[35m"
-CYAN="\e[36m"
-LGRAY="\e[37m"
-GRAY="\e[90m"
-LRED="\e[91m"
-LGREEN="\e[92m"
-LYELLOW="\e[93m"
-LBLUE="\e[94m"
-LMAGENTA="\e[95m"
-LCYAN="\e[96m"
-WHITE="\e[97m"
-ENDCOLOR="\e[0m"
+BLACK="\033[30m"
+RED="\033[31m"
+GREEN="\033[32m"
+YELLOW="\033[33m"
+BLUE="\033[34m"
+MAGENTA="\033[35m"
+CYAN="\033[36m"
+LGRAY="\033[37m"
+GRAY="\033[90m"
+LRED="\033[91m"
+LGREEN="\033[92m"
+LYELLOW="\033[93m"
+LBLUE="\033[94m"
+LMAGENTA="\033[95m"
+LCYAN="\033[96m"
+WHITE="\033[97m"
+ENDCOLOR="\033[0m"
 
-BBLACK="\e[1;${BLACK}"
-BRED="\e[1;${RED}"
-BGREEN="\e[1;${GREEN}"
-BYELLOW="\e[1;${YELLOW}"
-BBLUE="\e[1;${BLUE}"
-BMAGENTA="\e[1;${MAGENTA}"
-BCYAN="\e[1;${CYAN}"
-BLGRAY="\e[1;${LGRAY}"
-BGRAY="\e[1;${GRAY}"
-BLRED="\e[1;${LRED}"
-BLGREEN="\e[1;${LGREEN}"
-BLYELLOW="\e[1;${LYELLOW}"
-BLBLUE="\e[1;${LBLUE}"
-BLMAGENTA="\e[1;${LMAGENTA}"
-BLCYAN="\e[1;${LCYAN}"
-BWHITE="\e[1;${WHITE}"
+BBLACK="\033[1;${BLACK}"
+BRED="\033[1;${RED}"
+BGREEN="\033[1;${GREEN}"
+BYELLOW="\033[1;${YELLOW}"
+BBLUE="\033[1;${BLUE}"
+BMAGENTA="\033[1;${MAGENTA}"
+BCYAN="\033[1;${CYAN}"
+BLGRAY="\033[1;${LGRAY}"
+BGRAY="\033[1;${GRAY}"
+BLRED="\033[1;${LRED}"
+BLGREEN="\033[1;${LGREEN}"
+BLYELLOW="\033[1;${LYELLOW}"
+BLBLUE="\033[1;${LBLUE}"
+BLMAGENTA="\033[1;${LMAGENTA}"
+BLCYAN="\033[1;${LCYAN}"
+BWHITE="\033[1;${WHITE}"
 
 # Prompt and color
 PS1='\[\e[91;1m\]\u\[\e[94m\]@\[\e[92m\]\H\[\e[93m\]\w\[\e[91m\]:\[\e[94m\]\$\[\e[0m\] '
@@ -168,7 +173,7 @@ export GCC_COLORS='error=01;31:warning=01;35:note=01;36:caret=01;32:locus=01:quo
 # Functions
 # MOTD
 motd(){
-#echo -e "${BLYELLOW}This is some yellow text, ${ENDCOLOR}"
+#echo -e "${BLYELLOW}This is some red text, ${ENDCOLOR}"
 #echo -e "${BGREEN}And this is some green text${ENDCOLOR}"
 echo ""
 printf "${BLYELLOW}"
@@ -183,8 +188,9 @@ date +"%A,"| figlet -f script
 printf "${BRED}"
 date +"%d %B %Y"| figlet -f smscript
 printf "${BLGRAY}"
+echo ""
 date +"%H:%M"| figlet -f smscript
-#echo ""
+echo ""
 printf "${BMAGENTA}"
 #date +"Welcome!"
 source ~/rss
@@ -214,7 +220,7 @@ bu () {
 # Uncomment this to automatically connect to tmux on load
 autoconnect_enabled=true;
 
-#function to check for existiing tmux session and connect, or create a new one
+# function to check for existiing tmux session and connect, or create a new one
 tmux_auto_connect() {
     # Name prefix for sessions
     local session_prefix="main"
@@ -244,7 +250,133 @@ tmux_auto_connect() {
     fi
 }
 
-# Automatically run tmux_auto_connect when starting a new terminal
-if [ -n "$PS1" ] && [ "$TERM" != "screen" ] && [ -z "$TMUX" ] && [ $autoconnect_enabled ]; then
-    tmux_auto_connect
+if [ "$autoconnect_enabled" == "true" ]; then
+    if [ -n "$PS1" ] && [ "$TERM" != "screen" ] && [ -z "$TMUX" ]; then
+        tmux_auto_connect
+    fi
+else
+    if [ -n "$PS1" ] && [ "$TERM" != "screen" ] && [ -z "$TMUX" ]; then
+        motd
+    fi
 fi
+
+
+#TERM=xterm-256color
+# use hex colors in terminal
+source ~/hexcolor
+
+# function to find binary names installed by a package
+fb() {
+    pacman -Ql "$1" | awk '$2 ~ /(\/(usr\/local\/)?s?bin\/)/ && $2 !~ /(\/(usr\/local\/)?s?bin\/?)$/' | xargs -n1 basename
+}
+# same but displays the path as well
+fbp () {
+    pacman -Ql "$1" | grep 'bin/'
+}
+
+# find which package owns a file
+whoowns() {
+    pacman -Qo "$1"
+}
+
+# List files in a package
+listfiles() {
+    pacman -Ql "$1"
+}
+
+# Show description, size, deps of a package
+pkginfo() {
+    pacman -Si "$1"
+}
+
+# Show public IP address
+myip() {
+    curl -s https://ipinfo.io/ip
+    echo
+}
+
+# extract any archive
+ex() {
+    if [ -f "$1" ]; then
+        case "$1" in
+            *.tar.bz2)   tar xjf "$1"   ;;
+            *.tar.gz)    tar xzf "$1"   ;;
+            *.tar.xz)    tar xf "$1"    ;;
+            *.lzma)      unlzma "$1"    ;;
+            *.bz2)       bunzip2 "$1"   ;;
+            *.rar)       unrar x "$1"   ;;
+            *.gz)        gunzip "$1"    ;;
+            *.tar)       tar xf "$1"    ;;
+            *.tbz2)      tar xjf "$1"   ;;
+            *.tgz)       tar xzf "$1"   ;;
+            *.zip)       unzip "$1"     ;;
+            *.Z)         uncompress "$1";;
+            *.7z)        7z x "$1"      ;;
+            *)           echo "'$1' cannot be extracted via extract()" ;;
+        esac
+    else
+        echo "'$1' is not a valid file"
+    fi
+}
+
+# list all functions in .bashrc
+lf() {
+  awk -v COL1="$LBLUE" -v COL2="$GRAY" -v ENDCOLOR="$ENDCOLOR" '
+    /^\s*#/ { desc = $0; next }
+    /^\s*(function\s+)?[a-zA-Z0-9_]+\s*\(\)\s*\{/ {
+      if (desc) {
+        name = $0
+        sub(/^\s*function\s+/, "", name)
+        sub(/\s*\(\)\s*\{.*/, "", name)
+        gsub(/^\s*#\s*/, "", desc)  # remove leading comment markers
+        printf "%s%-20s%s %s%s%s\n", COL1, name, ENDCOLOR, COL2, desc, ENDCOLOR
+        desc = ""
+      }
+    }
+  ' ~/.bashrc
+}
+
+
+# lists orphaned packages
+lo() {
+local orphans
+  orphans=$(pacman -Qtqd)
+
+echo -e "${YELLOW}The following orphaned packages were found:${ENDCOLOR}"
+  echo "$orphans" | while read -r pkg; do
+    desc=$(pacman -Qi "$pkg" | awk -F': ' '/^Description/ { print $2 }')
+    echo -e "  ${MAGENTA}$pkg${ENDCOLOR} - ${GRAY}$desc${ENDCOLOR}"
+  done
+}
+
+# lists all user installed packages
+li() {
+  echo -e "${YELLOW}Packages installed through pacman:${ENDCOLOR}"
+  echo
+  pacman -Qe
+  echo
+  echo -e "${YELLOW}Packages installed through AUR:${ENDCOLOR}"
+  echo
+  pacman -Qm
+}
+
+# lists all user installed packages with descriptions
+lid() {
+  echo -e "${YELLOW}Packages installed through pacman:${ENDCOLOR}"
+  echo
+  pacman -Qe | while read -r pkg _; do
+    desc=$(pacman -Si "$pkg" 2>/dev/null | awk -F': *' '/^Description/ {print $2}')
+    printf "${GREEN}%-20s${ENDCOLOR} %s\n" "$pkg" "$desc"
+  done
+
+  echo
+  echo -e "${YELLOW}Packages installed through AUR:${ENDCOLOR}"
+  echo
+  pacman -Qm | while read -r pkg _; do
+    desc=$(pacman -Si "$pkg" 2>/dev/null | awk -F': *' '/^Description/ {print $2}')
+    # Fallback: try yay -Si if pacman doesn't find the AUR package
+    [[ -z "$desc" && $(command -v yay) ]] && desc=$(yay -Si "$pkg" 2>/dev/null | awk -F': *' '/^Description/ {print $2}')
+    printf "${CYAN}%-20s${ENDCOLOR} %s\n" "$pkg" "$desc"
+  done
+}
+
