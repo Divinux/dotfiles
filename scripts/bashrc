@@ -217,6 +217,51 @@ bu () {
   echo "Backup of $1 created"
 }
 
+# Search the filesystem dynamically and cd into shortest found directory
+fz() {
+  local dir
+  dir=$(fd --type d --hidden \
+           --exclude '.git' \
+           --exclude 'node_modules' \
+           --exclude '.cache' \
+           --exclude '/mnt' \
+           --exclude '/run' \
+           --exclude '/proc' \
+           --exclude '/sys' \
+           --exclude '/dev' \
+           --exclude '/home/siri/.config/konsave' \
+           --exclude '/home/siri/Downloads/dotfiles-main' \
+           . / 2>/dev/null \
+    | fzf --filter="$*" --print-query \
+          --extended-exact --height 40% --reverse \
+          --preview 'tree -C {} | head -n 20' \
+    | awk 'NR>1 {print length($0), $0}' | sort -n | cut -d" " -f2- \
+    | head -1) \
+    && cd "$dir"
+}
+
+#  Search the filesystem dynamically and show all options, unless there is only one
+fzz() {
+  local dir
+  dir=$(fd --type d --hidden \
+           --exclude '.git' \
+           --exclude 'node_modules' \
+           --exclude '.cache' \
+           --exclude '/mnt' \
+           --exclude '/run' \
+           --exclude '/proc' \
+           --exclude '/sys' \
+           --exclude '/dev' \
+           --exclude '/home/siri/.config/konsave' \
+           --exclude '/home/siri/Downloads/dotfiles-main' \
+           . / 2>/dev/null \
+    | awk '{ print length, $0 }' | sort -n | cut -d' ' -f2- \
+    | fzf --query="$*" --select-1 --exit-0 \
+          --extended-exact --height 40% --reverse \
+          --preview 'tree -C {} | head -n 20') \
+    && cd "$dir"
+}
+
 # Uncomment this to automatically connect to tmux on load
 autoconnect_enabled=true;
 
@@ -260,21 +305,21 @@ else
     fi
 fi
 
-
 #TERM=xterm-256color
 # use hex colors in terminal
 source ~/hexcolor
+source ~/gamifier
 
-# function to find binary names installed by a package
+# Find binary names installed by a package
 fb() {
     pacman -Ql "$1" | awk '$2 ~ /(\/(usr\/local\/)?s?bin\/)/ && $2 !~ /(\/(usr\/local\/)?s?bin\/?)$/' | xargs -n1 basename
 }
-# same but displays the path as well
+# Find binary names installed by a package and displays the path
 fbp () {
     pacman -Ql "$1" | grep 'bin/'
 }
 
-# find which package owns a file
+# Find which package owns a file
 whoowns() {
     pacman -Qo "$1"
 }
@@ -295,7 +340,7 @@ myip() {
     echo
 }
 
-# extract any archive
+# Extract any archive
 ex() {
     if [ -f "$1" ]; then
         case "$1" in
@@ -319,7 +364,7 @@ ex() {
     fi
 }
 
-# list all functions in .bashrc
+# List all functions in .bashrc in original order
 lf() {
   awk -v COL1="$LBLUE" -v COL2="$GRAY" -v ENDCOLOR="$ENDCOLOR" '
     /^\s*#/ { desc = $0; next }
@@ -336,8 +381,27 @@ lf() {
   ' ~/.bashrc
 }
 
+# List all functions in .bashrc alphabetically
+lfa() {
+  grep -E '^\s*#|^\s*(function\s+)?[a-zA-Z0-9_]+\s*\(\)\s*\{' ~/.bashrc | \
+    awk '
+      /^\s*#/ { desc = $0; next }
+      /^\s*(function\s+)?[a-zA-Z0-9_]+\s*\(\)\s*\{/ {
+        if (desc) {
+          name = $0
+          sub(/^\s*function\s+/, "", name)
+          sub(/\s*\(\)\s*\{.*/, "", name)
+          gsub(/^\s*#\s*/, "", desc)
+          print name "\t" desc
+          desc = ""
+        }
+      }
+    ' | sort | while IFS=$'\t' read -r name desc; do
+      printf "${LBLUE}%-20s${ENDCOLOR} ${GRAY}%s${ENDCOLOR}\n" "$name" "$desc"
+    done
+}
 
-# lists orphaned packages
+# List orphaned packages
 lo() {
 local orphans
   orphans=$(pacman -Qtqd)
@@ -349,7 +413,7 @@ echo -e "${YELLOW}The following orphaned packages were found:${ENDCOLOR}"
   done
 }
 
-# lists all user installed packages
+# List all user installed packages
 li() {
   echo -e "${YELLOW}Packages installed through pacman:${ENDCOLOR}"
   echo
@@ -360,7 +424,7 @@ li() {
   pacman -Qm
 }
 
-# lists all user installed packages with descriptions
+# List all user installed packages with descriptions
 lid() {
   echo -e "${YELLOW}Packages installed through pacman:${ENDCOLOR}"
   echo
