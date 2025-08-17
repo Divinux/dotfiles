@@ -29,8 +29,6 @@ shopt -s histappend
 HISTSIZE=
 HISTFILESIZE=
 
-export PROMPT_COMMAND="history -a; history -n; $PROMPT_COMMAND"
-
 # Aliases
 # Detect distribution and set alias for package updates
 if [ -f /etc/arch-release ]; then
