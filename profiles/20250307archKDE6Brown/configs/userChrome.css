@@ -1,25 +1,46 @@
-
 panelview,
 .panel-arrowcontent {
     background: #15141a !important;
     color: #afafab !important;
 }
+
 /* Hide Firefox's default button icons */
 .titlebar-button > .toolbarbutton-icon,
 .titlebar-close > .toolbarbutton-icon,
 .titlebar-min > .toolbarbutton-icon,
 .titlebar-max > .toolbarbutton-icon,
 .titlebar-restore > .toolbarbutton-icon {
-    -moz-appearance: none !important;
-    background: none !important;
+    display: none !important;
 }
 
+/* Base button style */
+.titlebar-button {
+    -moz-appearance: none !important;
+    background-repeat: no-repeat !important;
+    background-position: center !important;
+    background-size: 22px 22px !important; /* adjust size to match your icons */
+    width: 36px !important;   /* adjust button size */
+    height: 36px !important;
+}
 
-.titlebar-button:hover{ background-color: hsla(0,0%,100%,.32) !important }
-.titlebar-close:hover{ background-color: hsl(355,86%,49%) !important }
+/* Hover effects */
+.titlebar-button:hover {
+    background-color: hsla(0,0%,100%,.32) !important;
+}
+.titlebar-close:hover {
+    background-color: hsl(109,22%,30%) !important;
+}
 
-
- .titlebar-close{ list-style-image: url(/home/siri/.local/share/icons/klassy/16-1/window-close-symbolic.svg) !important }
- .titlebar-min{ list-style-image: url(/home/siri/.local/share/icons/klassy/16-1/window-minimize-symbolic.svg) !important }
- .titlebar-max{ list-style-image: url(/home/siri/.local/share/icons/klassy/16-1/window-maximize-symbolic.svg) !important }
- .titlebar-restore{ list-style-image: url(/home/siri/.local/share/icons/klassy/16-1/window-restore-symbolic.svg) !important }
+/* Custom icons */
+.titlebar-close {
+    background-image: url("file:///home/siri/.local/share/icons/klassy/48-1/window-close-symbolic.svg") !important;
+}
+.titlebar-min {
+    background-image: url("file:///home/siri/.local/share/icons/klassy/48-1/window-minimize-symbolic.svg") !important;
+}
+.titlebar-max {
+    background-image: url("file:///home/siri/.local/share/icons/klassy/48-1/window-maximize-symbolic.svg") !important;
+}
+.titlebar-restore {
+    background-image: url("file:///home/siri/.local/share/icons/klassy/48-1/window-restore-symbolic.svg") !important;
+}
