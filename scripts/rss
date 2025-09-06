@@ -1,5 +1,5 @@
 #!/bin/bash
-# Script to read the three most recent headlines from the arch rss feed
+# Script to read the three most recent headlines from the Arch RSS feed
 RSS_URL="https://www.archlinux.org/feeds/news/"
 
 # Fetch the RSS feed once and store it in a variable
@@ -7,7 +7,15 @@ rss_feed=$(wget -qO- "$RSS_URL")
 
 # Loop through the first 3 items
 for i in 1 2 3; do
+    printf "${BMAGENTA}"
     title=$(echo "$rss_feed" | xmlstarlet sel -T -t -v "/rss/channel/item[$i]/title")
     date=$(echo "$rss_feed" | xmlstarlet sel -T -t -v "/rss/channel/item[$i]/pubDate" | awk '{print $2 " " $3 " " $4}')
-    echo "$date - $title"
+    link=$(echo "$rss_feed" | xmlstarlet sel -T -t -v "/rss/channel/item[$i]/link")
+    echo "$date - $(make_link "$link" "$title")"
 done
+
+make_link() {
+    local url="$1"
+    local text="$2"
+    printf '\e]8;;%s\a\e[1m%s\e[0m\e]8;;\a' "$url" "$text"
+}
