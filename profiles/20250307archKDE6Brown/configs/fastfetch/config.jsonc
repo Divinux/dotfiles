@@ -112,7 +112,8 @@
         {
             "key": "Terminal     ",
             "keyColor": "green",
-            "type": "terminal"
+            "type": "terminal",
+            "format": "{1}"
         },
         "break",
         {
