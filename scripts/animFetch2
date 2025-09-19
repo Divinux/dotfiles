@@ -1,0 +1,47 @@
+#!/bin/bash
+
+BASE_DIR="$HOME/LogoVariations"
+
+list_available() {
+  echo "Available frame folders in '$BASE_DIR':"
+  find "$BASE_DIR" -mindepth 1 -maxdepth 1 -type d -printf "%f\n" | sort | sed 's/^/  - /'
+}
+
+if [ $# -ne 1 ]; then
+  echo "Usage: $0 -folderName (e.g., -archGreen)"
+  list_available
+  exit 1
+fi
+
+FOLDER_NAME="${1#-}"
+FRAMES_DIR="$BASE_DIR/$FOLDER_NAME"
+
+if [ ! -d "$FRAMES_DIR" ]; then
+  echo "Error: Directory '$FRAMES_DIR' does not exist."
+  list_available
+  exit 1
+fi
+
+readarray -t frames < <(ls -v "$FRAMES_DIR"/*)
+total=${#frames[@]}
+current=0
+
+cached_info=$(fastfetch -l none --pipe false | sed 's/\x1b\[[0-9;]*[GKHF]//g')
+ascii_height=$(wc -l < "${frames[0]}" | tr -d ' ')
+
+### edited from here onwards to remove flickering in kitty and alacritty
+# Hide the cursor for cleaner animation
+tput civis
+
+# Trap to ensure cursor is restored on exit
+trap "tput cnorm; clear; exit" INT TERM
+
+# Animation loop
+while true; do
+  # Move cursor to top-left without clearing screen
+  tput cup 0 0
+  echo
+  paste -d ' ' <(cat "${frames[current]}") <(echo "$cached_info") | head -n "$ascii_height"
+  current=$(( (current + 1) % total ))
+  sleep 0.1
+done
