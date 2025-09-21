@@ -57,6 +57,7 @@ config.colors = {
     -- selection
     selection_fg = color1,
     selection_bg = color5,
+
     -- cursor
     cursor_bg = color1,
     cursor_border = color2,
@@ -126,9 +127,6 @@ config.default_gui_startup_args = { 'connect', 'unix' }
 wezterm.on('window-config-reloaded', function(window, pane)
 window:perform_action(wezterm.action.ResetFontAndWindowSize, pane)
 end)
-
-
-
 
 -- Finally, return the configuration to wezterm:
 return config
