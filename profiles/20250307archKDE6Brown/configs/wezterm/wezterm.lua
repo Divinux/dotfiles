@@ -1,13 +1,16 @@
 -- Pull in the wezterm API
 local wezterm = require 'wezterm'
-
 -- This will hold the configuration.
 local config = wezterm.config_builder()
 
 -- Window style
-config.enable_tab_bar = false
-config.window_background_opacity = 0.95
-config.kde_window_background_blur = true
+--config.enable_tab_bar = false
+--config.hide_tab_bar_if_only_one_tab = true
+config.prefer_to_spawn_tabs = true
+config.tab_bar_at_bottom = true
+config.use_fancy_tab_bar = false
+--config.window_background_opacity = 0.6
+--config.kde_window_background_blur = true
 
 -- Cursor
 config.default_cursor_style = 'BlinkingBar'
@@ -16,7 +19,7 @@ config.cursor_blink_ease_in = 'Linear'
 config.cursor_blink_ease_out = 'Linear'
 
 -- Initial geometry for new windows:
-config.initial_cols = 135
+config.initial_cols = 130
 config.initial_rows = 31
 
 -- Font size and color scheme.
@@ -24,44 +27,90 @@ config.font_size = 10
 config.font = wezterm.font 'Hack'
 config.color_scheme = 'Black Metal (Burzum) (base16)'
 
+-- Time status bar
+wezterm.on('update-right-status', function(window, pane)
+local date = wezterm.strftime '%Y-%m-%d %H:%M:%S'
+
+-- Make it italic and underlined
+window:set_right_status(wezterm.format {
+    { Text = '- ' .. date .. ' - '},
+})
+end)
+
 -- colors
+local color1  = '#c3c4c4' -- foreground
+local color2  = '#1e1e1e' -- background
+local color3  = '#010B28'
+local color4  = '#032562'
+local color5  = '#024E94'
+local color6  = '#D9DFD3'
+local color7  = '#1099BF'
+local color8  = '#7CC9D3'
+local color9  = '#456178'
+local color10  = '#7D99A0'
+
 config.colors = {
     -- general colors
-    foreground = '#c3c4c4',
-    background = '#1e1e1e',
+    foreground = color1,
+    background = color2,
 
     -- selection
-    selection_fg = 'black',
-    selection_bg = '5d9151',
+    selection_fg = color1,
+    selection_bg = color5,
     -- cursor
-    cursor_bg = "#ffffff",
-    cursor_border = "#1e1e1e",
-
-    -- other unused for reference
-    -- The color of the scrollbar "thumb"; the portion that represents the current viewport
-    scrollbar_thumb = '#222222',
-    -- The color of the split lines between panes
-    split = '#444444',
+    cursor_bg = color1,
+    cursor_border = color2,
 
     ansi = {
-        '#121413',
-        '#4b5a4c',
-        '#526851',
-        '#577354',
-        '#5d9151',
-        '#657c5b',
-        '#5d6e61',
-        '#8f998f',
+        color3,
+        color4,
+        color5,-- low%
+        color6,
+        color7,
+        color8,
+        color9,
+        color10,
     },
     brights = {
-        '#5a6f64',
-        '#657966',
-        '#6e8b6d',
-        '#759a71',
-        '#7dc26c',
-        '#87a67a',
-        '#7d9382',
-        '#c3c4c4',
+        color3,
+        color4,-- high%
+        color5,-- : and categories
+        color6,-- ~ and mid%
+        color7,-- $ and time
+        color8,
+        color9,
+        color10,-- headlines
+    },
+
+    --tab bar colors
+    tab_bar = {
+        background = color4,
+        active_tab = {
+            bg_color = color3,
+            fg_color = color1,
+            intensity = 'Bold',
+            underline = 'None',
+            italic = false,
+            strikethrough = false,
+        },
+        inactive_tab = {
+            bg_color = color3,
+            fg_color = color1,
+        },
+        inactive_tab_hover = {
+            bg_color = color10,
+            fg_color = color3,
+            italic = false,
+        },
+        new_tab = {
+            bg_color = color5,
+            fg_color = color1,
+        },
+        new_tab_hover = {
+            bg_color = color10,
+            fg_color = color2,
+            italic = true,
+        },
     },
 }
 
@@ -77,6 +126,9 @@ config.default_gui_startup_args = { 'connect', 'unix' }
 wezterm.on('window-config-reloaded', function(window, pane)
 window:perform_action(wezterm.action.ResetFontAndWindowSize, pane)
 end)
+
+
+
 
 -- Finally, return the configuration to wezterm:
 return config
