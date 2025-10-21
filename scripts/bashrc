@@ -6,10 +6,6 @@ case $- in
       *) return;;
 esac
 
-# check the window size after each command and, if necessary,
-# update the values of LINES and COLUMNS.
-shopt -s checkwinsize
-
 # If set, the pattern "**" used in a pathname expansion context will
 # match all files and zero or more directories and subdirectories.
 #shopt -s globstar
@@ -17,13 +13,22 @@ shopt -s checkwinsize
 # make less more friendly for non-text input files, see lesspipe(1)
 [ -x /usr/bin/lesspipe ] && eval "$(SHELL=/bin/sh lesspipe)"
 
-# History
-# don't put duplicate lines or lines starting with space in the history.
-export HISTCONTROL=ignoreboth
-export HISTIGNORE=ls:ll:la:l:cd:pwd:exit:mc:su:df
+# check the window size after each command and, if necessary,
+# update the values of LINES and COLUMNS.
+shopt -s checkwinsize
 
 # append to the history file, don't overwrite it
 shopt -s histappend
+
+# Created by `pipx` on 2024-09-18 23:51:00
+#export PATH="$PATH:/home/siri/.local/bin"
+
+# Reloads history and hooks in the gamifier
+export PROMPT_COMMAND="history -a; history -n; update_exp; $PROMPT_COMMAND"
+
+# don't put duplicate lines or lines starting with space in the history.
+export HISTCONTROL=ignoreboth
+export HISTIGNORE=ls:ll:la:l:cd:pwd:exit:mc:su:df
 
 # for setting history length see HISTSIZE and HISTFILESIZE in bash(1)
 HISTSIZE=
@@ -60,6 +65,7 @@ alias con='lsof -i'
 
 alias rss='cleed'
 alias rsss='neix'
+alias bat='bat -p'
 
 alias ll='ls -alF'
 alias la='ls -A'
@@ -85,21 +91,17 @@ alias alert='notify-send --urgency=low -i "$([ $? = 0 ] && echo terminal || echo
 alias showscheme='echo -e "${BBLACK}#${BRED}#${BGREEN}#${BYELLOW}#${BBLUE}#${BMAGENTA}#${BCYAN}#${BLGRAY}#\n${BGRAY}#${BLRED}#${BLGREEN}#${BLYELLOW}#${BLBLUE}#${BLMAGENTA}#${BLCYAN}#${BWHITE}#\n
 ${BBLACK}###BLACK##${BRED}####RED###${BGREEN}###GREEN##${BYELLOW}##YELLOW##${BBLUE}###BLUE###${BMAGENTA}##MAGENTA#${BCYAN}###CYAN###${BLGRAY}##LGRAY###\n${BGRAY}###GRAY###${BLRED}###LRED###${BLGREEN}##LGREEN##${BLYELLOW}#LYELLOW##${BLBLUE}##LBLUE###${BLMAGENTA}#LMAGENTA#${BLCYAN}##LCYAN###${BWHITE}##WHITE###"'
 
-# Alias definitions.
-# You may want to put all your additions into a separate file like
-# ~/.bash_aliases, instead of adding them here directly.
-# See /usr/share/doc/bash-doc/examples in the bash-doc package.
-
-if [ -f ~/.bash_aliases ]; then
-    . ~/.bash_aliases
+if [ -f ~/aliases ]; then
+    . ~/aliases
 fi
 
-#env
-#brew
-#eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
+if [ -f ~/gamifier ]; then
+    . ~/gamifier
+fi
 
-# Created by `pipx` on 2024-09-18 23:51:00
-export PATH="$PATH:/home/siri/.local/bin"
+if [ -f ~/colorconvert ]; then
+    . ~/colorconvert
+fi
 
 #pywal
 # Import colorscheme from 'wal' asynchronously
@@ -113,6 +115,16 @@ export PATH="$PATH:/home/siri/.local/bin"
 
 # To add support for TTYs this line can be optionally added.
 #source ~/.cache/wal/colors-tty.sh
+
+# fzf theme
+export FZF_DEFAULT_OPTS=$FZF_DEFAULT_OPTS'
+  --color=fg:-1,fg+:#c3c4c4,bg:-1,bg+:#262626
+  --color=hl:#577354,hl+:#577354,info:#577354,marker:#577354
+  --color=prompt:#577354,spinner:#577354,pointer:#577354,header:#577354
+  --color=border:#262626,label:#aeaeae,query:#d9d9d9
+  --border="rounded" --border-label="" --preview-window="border-rounded" --prompt="> "
+  --marker=">" --pointer="│" --separator="─" --scrollbar="│"
+  --info="right"'
 
 # Prompt and colors
 BLACK="\033[30m"
@@ -151,7 +163,45 @@ BLCYAN="\033[1;${LCYAN}"
 BWHITE="\033[1;${WHITE}"
 
 # Prompt and color
-PS1='\[\e[91;1m\]\u\[\e[94m\]@\[\e[92m\]\H\[\e[93m\]\w\[\e[91m\]:\[\e[94m\]\$\[\e[0m\] '
+# Prompt styles
+
+# name@host~:$
+prompt_style1='\[\e[91;1m\]\u\[\e[94m\]@\[\e[92m\]\H\[\e[93m\]\w\[\e[91m\]:\[\e[94m\]\$\[\e[0m\] '
+# 11:16 ~:$
+prompt_style2='\[\e[94m\]\A\[\e[m\] \[\e[93m\]\w\[\e[91m\]:\[\e[94m\]\$\[\e[0m\] '
+# [name@host] ~$
+prompt_style3='\[\e[95m\][\u@\h] \[\e[92m\]\w\[\e[0m\]\$ '
+
+# Check for selected style, or load default
+if [ -f "$HOME/.prompt_theme" ]; then
+  PROMPT_THEME=$(<"$HOME/.prompt_theme")
+else
+  PROMPT_THEME="style1"
+fi
+
+# Apply selected style
+apply_prompt() {
+  case "$1" in
+    style1) PS1="$prompt_style1" ;;
+    style2) PS1="$prompt_style2" ;;
+    style3) PS1="$prompt_style3" ;;
+    *)      PS1="$prompt_style1" ;;
+  esac
+}
+apply_prompt "$PROMPT_THEME"
+
+# Select prompt style
+setprompt() {
+  local theme
+  case "$1" in
+    1|style1) theme="style1" ;;
+    2|style2) theme="style2" ;;
+    3|style3) theme="style3" ;;
+    *) echo "Unknown prompt style: $1"; return 1 ;;
+  esac
+  echo "$theme" > "$HOME/.prompt_theme"   # save choice
+  apply_prompt "$theme"
+}
 
 # enable color support of ls and also add handy aliases
 if [ -x /usr/bin/dircolors ]; then
@@ -198,23 +248,11 @@ printf "${RED}"
 
 # Function that calls ls -AF after a cd
 # to display the contents of the folder that was changed into
+#
+# Change directory and list all files
 cd() {
     builtin cd "$@" && ls -AF
 }
-
-# Backup function that copies a given file and renames it to file-datetime.bu
-bu () {
-  # Check if a file is provided
-  if [ -z "$1" ]; then
-    echo "Usage: bu <file>"
-    return 1
-  fi
-
-  # Backup the file
-  cp "$1" "$(basename "$1")-$(date +%Y%m%d%H%M%S).bu"
-  echo "Backup of $1 created"
-}
-
 # Search the filesystem dynamically and cd into shortest found directory
 fz() {
   local dir
@@ -237,7 +275,6 @@ fz() {
     | head -1) \
     && cd "$dir"
 }
-
 #  Search the filesystem dynamically and show all options, unless there is only one
 fzz() {
   local dir
@@ -260,10 +297,23 @@ fzz() {
     && cd "$dir"
 }
 
-# Uncomment this to automatically connect to tmux on load
-autoconnect_enabled=true;
+# Copy a given file and renames it to file-datetime.bu
+bu () {
+  # Check if a file is provided
+  if [ -z "$1" ]; then
+    echo "Usage: bu <file>"
+    return 1
+  fi
 
-# function to check for existiing tmux session and connect, or create a new one
+  # Backup the file
+  cp "$1" "$(basename "$1")-$(date +%Y%m%d%H%M%S).bu"
+  echo "Backup of $1 created"
+}
+
+# Automatically connect to tmux on load
+autoconnect_enabled=false;
+
+# Check for existiing tmux session and connect, or create a new one
 tmux_auto_connect() {
     # Name prefix for sessions
     local session_prefix="main"
@@ -288,7 +338,7 @@ tmux_auto_connect() {
         # No sessions exist; create the first session
         # tmux new-session -s "${session_prefix}_1"
         # If it is the first session, show motd
-        tmux new-session -s "${session_prefix}_1" \; send-keys "source ~/.bashrc; clear; motd" C-m
+        tmux new-session -s "${session_prefix}_1" \; send-keys " source ~/.bashrc; clear; motd" C-m
 
     fi
 }
@@ -302,11 +352,6 @@ else
         motd
     fi
 fi
-
-#TERM=xterm-256color
-# use hex colors in terminal
-source ~/hexcolor
-source ~/gamifier
 
 # Find binary names installed by a package
 fb() {
@@ -322,7 +367,7 @@ whoowns() {
     pacman -Qo "$1"
 }
 
-# List files in a package
+# List all files in a package
 listfiles() {
     pacman -Ql "$1"
 }
@@ -399,7 +444,7 @@ lfa() {
     done
 }
 
-# List orphaned packages
+# Lists orphaned packages
 lo() {
 local orphans
   orphans=$(pacman -Qtqd)
@@ -411,7 +456,7 @@ echo -e "${YELLOW}The following orphaned packages were found:${ENDCOLOR}"
   done
 }
 
-# List all user installed packages
+# Lists all user installed packages
 li() {
   echo -e "${YELLOW}Packages installed through pacman:${ENDCOLOR}"
   echo
@@ -441,4 +486,3 @@ lid() {
     printf "${CYAN}%-20s${ENDCOLOR} %s\n" "$pkg" "$desc"
   done
 }
-
