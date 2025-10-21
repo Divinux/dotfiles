@@ -1,0 +1,11 @@
+[Desktop Entry]
+Name=WezTerm
+Comment=Wez's Terminal Emulator
+Keywords=shell;prompt;command;commandline;cmd;
+Icon=com.gexperts.Terminix
+StartupWMClass=org.wezfurlong.wezterm
+TryExec=wezterm
+Exec=wezterm
+Type=Application
+Categories=System;TerminalEmulator;Utility;
+Terminal=false
