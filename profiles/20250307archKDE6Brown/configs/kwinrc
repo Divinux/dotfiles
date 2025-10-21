@@ -1,46 +1,62 @@
+[Activities][LastVirtualDesktop]
+ee252aa7-7d3c-401a-998b-cec78036d7ff=141b2cbe-e101-4ef4-89eb-367da4dcf0cb
+
 [Compositing]
 WindowsBlockCompositing=false
 
 [Desktops]
 Id_1=141b2cbe-e101-4ef4-89eb-367da4dcf0cb
+Name_1=Main
 Number=1
 Rows=1
 
 [Effect-blur]
-BlurStrength=1
-NoiseStrength=0
+NoiseStrength=9
 
 [Effect-blurplus]
 BlurDecorations=true
 BlurDocks=true
 BlurMenus=true
-BlurStrength=8
+BlurStrength=12
 FakeBlur=true
-NoiseStrength=7
+NoiseStrength=11
 PaintAsTranslucent=true
 TopCornerRadius=8
 TransparentBlur=false
-WindowClasses=plasma-systemmonitor\nnemo\nNemo\ndiscord
+WindowClasses=plasma-systemmonitor\nnemo\nNemo\ndiscord\nwezterm-gui\nwezterm\npcmanfm-qt
+
+[Effect-overview]
+BorderActivate=9
 
 [Effect-translucency]
-ComboboxPopups=98
-Dialogs=98
-Inactive=76
-Menus=98
-MoveResize=100
+ComboboxPopups=89
+Dialogs=93
+Inactive=93
+Menus=87
+MoveResize=93
+
+[Effect-wobblywindows]
+AdvancedMode=true
+Drag=94
+MoveFactor=24
+Stiffness=3
+WobblynessLevel=4
 
 [Plugins]
-blurEnabled=true
+blurEnabled=false
 contrastEnabled=false
+cubeEnabled=true
+desktopchangeosdEnabled=true
 dialogparentEnabled=false
 eyeonscreenEnabled=true
 forceblurEnabled=true
-glideEnabled=true
 kzonesEnabled=true
-scaleEnabled=false
-screenedgeEnabled=false
+minimizeallEnabled=false
+shakecursorEnabled=false
+sheetEnabled=true
 slidingpopupsEnabled=false
 squashEnabled=false
+touchpointsEnabled=true
 trackmouseEnabled=true
 windowapertureEnabled=false
 wobblywindowsEnabled=true
@@ -48,19 +64,44 @@ zoomEnabled=false
 
 [Script-kzones]
 enableZoneOverlay=false
-layoutsJson=[\n    {\n        "name": "Priority Grid",\n        "padding": 5,\n        "zones": [\n            {\n                "x": 0,\n                "y": 0,\n                "height": 100,\n                "width": 50\n            },\n            {\n                "x": 50,\n                "y": 0,\n                "height": 100,\n                "width": 50\n            }\n        ]\n    },\n    {\n        "name": "Quadrant Grid",\n        "zones": [\n            {\n                "x": 0.4,\n                "y": 0.5,\n                "height": 49.5,\n                "width": 49.4\n            },\n            {\n                "x": 0.4,\n                "y": 50.5,\n                "height": 49,\n                "width": 49.4\n            },\n            {\n                "x": 50.2,\n                "y": 50.5,\n                "height": 49,\n                "width": 49.4\n            },\n            {\n                "x": 50.2,\n                "y": 0.5,\n                "height": 49.5,\n                "width": 49.4\n            }\n        ]\n    },\n    {\n        "name": "Burger Left",\n        "padding": 5,\n        "zones": [\n            {\n                "x": 0,\n                "y": 0,\n                "height": 20,\n                "width": 40\n            },\n            {\n                "x": 0,\n                "y": 20,\n                "height": 30,\n                "width": 40\n            },\n            {\n                "x": 0,\n                "y": 50,\n                "height": 50,\n                "width": 40\n            },\n            {\n                "x": 40,\n                "y": 0,\n                "height": 100,\n                "width": 60\n            }\n        ]\n    }\n]
+layoutsJson=[\n    {\n        "name": "Priority Grid",\n        "padding": 5,\n        "zones": [\n            {\n                "x": 0,\n                "y": 0,\n                "height": 100,\n                "width": 50\n            },\n            {\n                "x": 50,\n                "y": 0,\n                "height": 100,\n                "width": 50\n            }\n        ]\n    },\n    {\n        "name": "Quadrant Grid",\n        "zones": [\n            {\n                "x": 0.4,\n                "y": 0.5,\n                "height": 49.5,\n                "width": 49.4\n            },\n            {\n                "x": 0.4,\n                "y": 50.5,\n                "height": 49,\n                "width": 49.4\n            },\n            {\n                "x": 50.2,\n                "y": 50.5,\n                "height": 49,\n                "width": 49.4\n            },\n            {\n                "x": 50.2,\n                "y": 0.5,\n                "height": 49.5,\n                "width": 49.4\n            }\n        ]\n    },\n    {\n        "name": "Burger Left",\n        "padding": 5,\n        "zones": [\n            {\n                "x": 0,\n                "y": 0,\n                "height": 20,\n                "width": 40\n            },\n            {\n                "x": 0,\n                "y": 20,\n                "height": 30,\n                "width": 40\n            },\n            {\n                "x": 0,\n                "y": 50,\n                "height": 50,\n                "width": 40\n            },\n            {\n                "x": 40,\n                "y": 0,\n                "height": 100,\n                "width": 60\n            }\n        ]\n    },\n    {\n        "name": "Burger Right",\n        "padding": 5,\n        "zones": [\n            {\n                "x": 60,\n                "y": 0,\n                "height": 20,\n                "width": 40\n            },\n            {\n                "x": 60,\n                "y": 20,\n                "height": 30,\n                "width": 40\n            },\n            {\n                "x": 60,\n                "y": 50,\n                "height": 50,\n                "width": 40\n            },\n            {\n                "x": 0,\n                "y": 0,\n                "height": 100,\n                "width": 60\n            }\n        ]\n    }\n]
 
 [Tiling]
 padding=4
 
+[Tiling][141b2cbe-e101-4ef4-89eb-367da4dcf0cb][373863af-ed47-4326-8030-865429c7d25a]
+tiles={"layoutDirection":"horizontal","tiles":[{"width":0.25},{"width":0.5},{"width":0.25}]}
+
 [Tiling][2d0737de-4396-5b63-80d1-73a1628aa718]
+tiles={"layoutDirection":"horizontal","tiles":[{"width":0.25},{"width":0.5},{"width":0.25}]}
+
+[Tiling][487152e3-3548-4ca9-b7ac-461252d26534][373863af-ed47-4326-8030-865429c7d25a]
+tiles={"layoutDirection":"horizontal","tiles":[{"width":0.25},{"width":0.5},{"width":0.25}]}
+
+[Tiling][56872a34-efa4-4913-b2eb-0aa3e79c10fb][373863af-ed47-4326-8030-865429c7d25a]
 tiles={"layoutDirection":"horizontal","tiles":[{"width":0.25},{"width":0.5},{"width":0.25}]}
 
 [Tiling][5935c197-518d-5bec-8181-41c7ae85953c]
 tiles={"layoutDirection":"horizontal","tiles":[{"width":0.25},{"width":0.5},{"width":0.25}]}
 
+[Tiling][7491bfd1-dd97-4102-806c-cf797bf9267f][373863af-ed47-4326-8030-865429c7d25a]
+tiles={"layoutDirection":"horizontal","tiles":[{"width":0.25},{"width":0.5},{"width":0.25}]}
+
+[Tiling][a38ec9cf-4d15-53a4-819f-5a5e611d9d9a]
+tiles={"layoutDirection":"horizontal","tiles":[{"width":0.25},{"width":0.5},{"width":0.25}]}
+
+[Tiling][fadbad3e-a691-4503-a0b5-269904e2d556][373863af-ed47-4326-8030-865429c7d25a]
+tiles={"layoutDirection":"horizontal","tiles":[{"width":0.25},{"width":0.5},{"width":0.25}]}
+
+[Windows]
+ClickRaise=false
+RollOverDesktops=true
+
 [Xwayland]
 Scale=1
+XwaylandEavesdrops=All
+XwaylandEavesdropsMouse=true
+XwaylandEisNoPrompt=true
 
 [org.kde.kdecoration2]
 BorderSize=None
@@ -68,5 +109,5 @@ BorderSizeAuto=false
 ButtonsOnLeft=
 ButtonsOnRight=IAX
 CloseOnDoubleClickOnMenu=true
-library=org.kde.kwin.aurorae
-theme=__aurorae__svg__Win11OS-dark
+library=org.kde.klassy
+theme=Klassy
