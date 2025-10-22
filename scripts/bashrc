@@ -1,5 +1,7 @@
-# bashrc from archinstall250
-# General features
+######################################
+# GENERAL SETTINGS AND EXPORTS
+######################################
+
 # If not running interactively, don't do anything
 case $- in
     *i*) ;;
@@ -21,7 +23,7 @@ shopt -s checkwinsize
 shopt -s histappend
 
 # Created by `pipx` on 2024-09-18 23:51:00
-#export PATH="$PATH:/home/siri/.local/bin"
+export PATH="$PATH:/home/siri/.local/bin"
 
 # Reloads history and hooks in the gamifier
 export PROMPT_COMMAND="history -a; history -n; update_exp; $PROMPT_COMMAND"
@@ -31,65 +33,15 @@ export HISTCONTROL=ignoreboth
 export HISTIGNORE=ls:ll:la:l:cd:pwd:exit:mc:su:df
 
 # for setting history length see HISTSIZE and HISTFILESIZE in bash(1)
-HISTSIZE=
-HISTFILESIZE=
+HISTSIZE=1000000
+HISTFILESIZE=1000000
 
-# Aliases
-# Detect distribution and set alias for package updates
-if [ -f /etc/arch-release ]; then
-    # Arch
-    alias u='sudo pacman -Syu'
-    alias i='sudo pacman -S '
-    alias f='pacman -Ss '
-    alias r='sudo pacman -Rs '
-    alias rr='sudo pacman -Rns '
-    alias c='sudo pacman -Sc'
-    alias y='yay -S '
-    alias p='paru'
-elif [ -f /etc/lsb-release ]; then
-    # Debian
-    alias u='sudo apt update && sudo apt upgrade'
-    alias i='sudo apt install '
-    alias f='apt search '
-    alias r='sudo apt remove '
-    alias rr='sudo apt purge '
-    alias c='sudo apt autoremove && sudo apt clean'
-else
-    echo "Unsupported distribution or cannot detect distribution."
-fi
+# Automatically connect to tmux on load
+autoconnect_enabled=false;
 
-alias ff='fastfetch'
-alias h='history'
-alias hg='history | grep '
-alias con='lsof -i'
-
-alias rss='cleed'
-alias rsss='neix'
-alias bat='bat -p'
-
-alias ll='ls -alF'
-alias la='ls -A'
-alias l='ls -CF'
-
-alias ..="cd .."
-alias ...="cd ../.."
-alias ....="cd ../../.."
-alias .....="cd ../../../.."
-
-alias pls='sudo $(history -p !!)'
-
-# git
-alias gs="git status"
-alias ga='git add .'
-alias gc='git commit -m "Add files"'
-alias gp='git push origin main'
-alias gstash="git stash"
-
-# Add an "alert" alias for long running commands.  Use like so:
-#   sleep 10; alert
-alias alert='notify-send --urgency=low -i "$([ $? = 0 ] && echo terminal || echo error)" "$(history|tail -n1|sed -e '\''s/^\s*[0-9]\+\s*//;s/[;&|]\s*alert$//'\'')"'
-alias showscheme='echo -e "${BBLACK}#${BRED}#${BGREEN}#${BYELLOW}#${BBLUE}#${BMAGENTA}#${BCYAN}#${BLGRAY}#\n${BGRAY}#${BLRED}#${BLGREEN}#${BLYELLOW}#${BLBLUE}#${BLMAGENTA}#${BLCYAN}#${BWHITE}#\n
-${BBLACK}###BLACK##${BRED}####RED###${BGREEN}###GREEN##${BYELLOW}##YELLOW##${BBLUE}###BLUE###${BMAGENTA}##MAGENTA#${BCYAN}###CYAN###${BLGRAY}##LGRAY###\n${BGRAY}###GRAY###${BLRED}###LRED###${BLGREEN}##LGREEN##${BLYELLOW}#LYELLOW##${BLBLUE}##LBLUE###${BLMAGENTA}#LMAGENTA#${BLCYAN}##LCYAN###${BWHITE}##WHITE###"'
+######################################
+### SOURCES
+######################################
 
 if [ -f ~/aliases ]; then
     . ~/aliases
@@ -97,10 +49,6 @@ fi
 
 if [ -f ~/gamifier ]; then
     . ~/gamifier
-fi
-
-if [ -f ~/colorconvert ]; then
-    . ~/colorconvert
 fi
 
 #pywal
@@ -116,17 +64,9 @@ fi
 # To add support for TTYs this line can be optionally added.
 #source ~/.cache/wal/colors-tty.sh
 
-# fzf theme
-export FZF_DEFAULT_OPTS=$FZF_DEFAULT_OPTS'
-  --color=fg:-1,fg+:#c3c4c4,bg:-1,bg+:#262626
-  --color=hl:#577354,hl+:#577354,info:#577354,marker:#577354
-  --color=prompt:#577354,spinner:#577354,pointer:#577354,header:#577354
-  --color=border:#262626,label:#aeaeae,query:#d9d9d9
-  --border="rounded" --border-label="" --preview-window="border-rounded" --prompt="> "
-  --marker=">" --pointer="│" --separator="─" --scrollbar="│"
-  --info="right"'
-
-# Prompt and colors
+######################################
+# COLOR VARIABLES
+######################################
 BLACK="\033[30m"
 RED="\033[31m"
 GREEN="\033[32m"
@@ -144,6 +84,7 @@ LMAGENTA="\033[95m"
 LCYAN="\033[96m"
 WHITE="\033[97m"
 ENDCOLOR="\033[0m"
+RESET="\033[0m"
 
 BBLACK="\033[1;${BLACK}"
 BRED="\033[1;${RED}"
@@ -162,13 +103,25 @@ BLMAGENTA="\033[1;${LMAGENTA}"
 BLCYAN="\033[1;${LCYAN}"
 BWHITE="\033[1;${WHITE}"
 
-# Prompt and color
-# Prompt styles
+# fzf theme
+export FZF_DEFAULT_OPTS=$FZF_DEFAULT_OPTS'
+  --color=fg:-1,fg+:#c3c4c4,bg:-1,bg+:#262626
+  --color=hl:#577354,hl+:#577354,info:#577354,marker:#577354
+  --color=prompt:#577354,spinner:#577354,pointer:#577354,header:#577354
+  --color=border:#262626,label:#aeaeae,query:#d9d9d9
+  --border="rounded" --border-label="" --preview-window="border-rounded" --prompt="> "
+  --marker=">" --pointer="│" --separator="─" --scrollbar="│"
+  --info="right"'
 
+######################################
+# PROMPT SETTINGS
+######################################
+
+# Prompt styles
 # name@host~:$
 prompt_style1='\[\e[91;1m\]\u\[\e[94m\]@\[\e[92m\]\H\[\e[93m\]\w\[\e[91m\]:\[\e[94m\]\$\[\e[0m\] '
 # 11:16 ~:$
-prompt_style2='\[\e[94m\]\A\[\e[m\] \[\e[93m\]\w\[\e[91m\]:\[\e[94m\]\$\[\e[0m\] '
+prompt_style2='\[\e[92m\]\A\[\e[m\] \[\e[94m\]\w\[\e[93m\]:\[\e[92m\]\$\[\e[0m\] '
 # [name@host] ~$
 prompt_style3='\[\e[95m\][\u@\h] \[\e[92m\]\w\[\e[0m\]\$ '
 
@@ -218,18 +171,200 @@ fi
 # colored GCC warnings and errors
 export GCC_COLORS='error=01;31:warning=01;35:note=01;36:caret=01;32:locus=01:quote=01'
 
-# Functions
+######################################
+# ALIASES
+######################################
+
+# Detect distribution and set alias for package updates
+if [ -f /etc/arch-release ]; then
+    # Arch
+    alias u='sudo pacman -Syu && checkreboot'
+    alias i='sudo pacman -S '
+    alias f='pacman -Ss '
+    alias r='sudo pacman -Rs '
+    alias rr='sudo pacman -Rns '
+    alias c='sudo pacman -Sc'
+    alias y='yay -S '
+    alias p='paru'
+elif [ -f /etc/lsb-release ]; then
+    # Debian
+    alias u='sudo apt update && sudo apt upgrade && checkreboot'
+    alias i='sudo apt install '
+    alias f='apt search '
+    alias r='sudo apt remove '
+    alias rr='sudo apt purge '
+    alias c='sudo apt autoremove && sudo apt clean'
+else
+    echo "Unsupported distribution or cannot detect distribution."
+fi
+
+alias ff='fastfetch'
+alias h='history'
+alias hg='history | grep '
+alias con='lsof -i'
+
+alias rss='cleed'
+alias rsss='neix'
+alias bat='bat -p'
+
+alias ll='ls -alF'
+alias la='ls -A'
+alias l='ls -CF'
+
+alias ..="cd .."
+alias ...="cd ../.."
+alias ....="cd ../../.."
+alias .....="cd ../../../.."
+
+alias pls='sudo $(history -p !!)'
+
+# git
+alias gs="git status"
+alias ga='git add .'
+alias gc='git commit -m "Add files"'
+alias gp='git push origin main'
+alias gstash="git stash"
+
+alias blend='LD_PRELOAD=/usr/lib/libjpeg.so.9 /usr/bin/blender'
+
+# Add an "alert" alias for long running commands.
+# example: sleep 10; alert
+alias alert='notify-send --urgency=low -i "$([ $? = 0 ] && echo terminal || echo error)" "$(history|tail -n1|sed -e '\''s/^\s*[0-9]\+\s*//;s/[;&|]\s*alert$//'\'')"'
+alias showscheme='echo -e "${BBLACK}#${BRED}#${BGREEN}#${BYELLOW}#${BBLUE}#${BMAGENTA}#${BCYAN}#${BLGRAY}#\n${BGRAY}#${BLRED}#${BLGREEN}#${BLYELLOW}#${BLBLUE}#${BLMAGENTA}#${BLCYAN}#${BWHITE}#\n
+${BBLACK}###BLACK##${BRED}####RED###${BGREEN}###GREEN##${BYELLOW}##YELLOW##${BBLUE}###BLUE###${BMAGENTA}##MAGENTA#${BCYAN}###CYAN###${BLGRAY}##LGRAY###\n${BGRAY}###GRAY###${BLRED}###LRED###${BLGREEN}##LGREEN##${BLYELLOW}#LYELLOW##${BLBLUE}##LBLUE###${BLMAGENTA}#LMAGENTA#${BLCYAN}##LCYAN###${BWHITE}##WHITE###"'
+
+######################################
+### SYSTEMD ALIASES
+# source https://www.linuxquestions.org/questions/linux-general-1/ultimate-prompt-and-bashrc-file-4175518169/
+######################################
+
+# Get a list of all services
+alias services='systemctl list-units --type=service --state=running,failed'
+alias servicesall='systemctl list-units --type=service'
+# Find what systemd services have failed
+alias {failed,servicefailed}='systemctl --failed'
+# Get the status of a services
+alias servicestatus='sudo systemctl status'
+# Start a service and enable automatic startup at boot
+alias serviceenable='sudo systemctl enable --now'
+# Disable a service
+alias servicedisable='sudo systemctl disable'
+# Start a service
+alias servicestart='sudo systemctl start'
+# Stop a service
+alias servicestop='sudo systemctl stop'
+# Forcefully terminate a service
+alias servicekill='sudo systemctl kill'
+# Stop and restart a service
+alias servicerestart='sudo systemctl restart'
+# Reload a service's configuration (soft restart)
+alias servicereload='sudo systemctl reload'
+# Tell how long it took to boot the system
+alias boottime='systemd-analyze'
+# Tell how long it took to boot the system
+alias boottimelist='systemd-analyze blame'
+# Generate a visual boot time analysis chart as a graphic SVG image
+alias bootchart='systemd-analyze plot > ./boot.svg && echo "Boot chart saved to ${PWD/#$HOME/~}/boot.svg"'
+# View kernel messages from current boot
+alias bootmessages='journalctl -b -k'
+# View kernel messages from previous boot
+alias bootprevious='journalctl -b -1 -k'
+# Filter for warning and errors
+alias booterrors='journalctl -b -k -p warning..emerg'
+# List boots
+alias bootlist='journalctl --list-boots'
+# Clear system log entries from the systemd journal
+alias {clearsystemlogs,cleansystemlogs}='echo -ne "${BBLUE}Before${RESET}: "; journalctl --disk-usage; sudo journalctl --rotate; sudo journalctl --vacuum-time=1s; echo -ne "${BBLUE}After${RESET}: "; journalctl --disk-usage'
+# Fast reboot user space and not the kernel
+alias rebootfast='systemctl soft-reboot'
+
+# Create aliases to start/enable and stop/disable the SSH server
+alias sshstatus='systemctl status sshd.service'
+alias sshstart='sudo systemctl start sshd.service && sudo systemctl enable sshd.service'
+alias sshstop='sudo systemctl stop sshd.service && sudo systemctl disable sshd.service'
+alias sshrestart='sudo systemctl restart sshd.service && sudo systemctl enable sshd.service'
+
+######################################
+### DIRECTORY ALIASES
+######################################
+
+# This allows you to bookmark your favorite places across the file system
+# Define a variable containing a path and you will be able to cd into it
+# regardless of the directory you're in like this:
+# export desktop="${HOME}/Desktop"
+# cd desktop
+shopt -s cdable_vars
+
+# Declare an associative array for directory locations (with alternatives)
+# NOTE: These aliases are case sensitive where lower case is the local user
+#       directory and upper case is the global system directory
+declare -A ALIASES=(
+	["autostart"]="${XDG_CONFIG_HOME:-${HOME}/.config}/autostart"
+	["bin"]="${HOME}/.local/bin"
+	["BIN"]="/usr/bin"
+	["cache"]="${XDG_CACHE_HOME:-${HOME}/.cache}"
+	["config"]="${XDG_CONFIG_HOME:-${HOME}/.config}"
+	["CONFIG"]="/etc"
+	["desktop"]="$(command -v xdg-user-dir > /dev/null && xdg-user-dir DESKTOP || echo "${HOME}/Desktop")"
+	["docs"]="$(command -v xdg-user-dir > /dev/null && xdg-user-dir DOCUMENTS || echo "${HOME}/Documents")"
+	["documents"]="$(command -v xdg-user-dir > /dev/null && xdg-user-dir DOCUMENTS || echo "${HOME}/Documents")"
+	["DOCS"]="/usr/local/man /usr/local/share/man /usr/share/man"
+	["downloads"]="$(command -v xdg-user-dir > /dev/null && xdg-user-dir DOWNLOAD || echo "${HOME}/Downloads")"
+	["fonts"]="${XDG_DATA_HOME:-$HOME/.local/share}/fonts ${HOME}/.fonts"
+	["FONTS"]="/usr/share/fonts"
+	["icons"]="${XDG_DATA_HOME:-$HOME/.local/share}/icons ${HOME}/.icons"
+	["ICONS"]="/usr/share/icons"
+	["music"]="$(command -v xdg-user-dir > /dev/null && xdg-user-dir MUSIC || echo "${HOME}/Music")"
+	["pics"]="$(command -v xdg-user-dir > /dev/null && xdg-user-dir PICTURES || echo "${HOME}/Pictures")"
+	["pictures"]="$(command -v xdg-user-dir > /dev/null && xdg-user-dir PICTURES || echo "${HOME}/Pictures")"
+	["share"]="${XDG_DATA_HOME:-${HOME}/.local/share}"
+	["SHARE"]="/usr/share"
+	["shortcuts"]="${XDG_DATA_HOME:-${HOME}/.local/share}/applications ${HOME}/.gnome/apps"
+	["SHORTCUTS"]="/usr/share/applications /usr/local/share/applications"
+	["themes"]="${HOME}/.themes ${XDG_DATA_HOME:-${HOME}/.local/share}/themes"
+	["THEMES"]="/usr/share/themes"
+	["tmp"]="${HOME}/tmp ${XDG_CACHE_HOME:-${HOME}/.cache}/tmp ${XDG_CACHE_HOME:-${HOME}/.cache}"
+	["TMP"]="${TMPDIR:-/tmp}"
+	["videos"]="$(command -v xdg-user-dir > /dev/null && xdg-user-dir VIDEOS || echo "${HOME}/Videos")"
+	["wallpaper"]="${XDG_DATA_HOME:-${HOME}/.local/share}/wallpapers"
+	["WALLPAPER"]="/usr/share/backgrounds /usr/share/wallpapers"
+	["web"]="/srv/http /var/www/html /usr/share/nginx/html /opt/lampp/htdocs /usr/local/apache2/htdocs /usr/local/www/apache24/data"
+)
+
+# Save original IFS and set it to space for parsing directories
+OLD_IFS="${IFS}"
+IFS=' '
+
+# Loop through the associative array and create aliases and exports for existing directories
+for ALIAS in "${!ALIASES[@]}"; do
+	DIRECTORIES=(${ALIASES[$ALIAS]})
+	for DIRECTORY in "${DIRECTORIES[@]}"; do
+		if [[ -d $DIRECTORY ]]; then
+			alias "${ALIAS}"="cd \"${DIRECTORY}\""
+			export "${ALIAS}"="${DIRECTORY}"
+			break # Only set the first found directory
+		fi
+	done
+done
+
+# Restore original IFS
+IFS="${OLD_IFS}"
+
+# Clean up
+unset OLD_IFS DIRECTORY DIRECTORIES ALIAS ALIASES
+
+######################################
+# FUNCTIONS
+######################################
+
 # MOTD
 motd(){
-#echo -e "${BLYELLOW}This is some red text, ${ENDCOLOR}"
-#echo -e "${BGREEN}And this is some green text${ENDCOLOR}"
 echo ""
 printf "${BLYELLOW}"
-#echo "Hello $USER, today is $(date +"%A, %d %B %Y"). It is $(date +"%H:%M")"
 echo "$(date +"%A, %d %B %Y"). It is $(date +"%H:%M")"
 echo ""
 printf "${BRED}"
-curl wttr.in/LOCATION?format=2
+curl wttr.in/location?format=2
 printf "${BBLUE}"
 echo ""
 date +"%A,"| figlet -f script
@@ -240,19 +375,18 @@ echo ""
 date +"%H:%M"| figlet -f smscript
 echo ""
 printf "${BMAGENTA}"
-#date +"Welcome!"
-source ~/rss
+if [ -f ~/rss ]; then
+    . ~/rss
+fi
 echo ""
 printf "${RED}"
 }
 
-# Function that calls ls -AF after a cd
-# to display the contents of the folder that was changed into
-#
 # Change directory and list all files
 cd() {
     builtin cd "$@" && ls -AF
 }
+
 # Search the filesystem dynamically and cd into shortest found directory
 fz() {
   local dir
@@ -275,7 +409,8 @@ fz() {
     | head -1) \
     && cd "$dir"
 }
-#  Search the filesystem dynamically and show all options, unless there is only one
+
+# Search the filesystem dynamically and show all options, unless there is only one
 fzz() {
   local dir
   dir=$(fd --type d --hidden \
@@ -309,9 +444,6 @@ bu () {
   cp "$1" "$(basename "$1")-$(date +%Y%m%d%H%M%S).bu"
   echo "Backup of $1 created"
 }
-
-# Automatically connect to tmux on load
-autoconnect_enabled=false;
 
 # Check for existiing tmux session and connect, or create a new one
 tmux_auto_connect() {
@@ -357,6 +489,7 @@ fi
 fb() {
     pacman -Ql "$1" | awk '$2 ~ /(\/(usr\/local\/)?s?bin\/)/ && $2 !~ /(\/(usr\/local\/)?s?bin\/?)$/' | xargs -n1 basename
 }
+
 # Find binary names installed by a package and displays the path
 fbp () {
     pacman -Ql "$1" | grep 'bin/'
@@ -485,4 +618,132 @@ lid() {
     [[ -z "$desc" && $(command -v yay) ]] && desc=$(yay -Si "$pkg" 2>/dev/null | awk -F': *' '/^Description/ {print $2}')
     printf "${CYAN}%-20s${ENDCOLOR} %s\n" "$pkg" "$desc"
   done
+}
+
+# Determine if a system reboot is required
+checkreboot() {
+	# Initialize a variable to indicate if a reboot is required
+	local reboot_required=0
+
+	# Check if pacman exists (indicative of an Arch-based system)
+	if command -v pacman &> /dev/null; then
+		# Normalize running kernel version string
+		local active_kernel=$(uname -r | tr '-' '.')
+
+		# Query the current kernel version from installed packages
+		local current_kernel=$(pacman -Q | grep '^linux[0-9]* ' | awk '{print $2}' | sort -V | tail -n1)
+
+		# Normalize current kernel version string
+		current_kernel=${current_kernel//-/.}
+
+		# Compare running and installed kernel versions
+		if [[ ${active_kernel} != ${current_kernel} ]]; then
+			echo -e "${BRED}->${RESET} ${BCYAN}Arch Linux${RESET}: ${BYELLOW}Running kernel (${active_kernel}) does not match the boot kernel (${current_kernel}).${RESET}"
+			reboot_required=1
+		fi
+
+	# Check for the existence of /var/run/reboot-required (indicative of Ubuntu/Debian)
+	elif [[ -f /var/run/reboot-required ]]; then
+		# If the file exists, a reboot is required
+		echo -e "${BRED}->${RESET} ${BCYAN}Ubuntu/Debian${RESET}: ${BYELLOW}A reboot is required.${RESET}"
+		reboot_required=1
+
+	# Check if zypper exists (indicative of a SUSE-based system)
+	elif command -v zypper &> /dev/null; then
+		if zypper ps -s | grep -q 'yes'; then
+			echo -e "${BRED}->${RESET} ${BCYAN}SUSE${RESET}: ${BYELLOW}Kernel or service update detected. A reboot is required.${RESET}"
+			reboot_required=1
+		fi
+	fi
+
+	# General: Check for deleted libraries still in use
+	local libs=$(lsof -n +c 0 2> /dev/null | grep 'DEL.*lib' | awk '{print $1 ": " $NF}' | sort -u)
+	if [[ -n ${libs} ]]; then
+		echo -e "${BRED}->${RESET} ${BCYAN}General${RESET}: ${BYELLOW}The following libraries require a reboot:${RESET}"
+		echo "${libs}"
+		reboot_required=1
+	fi
+
+	# Final message and exit code
+	if [[ ${reboot_required} -eq 0 ]]; then
+		echo -e "${BRED}->${RESET} ${BCYAN}Results${RESET}: ${BGREEN}No reboot is required.${RESET}"
+		return 0
+	else
+		echo -e "${BRED}->${RESET} ${BCYAN}Results${RESET}: ${BYELLOW}A reboot is required.${RESET}"
+		return 1
+	fi
+}
+
+# Usage: colorconvert "#rrggbb", colorconvert "r,g,b"
+# Convert between hex and RGB color formats.
+colorconvert() {
+    local input="$1"
+
+    hex_to_rgb() {
+        local hex="${1#'#'}"  # remove leading '#'
+        if [[ ${#hex} -eq 3 ]]; then
+            hex="${hex:0:1}${hex:0:1}${hex:1:1}${hex:1:1}${hex:2:1}${hex:2:1}"
+        fi
+        local r=$((16#${hex:0:2}))
+        local g=$((16#${hex:2:2}))
+        local b=$((16#${hex:4:2}))
+        echo "$r,$g,$b"
+    }
+
+    rgb_to_hex() {
+        IFS=',' read -r r g b <<< "$1"
+        printf "#%02x%02x%02x\n" "$r" "$g" "$b"
+    }
+
+    # Detect input type
+    if [[ "$input" =~ ^#?[0-9A-Fa-f]{3}$ || "$input" =~ ^#?[0-9A-Fa-f]{6}$ ]]; then
+        hex_to_rgb "$input"
+    elif [[ "$input" =~ ^[0-9]{1,3},[0-9]{1,3},[0-9]{1,3}$ ]]; then
+        rgb_to_hex "$input"
+    else
+        echo "Usage:"
+        echo "  colorconvert \"#rrggbb\""
+        echo "  colorconvert \"r,g,b\""
+        return 1
+    fi
+}
+
+# Usage: colored_text "#ffffff" "Hello " "#000000" "World!"
+# Use of hex colors in the terminal.
+colored_text() {
+    local text=""
+
+    # Read input from the user for text and color pairs
+    while [[ $# -gt 0 ]]; do
+        local color=$1
+        local part_text=$2
+        text+=$(colortext "$color" "$part_text")
+        shift 2 # Shift to the next color-text pair
+    done
+
+    # Output the final combined text with colors
+    echo -e "$text"
+}
+
+# Subfunction to use colored text in the terminal
+colortext() {
+    local hex_color=$1
+    local text=$2
+
+    # Remove the '#' from the hex color if present
+    hex_color=${hex_color/#\#}
+
+    # Check if the hex color is valid
+    if [[ ! $hex_color =~ ^[0-9A-Fa-f]{6}$ ]]; then
+        echo "Invalid hex color!"
+        return
+    fi
+
+    # Convert hex color to RGB
+    r=$((16#${hex_color:0:2}))
+    g=$((16#${hex_color:2:2}))
+    b=$((16#${hex_color:4:2}))
+
+    # Return the text with the desired color
+    echo -e "\033[38;2;${r};${g};${b}m${text}\033[0m"
 }
