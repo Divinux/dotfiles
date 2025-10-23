@@ -8,12 +8,13 @@ rss_feed=$(wget -qO- "$RSS_URL")
 make_link() {
     local url="$1"
     local text="$2"
+    printf "${BLGRAY}"
     printf '\e]8;;%s\a\e[1m%s\e[0m\e]8;;\a' "$url" "$text"
 }
 
 # Loop through the first 3 items
 for i in 1 2 3; do
-    printf "${BMAGENTA}"
+    printf "${YELLOW}"
     title=$(echo "$rss_feed" | xmlstarlet sel -T -t -v "/rss/channel/item[$i]/title")
     date=$(echo "$rss_feed" | xmlstarlet sel -T -t -v "/rss/channel/item[$i]/pubDate" | awk '{print $2 " " $3 " " $4}')
     link=$(echo "$rss_feed" | xmlstarlet sel -T -t -v "/rss/channel/item[$i]/link")
