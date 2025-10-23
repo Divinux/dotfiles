@@ -132,7 +132,7 @@ else
   PROMPT_THEME="style1"
 fi
 
-# Apply selected style
+### Apply selected prompt style
 apply_prompt() {
   case "$1" in
     style1) PS1="$prompt_style1" ;;
@@ -143,7 +143,7 @@ apply_prompt() {
 }
 apply_prompt "$PROMPT_THEME"
 
-# Select prompt style
+### Select prompt style
 setprompt() {
   local theme
   case "$1" in
@@ -357,7 +357,7 @@ unset OLD_IFS DIRECTORY DIRECTORIES ALIAS ALIASES
 # FUNCTIONS
 ######################################
 
-# MOTD
+### MOTD
 motd(){
 echo ""
 printf "${BLYELLOW}"
@@ -382,12 +382,12 @@ echo ""
 printf "${RED}"
 }
 
-# Change directory and list all files
+### Change directory and list all files
 cd() {
     builtin cd "$@" && ls -AF
 }
 
-# Search the filesystem dynamically and cd into shortest found directory
+### Search the filesystem dynamically and cd into shortest found directory
 fz() {
   local dir
   dir=$(fd --type d --hidden \
@@ -410,7 +410,7 @@ fz() {
     && cd "$dir"
 }
 
-# Search the filesystem dynamically and show all options, unless there is only one
+### Search the filesystem dynamically and show all options, unless there is only one
 fzz() {
   local dir
   dir=$(fd --type d --hidden \
@@ -432,7 +432,7 @@ fzz() {
     && cd "$dir"
 }
 
-# Copy a given file and renames it to file-datetime.bu
+### Copy a given file and rename it to file-datetime.bu
 bu () {
   # Check if a file is provided
   if [ -z "$1" ]; then
@@ -445,7 +445,7 @@ bu () {
   echo "Backup of $1 created"
 }
 
-# Check for existiing tmux session and connect, or create a new one
+# Check for existing tmux session and connect, or create a new one
 tmux_auto_connect() {
     # Name prefix for sessions
     local session_prefix="main"
@@ -485,38 +485,38 @@ else
     fi
 fi
 
-# Find binary names installed by a package
+### Find binary names installed by a package
 fb() {
     pacman -Ql "$1" | awk '$2 ~ /(\/(usr\/local\/)?s?bin\/)/ && $2 !~ /(\/(usr\/local\/)?s?bin\/?)$/' | xargs -n1 basename
 }
 
-# Find binary names installed by a package and displays the path
+### Find binary names installed by a package and displays the path
 fbp () {
     pacman -Ql "$1" | grep 'bin/'
 }
 
-# Find which package owns a file
+### Find which package owns a file
 whoowns() {
     pacman -Qo "$1"
 }
 
-# List all files in a package
+### List all files in a package
 listfiles() {
     pacman -Ql "$1"
 }
 
-# Show description, size, deps of a package
+### Show description, size, deps of a package
 pkginfo() {
     pacman -Si "$1"
 }
 
-# Show public IP address
+### Show public IP address
 myip() {
     curl -s https://ipinfo.io/ip
     echo
 }
 
-# Extract any archive
+### Extract any archive
 ex() {
     if [ -f "$1" ]; then
         case "$1" in
@@ -540,16 +540,19 @@ ex() {
     fi
 }
 
-# List all functions in .bashrc in original order
+### List all functions in .bashrc in original order, only if preceded by ### comment
 lf() {
   awk -v COL1="$LBLUE" -v COL2="$GRAY" -v ENDCOLOR="$ENDCOLOR" '
-    /^\s*#/ { desc = $0; next }
+    # Save only lines starting with ###
+    /^\s*###[^#]?/ { desc = $0; next }
+
+    # Match function definitions
     /^\s*(function\s+)?[a-zA-Z0-9_]+\s*\(\)\s*\{/ {
       if (desc) {
         name = $0
         sub(/^\s*function\s+/, "", name)
         sub(/\s*\(\)\s*\{.*/, "", name)
-        gsub(/^\s*#\s*/, "", desc)  # remove leading comment markers
+        gsub(/^\s*###+\s*/, "", desc)  # remove leading ### and spaces
         printf "%s%-20s%s %s%s%s\n", COL1, name, ENDCOLOR, COL2, desc, ENDCOLOR
         desc = ""
       }
@@ -557,17 +560,21 @@ lf() {
   ' ~/.bashrc
 }
 
-# List all functions in .bashrc alphabetically
+
+### List all functions in .bashrc alphabetically
 lfa() {
   grep -E '^\s*#|^\s*(function\s+)?[a-zA-Z0-9_]+\s*\(\)\s*\{' ~/.bashrc | \
     awk '
-      /^\s*#/ { desc = $0; next }
+      # Save only lines starting with ###
+      /^\s*###[^#]?/ { desc = $0; next }
+
+      # Match function definitions
       /^\s*(function\s+)?[a-zA-Z0-9_]+\s*\(\)\s*\{/ {
         if (desc) {
           name = $0
           sub(/^\s*function\s+/, "", name)
           sub(/\s*\(\)\s*\{.*/, "", name)
-          gsub(/^\s*#\s*/, "", desc)
+          gsub(/^\s*###+\s*/, "", desc)  # remove leading ### and spaces
           print name "\t" desc
           desc = ""
         }
@@ -577,7 +584,8 @@ lfa() {
     done
 }
 
-# Lists orphaned packages
+
+### List orphaned packages
 lo() {
 local orphans
   orphans=$(pacman -Qtqd)
@@ -589,7 +597,7 @@ echo -e "${YELLOW}The following orphaned packages were found:${ENDCOLOR}"
   done
 }
 
-# Lists all user installed packages
+### List all user installed packages
 li() {
   echo -e "${YELLOW}Packages installed through pacman:${ENDCOLOR}"
   echo
@@ -600,7 +608,7 @@ li() {
   pacman -Qm
 }
 
-# List all user installed packages with descriptions
+### List all user installed packages with descriptions
 lid() {
   echo -e "${YELLOW}Packages installed through pacman:${ENDCOLOR}"
   echo
@@ -620,7 +628,7 @@ lid() {
   done
 }
 
-# Determine if a system reboot is required
+### Determine if a system reboot is required
 checkreboot() {
 	# Initialize a variable to indicate if a reboot is required
 	local reboot_required=0
@@ -674,26 +682,10 @@ checkreboot() {
 	fi
 }
 
-# Usage: colorconvert "#rrggbb", colorconvert "r,g,b"
-# Convert between hex and RGB color formats.
+### Convert between rgb and hex colors
+# Usage: colorconvert "#rrggbb" or "r,g,b"
 colorconvert() {
     local input="$1"
-
-    hex_to_rgb() {
-        local hex="${1#'#'}"  # remove leading '#'
-        if [[ ${#hex} -eq 3 ]]; then
-            hex="${hex:0:1}${hex:0:1}${hex:1:1}${hex:1:1}${hex:2:1}${hex:2:1}"
-        fi
-        local r=$((16#${hex:0:2}))
-        local g=$((16#${hex:2:2}))
-        local b=$((16#${hex:4:2}))
-        echo "$r,$g,$b"
-    }
-
-    rgb_to_hex() {
-        IFS=',' read -r r g b <<< "$1"
-        printf "#%02x%02x%02x\n" "$r" "$g" "$b"
-    }
 
     # Detect input type
     if [[ "$input" =~ ^#?[0-9A-Fa-f]{3}$ || "$input" =~ ^#?[0-9A-Fa-f]{6}$ ]]; then
@@ -708,42 +700,57 @@ colorconvert() {
     fi
 }
 
+### Use hex colors in the terminal
 # Usage: colored_text "#ffffff" "Hello " "#000000" "World!"
-# Use of hex colors in the terminal.
 colored_text() {
     local text=""
 
-    # Read input from the user for text and color pairs
     while [[ $# -gt 0 ]]; do
         local color=$1
         local part_text=$2
         text+=$(colortext "$color" "$part_text")
-        shift 2 # Shift to the next color-text pair
+        shift 2
     done
 
-    # Output the final combined text with colors
     echo -e "$text"
 }
 
-# Subfunction to use colored text in the terminal
+# Subfunction to color text in the terminal
 colortext() {
     local hex_color=$1
     local text=$2
 
-    # Remove the '#' from the hex color if present
-    hex_color=${hex_color/#\#}
+    # Remove '#' if present
+    hex_color=${hex_color/#\#/}
 
-    # Check if the hex color is valid
     if [[ ! $hex_color =~ ^[0-9A-Fa-f]{6}$ ]]; then
         echo "Invalid hex color!"
         return
     fi
 
-    # Convert hex color to RGB
-    r=$((16#${hex_color:0:2}))
-    g=$((16#${hex_color:2:2}))
-    b=$((16#${hex_color:4:2}))
+    local rgb
+    rgb=$(hex_to_rgb "$hex_color")
+    IFS=',' read -r r g b <<< "$rgb"
 
-    # Return the text with the desired color
     echo -e "\033[38;2;${r};${g};${b}m${text}\033[0m"
+}
+
+# Convert hex to RGB
+# Usage: hex_to_rgb "#rrggbb"
+hex_to_rgb() {
+    local hex="${1#'#'}"  # remove leading '#'
+    if [[ ${#hex} -eq 3 ]]; then
+        hex="${hex:0:1}${hex:0:1}${hex:1:1}${hex:1:1}${hex:2:1}${hex:2:1}"
+    fi
+    local r=$((16#${hex:0:2}))
+    local g=$((16#${hex:2:2}))
+    local b=$((16#${hex:4:2}))
+    echo "$r,$g,$b"
+}
+
+# Convert RGB to hex
+# Usage: rgb_to_hex "r,g,b"
+rgb_to_hex() {
+    IFS=',' read -r r g b <<< "$1"
+    printf "#%02x%02x%02x\n" "$r" "$g" "$b"
 }
