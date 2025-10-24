@@ -2,6 +2,9 @@
 # GENERAL SETTINGS AND EXPORTS
 ######################################
 
+location=""
+url=""
+
 # If not running interactively, don't do anything
 case $- in
     *i*) ;;
@@ -132,17 +135,6 @@ else
   PROMPT_THEME="style1"
 fi
 
-### Apply selected prompt style
-apply_prompt() {
-  case "$1" in
-    style1) PS1="$prompt_style1" ;;
-    style2) PS1="$prompt_style2" ;;
-    style3) PS1="$prompt_style3" ;;
-    *)      PS1="$prompt_style1" ;;
-  esac
-}
-apply_prompt "$PROMPT_THEME"
-
 ### Select prompt style
 setprompt() {
   local theme
@@ -155,6 +147,17 @@ setprompt() {
   echo "$theme" > "$HOME/.prompt_theme"   # save choice
   apply_prompt "$theme"
 }
+
+### Apply selected prompt style
+apply_prompt() {
+  case "$1" in
+    style1) PS1="$prompt_style1" ;;
+    style2) PS1="$prompt_style2" ;;
+    style3) PS1="$prompt_style3" ;;
+    *)      PS1="$prompt_style1" ;;
+  esac
+}
+apply_prompt "$PROMPT_THEME"
 
 # enable color support of ls and also add handy aliases
 if [ -x /usr/bin/dircolors ]; then
@@ -226,6 +229,7 @@ alias gp='git push origin main'
 alias gstash="git stash"
 
 alias blend='LD_PRELOAD=/usr/lib/libjpeg.so.9 /usr/bin/blender'
+alias wt="feh \"$url\""
 
 # Add an "alert" alias for long running commands.
 # example: sleep 10; alert
@@ -364,7 +368,7 @@ printf "${BLYELLOW}"
 echo "$(date +"%A, %d %B %Y"). It is $(date +"%H:%M")"
 echo ""
 printf "${BRED}"
-curl wttr.in/location?format=2
+curl "wttr.in/$location?format=2"
 printf "${BBLUE}"
 echo ""
 date +"%A,"| figlet -f script
@@ -560,7 +564,6 @@ lf() {
   ' ~/.bashrc
 }
 
-
 ### List all functions in .bashrc alphabetically
 lfa() {
   grep -E '^\s*#|^\s*(function\s+)?[a-zA-Z0-9_]+\s*\(\)\s*\{' ~/.bashrc | \
@@ -583,7 +586,6 @@ lfa() {
       printf "${LBLUE}%-20s${ENDCOLOR} ${GRAY}%s${ENDCOLOR}\n" "$name" "$desc"
     done
 }
-
 
 ### List orphaned packages
 lo() {
