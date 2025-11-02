@@ -86,6 +86,8 @@ LBLUE="\033[94m"
 LMAGENTA="\033[95m"
 LCYAN="\033[96m"
 WHITE="\033[97m"
+BOLD="\e[1m"
+REGULAR="\e[0m"
 ENDCOLOR="\033[0m"
 RESET="\033[0m"
 
@@ -148,7 +150,7 @@ setprompt() {
   apply_prompt "$theme"
 }
 
-### Apply selected prompt style
+# Apply selected prompt style
 apply_prompt() {
   case "$1" in
     style1) PS1="$prompt_style1" ;;
@@ -184,8 +186,9 @@ if [ -f /etc/arch-release ]; then
     alias u='sudo pacman -Syu && checkreboot'
     alias i='sudo pacman -S '
     alias f='pacman -Ss '
-    alias r='sudo pacman -Rs '
-    alias rr='sudo pacman -Rns '
+    alias r='sudo pacman -R '
+    alias rr='sudo pacman -Rs '
+    alias rrr='sudo pacman -Rns '
     alias c='sudo pacman -Sc'
     alias y='yay -S '
     alias p='paru'
@@ -209,6 +212,7 @@ alias con='lsof -i'
 alias rss='cleed'
 alias rsss='neix'
 alias bat='bat -p'
+alias br='kate ~/.bashrc'
 
 alias ll='ls -alF'
 alias la='ls -A'
@@ -304,35 +308,15 @@ shopt -s cdable_vars
 #       directory and upper case is the global system directory
 declare -A ALIASES=(
 	["autostart"]="${XDG_CONFIG_HOME:-${HOME}/.config}/autostart"
-	["bin"]="${HOME}/.local/bin"
-	["BIN"]="/usr/bin"
-	["cache"]="${XDG_CACHE_HOME:-${HOME}/.cache}"
-	["config"]="${XDG_CONFIG_HOME:-${HOME}/.config}"
-	["CONFIG"]="/etc"
 	["desktop"]="$(command -v xdg-user-dir > /dev/null && xdg-user-dir DESKTOP || echo "${HOME}/Desktop")"
 	["docs"]="$(command -v xdg-user-dir > /dev/null && xdg-user-dir DOCUMENTS || echo "${HOME}/Documents")"
 	["documents"]="$(command -v xdg-user-dir > /dev/null && xdg-user-dir DOCUMENTS || echo "${HOME}/Documents")"
-	["DOCS"]="/usr/local/man /usr/local/share/man /usr/share/man"
 	["downloads"]="$(command -v xdg-user-dir > /dev/null && xdg-user-dir DOWNLOAD || echo "${HOME}/Downloads")"
-	["fonts"]="${XDG_DATA_HOME:-$HOME/.local/share}/fonts ${HOME}/.fonts"
-	["FONTS"]="/usr/share/fonts"
-	["icons"]="${XDG_DATA_HOME:-$HOME/.local/share}/icons ${HOME}/.icons"
-	["ICONS"]="/usr/share/icons"
+	["dl"]="$(command -v xdg-user-dir > /dev/null && xdg-user-dir DOWNLOAD || echo "${HOME}/Downloads")"
 	["music"]="$(command -v xdg-user-dir > /dev/null && xdg-user-dir MUSIC || echo "${HOME}/Music")"
 	["pics"]="$(command -v xdg-user-dir > /dev/null && xdg-user-dir PICTURES || echo "${HOME}/Pictures")"
 	["pictures"]="$(command -v xdg-user-dir > /dev/null && xdg-user-dir PICTURES || echo "${HOME}/Pictures")"
-	["share"]="${XDG_DATA_HOME:-${HOME}/.local/share}"
-	["SHARE"]="/usr/share"
-	["shortcuts"]="${XDG_DATA_HOME:-${HOME}/.local/share}/applications ${HOME}/.gnome/apps"
-	["SHORTCUTS"]="/usr/share/applications /usr/local/share/applications"
-	["themes"]="${HOME}/.themes ${XDG_DATA_HOME:-${HOME}/.local/share}/themes"
-	["THEMES"]="/usr/share/themes"
-	["tmp"]="${HOME}/tmp ${XDG_CACHE_HOME:-${HOME}/.cache}/tmp ${XDG_CACHE_HOME:-${HOME}/.cache}"
-	["TMP"]="${TMPDIR:-/tmp}"
-	["videos"]="$(command -v xdg-user-dir > /dev/null && xdg-user-dir VIDEOS || echo "${HOME}/Videos")"
-	["wallpaper"]="${XDG_DATA_HOME:-${HOME}/.local/share}/wallpapers"
-	["WALLPAPER"]="/usr/share/backgrounds /usr/share/wallpapers"
-	["web"]="/srv/http /var/www/html /usr/share/nginx/html /opt/lampp/htdocs /usr/local/apache2/htdocs /usr/local/www/apache24/data"
+	["vids"]="$(command -v xdg-user-dir > /dev/null && xdg-user-dir VIDEOS || echo "${HOME}/Videos")"
 )
 
 # Save original IFS and set it to space for parsing directories
@@ -633,55 +617,95 @@ lid() {
 ### Determine if a system reboot is required
 checkreboot() {
 	# Initialize a variable to indicate if a reboot is required
-	local reboot_required=0
+	echo
+    printf "${LBLUE}::${ENDCOLOR} ${BOLD}Checking libraries...${REGULAR}\n"
+    local reboot_required=0
 
-	# Check if pacman exists (indicative of an Arch-based system)
-	if command -v pacman &> /dev/null; then
-		# Normalize running kernel version string
-		local active_kernel=$(uname -r | tr '-' '.')
+    # Step 1: get deleted libraries and their associated packages
+    local libs_and_pkgs=$(
+        grep -H "lib.*(deleted)" /proc/*/maps 2>/dev/null |
+        awk -F: '
+            {
+                split($1, a, "/")
+                pid = a[3]
+                match($0, /\/[^ ]*lib[^ ]+/)
+                if (pid && RSTART) {
+                    lib = substr($0, RSTART, RLENGTH)
+                    print pid, lib
+                }
+            }
+        ' |
+        sort -u |
+        while read -r pid lib; do
+            [[ -r /proc/$pid/comm ]] || continue
+            cmd=$(<"/proc/$pid/comm")
+            printf "%s|%s\n" "$cmd" "$lib"
+        done
+    )
 
-		# Query the current kernel version from installed packages
-		local current_kernel=$(pacman -Q | grep '^linux[0-9]* ' | awk '{print $2}' | sort -V | tail -n1)
+    # Step 2: unique library paths
+    local unique_libs
+    unique_libs=$(awk -F'|' '{print $2}' <<< "$libs_and_pkgs" | sort -u)
 
-		# Normalize current kernel version string
-		current_kernel=${current_kernel//-/.}
+    if [[ -n $unique_libs ]]; then
+        echo -e "${BRED}->${RESET} ${BCYAN}General${RESET}: ${BYELLOW}The following libraries require a reboot:${RESET}"
 
-		# Compare running and installed kernel versions
-		if [[ ${active_kernel} != ${current_kernel} ]]; then
-			echo -e "${BRED}->${RESET} ${BCYAN}Arch Linux${RESET}: ${BYELLOW}Running kernel (${active_kernel}) does not match the boot kernel (${current_kernel}).${RESET}"
-			reboot_required=1
-		fi
+        # Print unique libraries
+        while read -r lib; do
+            echo "    $lib (deleted)"
+        done <<< "$unique_libs"
 
-	# Check for the existence of /var/run/reboot-required (indicative of Ubuntu/Debian)
-	elif [[ -f /var/run/reboot-required ]]; then
-		# If the file exists, a reboot is required
-		echo -e "${BRED}->${RESET} ${BCYAN}Ubuntu/Debian${RESET}: ${BYELLOW}A reboot is required.${RESET}"
-		reboot_required=1
+        echo
+        echo -e "${BRED}->${RESET} ${BCYAN}Information${RESET}: ${BYELLOW}Affected packages:${RESET}"
 
-	# Check if zypper exists (indicative of a SUSE-based system)
-	elif command -v zypper &> /dev/null; then
-		if zypper ps -s | grep -q 'yes'; then
-			echo -e "${BRED}->${RESET} ${BCYAN}SUSE${RESET}: ${BYELLOW}Kernel or service update detected. A reboot is required.${RESET}"
-			reboot_required=1
-		fi
-	fi
+        # Print packages in a compact columned table
+        awk -F'|' '{print $1}' <<< "$libs_and_pkgs" | sort -u | column
+        echo
+        reboot_required=1
+    fi
 
-	# General: Check for deleted libraries still in use
-	local libs=$(lsof -n +c 0 2> /dev/null | grep 'DEL.*lib' | awk '{print $1 ": " $NF}' | sort -u)
-	if [[ -n ${libs} ]]; then
-		echo -e "${BRED}->${RESET} ${BCYAN}General${RESET}: ${BYELLOW}The following libraries require a reboot:${RESET}"
-		echo "${libs}"
-		reboot_required=1
-	fi
+    printf "${LBLUE}::${ENDCOLOR} ${BOLD}Checking kernel...${REGULAR}\n"
+    # Check if pacman exists (indicative of an Arch-based system)
+    if command -v pacman &> /dev/null; then
+        # Normalize running kernel version string
+        local active_kernel=$(uname -r | tr '-' '.')
 
-	# Final message and exit code
-	if [[ ${reboot_required} -eq 0 ]]; then
-		echo -e "${BRED}->${RESET} ${BCYAN}Results${RESET}: ${BGREEN}No reboot is required.${RESET}"
-		return 0
-	else
-		echo -e "${BRED}->${RESET} ${BCYAN}Results${RESET}: ${BYELLOW}A reboot is required.${RESET}"
-		return 1
-	fi
+        # Query the current kernel version from installed packages
+        local current_kernel=$(pacman -Q | grep '^linux[0-9]* ' | awk '{print $2}' | sort -V | tail -n1)
+
+        # Normalize current kernel version string
+        current_kernel=${current_kernel//-/.}
+
+        # Compare running and installed kernel versions
+        if [[ ${active_kernel} != ${current_kernel} ]]; then
+            echo -e "${BRED}->${RESET} ${BCYAN}Arch Linux${RESET}: ${BYELLOW}Running kernel (${active_kernel}) does not match the boot kernel (${current_kernel}).${RESET}"
+            reboot_required=1
+        else
+            echo -e "${BRED}->${RESET} ${BCYAN}Arch Linux${RESET}: ${BYELLOW}Running kernel (${active_kernel}) is up to date.${RESET}"
+        fi
+
+    # Check for Debian/Ubuntu
+    elif command -v dpkg &> /dev/null; then
+        # Get running kernel version
+        local active_kernel=$(uname -r)
+
+        # Check if a reboot is required via /var/run/reboot-required
+        if [[ -f /var/run/reboot-required ]]; then
+            echo -e "${BRED}->${RESET} ${BCYAN}Ubuntu/Debian${RESET}: ${BYELLOW}A reboot is required.${RESET}"
+            reboot_required=1
+        else
+            echo -e "${BRED}->${RESET} ${BCYAN}Ubuntu/Debian${RESET}: ${BYELLOW}Running kernel (${active_kernel}) is up to date.${RESET}"
+        fi
+    fi
+
+    # Final message and exit code
+    if [[ ${reboot_required} -eq 0 ]]; then
+        echo -e "${BRED}->${RESET} ${BCYAN}Results${RESET}: ${BGREEN}No reboot is required.${RESET}"
+        return 0
+    else
+        echo -e "${BRED}->${RESET} ${BCYAN}Results${RESET}: ${BYELLOW}A reboot is required.${RESET}"
+        return 1
+    fi
 }
 
 ### Convert between rgb and hex colors
