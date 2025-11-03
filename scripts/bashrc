@@ -4,6 +4,8 @@
 
 location=""
 url=""
+separator=false
+autoconnect_enabled=false
 
 # If not running interactively, don't do anything
 case $- in
@@ -39,8 +41,9 @@ export HISTIGNORE=ls:ll:la:l:cd:pwd:exit:mc:su:df
 HISTSIZE=1000000
 HISTFILESIZE=1000000
 
-# Automatically connect to tmux on load
-autoconnect_enabled=false;
+if [ "$separator" == "true" ]; then
+    export PROMPT_COMMAND='q="- $(date +%T)"; while [[ ${#q} -lt $COLUMNS ]]; do q="${q:0:1}$q"; done; echo -e "\033[0;90m$q";'
+fi
 
 ######################################
 ### SOURCES
@@ -88,7 +91,6 @@ LCYAN="\033[96m"
 WHITE="\033[97m"
 BOLD="\e[1m"
 REGULAR="\e[0m"
-ENDCOLOR="\033[0m"
 RESET="\033[0m"
 
 BBLACK="\033[1;${BLACK}"
@@ -124,11 +126,13 @@ export FZF_DEFAULT_OPTS=$FZF_DEFAULT_OPTS'
 
 # Prompt styles
 # name@host~:$
-prompt_style1='\[\e[91;1m\]\u\[\e[94m\]@\[\e[92m\]\H\[\e[93m\]\w\[\e[91m\]:\[\e[94m\]\$\[\e[0m\] '
+prompt_style1='\[\e[91;1m\]\u\[\e[94m\]@\[\e[92m\]\H\[\e[93m\]\w\[\e[91m\]:$(if [ $? -eq 0 ]; then echo "\[\e[92m\]\$"; else echo "\[\e[91m\]\$"; fi)\[\e[0m\] '
 # 11:16 ~:$
-prompt_style2='\[\e[92m\]\A\[\e[m\] \[\e[94m\]\w\[\e[93m\]:\[\e[92m\]\$\[\e[0m\] '
+prompt_style2='\[\e[92m\]\A\[\e[m\] \[\e[94m\]\w\[\e[93m\]:$(if [ $? -eq 0 ]; then echo "\[\e[92m\]\$"; else echo "\[\e[91m\]\$"; fi)\[\e[0m\] '
 # [name@host] ~$
-prompt_style3='\[\e[95m\][\u@\h] \[\e[92m\]\w\[\e[0m\]\$ '
+prompt_style3='\[\e[95m\][\u@\h] \[\e[92m\]\w$(if [ $? -eq 0 ]; then echo "\[\e[92m\]\$"; else echo "\[\e[91m\]\$"; fi)\[\e[0m\] '
+# name ~>
+prompt_style4='\[\033[32;1m\]\u \[\033[34;1m\]\w$(if [ $? -eq 0 ]; then echo "\[\033[32;1m\]>"; else echo "\[\033[31;1m\]>"; fi)\[\033[0m\] '
 
 # Check for selected style, or load default
 if [ -f "$HOME/.prompt_theme" ]; then
@@ -144,6 +148,7 @@ setprompt() {
     1|style1) theme="style1" ;;
     2|style2) theme="style2" ;;
     3|style3) theme="style3" ;;
+    4|style4) theme="style4" ;;
     *) echo "Unknown prompt style: $1"; return 1 ;;
   esac
   echo "$theme" > "$HOME/.prompt_theme"   # save choice
@@ -156,6 +161,7 @@ apply_prompt() {
     style1) PS1="$prompt_style1" ;;
     style2) PS1="$prompt_style2" ;;
     style3) PS1="$prompt_style3" ;;
+    style4) PS1="$prompt_style4" ;;
     *)      PS1="$prompt_style1" ;;
   esac
 }
@@ -204,7 +210,9 @@ else
     echo "Unsupported distribution or cannot detect distribution."
 fi
 
-alias ff='fastfetch'
+#alias ff='fastfetch'
+#green alias ff='fastfetch -l /home/siri/archh.png --logo-type kitty --logo-width 45 --logo-padding-top 2 --logo-padding-left 0'
+alias ff='fastfetch -l /home/siri/archblu.png --logo-type kitty --logo-width 45 --logo-padding-top 1 --logo-padding-left 0'
 alias h='history'
 alias hg='history | grep '
 alias con='lsof -i'
@@ -213,6 +221,8 @@ alias rss='cleed'
 alias rsss='neix'
 alias bat='bat -p'
 alias br='kate ~/.bashrc'
+alias brr='. ~/.bashrc'
+
 
 alias ll='ls -alF'
 alias la='ls -A'
@@ -240,6 +250,7 @@ alias wt="feh \"$url\""
 alias alert='notify-send --urgency=low -i "$([ $? = 0 ] && echo terminal || echo error)" "$(history|tail -n1|sed -e '\''s/^\s*[0-9]\+\s*//;s/[;&|]\s*alert$//'\'')"'
 alias showscheme='echo -e "${BBLACK}#${BRED}#${BGREEN}#${BYELLOW}#${BBLUE}#${BMAGENTA}#${BCYAN}#${BLGRAY}#\n${BGRAY}#${BLRED}#${BLGREEN}#${BLYELLOW}#${BLBLUE}#${BLMAGENTA}#${BLCYAN}#${BWHITE}#\n
 ${BBLACK}###BLACK##${BRED}####RED###${BGREEN}###GREEN##${BYELLOW}##YELLOW##${BBLUE}###BLUE###${BMAGENTA}##MAGENTA#${BCYAN}###CYAN###${BLGRAY}##LGRAY###\n${BGRAY}###GRAY###${BLRED}###LRED###${BLGREEN}##LGREEN##${BLYELLOW}#LYELLOW##${BLBLUE}##LBLUE###${BLMAGENTA}#LMAGENTA#${BLCYAN}##LCYAN###${BWHITE}##WHITE###"'
+alias colortest='for x in `seq 0 8`; do for i in `seq 30 37`; do for a in `seq 40 47`; do echo -ne "\e[$x;$i;$a""m\\\e[$x;$i;$a""m\e[0;37;40m "; done; echo; done; done; echo ""'
 
 ######################################
 ### SYSTEMD ALIASES
@@ -530,7 +541,7 @@ ex() {
 
 ### List all functions in .bashrc in original order, only if preceded by ### comment
 lf() {
-  awk -v COL1="$LBLUE" -v COL2="$GRAY" -v ENDCOLOR="$ENDCOLOR" '
+  awk -v COL1="$LBLUE" -v COL2="$GRAY" -v RESET="$RESET" '
     # Save only lines starting with ###
     /^\s*###[^#]?/ { desc = $0; next }
 
@@ -541,7 +552,7 @@ lf() {
         sub(/^\s*function\s+/, "", name)
         sub(/\s*\(\)\s*\{.*/, "", name)
         gsub(/^\s*###+\s*/, "", desc)  # remove leading ### and spaces
-        printf "%s%-20s%s %s%s%s\n", COL1, name, ENDCOLOR, COL2, desc, ENDCOLOR
+        printf "%s%-20s%s %s%s%s\n", COL1, name, RESET, COL2, desc, RESET
         desc = ""
       }
     }
@@ -567,7 +578,7 @@ lfa() {
         }
       }
     ' | sort | while IFS=$'\t' read -r name desc; do
-      printf "${LBLUE}%-20s${ENDCOLOR} ${GRAY}%s${ENDCOLOR}\n" "$name" "$desc"
+      printf "${LBLUE}%-20s${RESET} ${GRAY}%s${RESET}\n" "$name" "$desc"
     done
 }
 
@@ -576,49 +587,49 @@ lo() {
 local orphans
   orphans=$(pacman -Qtqd)
 
-echo -e "${YELLOW}The following orphaned packages were found:${ENDCOLOR}"
+echo -e "${YELLOW}The following orphaned packages were found:${RESET}"
   echo "$orphans" | while read -r pkg; do
     desc=$(pacman -Qi "$pkg" | awk -F': ' '/^Description/ { print $2 }')
-    echo -e "  ${MAGENTA}$pkg${ENDCOLOR} - ${GRAY}$desc${ENDCOLOR}"
+    echo -e "  ${MAGENTA}$pkg${RESET} - ${GRAY}$desc${RESET}"
   done
 }
 
 ### List all user installed packages
 li() {
-  echo -e "${YELLOW}Packages installed through pacman:${ENDCOLOR}"
+  echo -e "${YELLOW}Packages installed through pacman:${RESET}"
   echo
   pacman -Qe
   echo
-  echo -e "${YELLOW}Packages installed through AUR:${ENDCOLOR}"
+  echo -e "${YELLOW}Packages installed through AUR:${RESET}"
   echo
   pacman -Qm
 }
 
 ### List all user installed packages with descriptions
 lid() {
-  echo -e "${YELLOW}Packages installed through pacman:${ENDCOLOR}"
+  echo -e "${YELLOW}Packages installed through pacman:${RESET}"
   echo
   pacman -Qe | while read -r pkg _; do
     desc=$(pacman -Si "$pkg" 2>/dev/null | awk -F': *' '/^Description/ {print $2}')
-    printf "${GREEN}%-20s${ENDCOLOR} %s\n" "$pkg" "$desc"
+    printf "${GREEN}%-20s${RESET} %s\n" "$pkg" "$desc"
   done
 
   echo
-  echo -e "${YELLOW}Packages installed through AUR:${ENDCOLOR}"
+  echo -e "${YELLOW}Packages installed through AUR:${RESET}"
   echo
   pacman -Qm | while read -r pkg _; do
     desc=$(pacman -Si "$pkg" 2>/dev/null | awk -F': *' '/^Description/ {print $2}')
     # Fallback: try yay -Si if pacman doesn't find the AUR package
     [[ -z "$desc" && $(command -v yay) ]] && desc=$(yay -Si "$pkg" 2>/dev/null | awk -F': *' '/^Description/ {print $2}')
-    printf "${CYAN}%-20s${ENDCOLOR} %s\n" "$pkg" "$desc"
+    printf "${CYAN}%-20s${RESET} %s\n" "$pkg" "$desc"
   done
 }
 
 ### Determine if a system reboot is required
 checkreboot() {
 	# Initialize a variable to indicate if a reboot is required
-	echo
-    printf "${LBLUE}::${ENDCOLOR} ${BOLD}Checking libraries...${REGULAR}\n"
+	#echo
+    printf "${BOLD}${LBLUE}::${RESET} ${BOLD}Checking libraries...${REGULAR}\n"
     local reboot_required=0
 
     # Step 1: get deleted libraries and their associated packages
@@ -648,7 +659,7 @@ checkreboot() {
     unique_libs=$(awk -F'|' '{print $2}' <<< "$libs_and_pkgs" | sort -u)
 
     if [[ -n $unique_libs ]]; then
-        echo -e "${BRED}->${RESET} ${BCYAN}General${RESET}: ${BYELLOW}The following libraries require a reboot:${RESET}"
+        echo -e "${BYELLOW} the following libraries require a reboot:${RESET}"
 
         # Print unique libraries
         while read -r lib; do
@@ -656,15 +667,17 @@ checkreboot() {
         done <<< "$unique_libs"
 
         echo
-        echo -e "${BRED}->${RESET} ${BCYAN}Information${RESET}: ${BYELLOW}Affected packages:${RESET}"
+        echo -e "${BYELLOW} affected packages:${RESET}"
 
         # Print packages in a compact columned table
         awk -F'|' '{print $1}' <<< "$libs_and_pkgs" | sort -u | column
         echo
         reboot_required=1
+    else
+        echo -e "${RESET} no running programs affected${RESET}"
     fi
 
-    printf "${LBLUE}::${ENDCOLOR} ${BOLD}Checking kernel...${REGULAR}\n"
+    printf "${BOLD}${LBLUE}::${RESET} ${BOLD}Checking kernel...${REGULAR}\n"
     # Check if pacman exists (indicative of an Arch-based system)
     if command -v pacman &> /dev/null; then
         # Normalize running kernel version string
@@ -678,10 +691,10 @@ checkreboot() {
 
         # Compare running and installed kernel versions
         if [[ ${active_kernel} != ${current_kernel} ]]; then
-            echo -e "${BRED}->${RESET} ${BCYAN}Arch Linux${RESET}: ${BYELLOW}Running kernel (${active_kernel}) does not match the boot kernel (${current_kernel}).${RESET}"
+            echo -e "${RESET} running kernel (${WHITE}${active_kernel}${BYELLOW}) does not match the boot kernel (${WHITE}${current_kernel}${BYELLOW}).${RESET}"
             reboot_required=1
         else
-            echo -e "${BRED}->${RESET} ${BCYAN}Arch Linux${RESET}: ${BYELLOW}Running kernel (${active_kernel}) is up to date.${RESET}"
+            echo -e "${RESET} running kernel (${WHITE}${active_kernel}${RESET}) is up to date${RESET}"
         fi
 
     # Check for Debian/Ubuntu
@@ -691,19 +704,19 @@ checkreboot() {
 
         # Check if a reboot is required via /var/run/reboot-required
         if [[ -f /var/run/reboot-required ]]; then
-            echo -e "${BRED}->${RESET} ${BCYAN}Ubuntu/Debian${RESET}: ${BYELLOW}A reboot is required.${RESET}"
+            echo -e "${LGRAY} a reboot is required${RESET}"
             reboot_required=1
         else
-            echo -e "${BRED}->${RESET} ${BCYAN}Ubuntu/Debian${RESET}: ${BYELLOW}Running kernel (${active_kernel}) is up to date.${RESET}"
+            echo -e "${LGRAY} running kernel (${active_kernel}) is up to date${RESET}"
         fi
     fi
 
     # Final message and exit code
     if [[ ${reboot_required} -eq 0 ]]; then
-        echo -e "${BRED}->${RESET} ${BCYAN}Results${RESET}: ${BGREEN}No reboot is required.${RESET}"
+        echo -e "${BGREEN}No reboot is required.${RESET}"
         return 0
     else
-        echo -e "${BRED}->${RESET} ${BCYAN}Results${RESET}: ${BYELLOW}A reboot is required.${RESET}"
+        echo -e "${BYELLOW}A reboot is required.${RESET}"
         return 1
     fi
 }
@@ -779,4 +792,45 @@ hex_to_rgb() {
 rgb_to_hex() {
     IFS=',' read -r r g b <<< "$1"
     printf "#%02x%02x%02x\n" "$r" "$g" "$b"
+}
+
+### generate a password based on a word and master password
+pass() {
+  local word="${1:?Usage: pass <word> [length]}"
+  local len="${2:-16}"
+  local pw
+  read -s -p "Master password: " pw
+  echo
+
+  PATH="$PATH:/usr/bin:/bin:/usr/local/bin"
+
+  if ! command -v wl-copy >/dev/null 2>&1; then
+    echo "Error: wl-copy not found in PATH. Install with: sudo pacman -S wl-clipboard"
+    echo "PATH is currently: $PATH"
+    return 1
+  fi
+
+  local salt_file="$HOME/.salt"
+  if [[ ! -f "$salt_file" ]]; then
+    mkdir -p "$(dirname "$salt_file")"
+    head -c 32 /dev/urandom | base64 > "$salt_file"
+    chmod 600 "$salt_file"
+    echo "Created new salt: $salt_file"
+  fi
+
+  local salt chars charlen digest i out
+  salt=$(<"$salt_file")
+  chars='abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%&*()-_=+[]{}<>?'
+  charlen=${#chars}
+  digest=$(printf '%s' "$pw$word$salt" | sha256sum | awk '{print $1}')
+
+  for ((i=0; i<len; i++)); do
+    local hex=${digest:$(( (i*2) % ${#digest} )):2}
+    local idx=$((0x$hex % charlen))
+    out+="${chars:$idx:1}"
+  done
+
+  printf '%s' "$out" | wl-copy --type text/plain
+  echo "Password copied to clipboard."
+  unset pw salt digest out
 }
