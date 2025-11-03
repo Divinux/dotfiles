@@ -1,0 +1,65 @@
+[''] = {{
+        -- general colors
+        foreground = '{foreground}',
+        background = '{background}',
+
+        -- selection
+        selection_fg = '{color1}',
+        selection_bg = '{color5}',
+
+        -- cursor
+        cursor_bg = '{foreground}',
+        cursor_border = '{background}',
+
+        ansi = {{
+            '{color0}',
+            '{color1}',
+            '{color2}',-- low%
+            '{color3}',
+            '{color4}',
+            '{color5}',
+            '{color6}',
+            '{color7}',
+        }},
+        brights = {{
+            '{color8}',
+            '{color9}',-- high%
+            '{color10}',-- : and categories
+            '{color11}',-- ~ and mid%
+            '{color12}',-- $ and time
+            '{color13}',
+            '{color14}',
+            '{color15}',-- headlines
+        }},
+
+        --tab bar colors
+        tab_bar = {{
+            background = '{color1}',
+            active_tab = {{
+                bg_color = '{color2}',
+                fg_color = '{color14}',
+                intensity = 'Bold',
+                underline = 'None',
+                italic = false,
+                strikethrough = false,
+            }},
+            inactive_tab = {{
+                bg_color = '{color4}',
+                fg_color = '{color14}',
+            }},
+            inactive_tab_hover = {{
+                bg_color = '{color9}',
+                fg_color = '{color0}',
+                italic = false,
+            }},
+            new_tab = {{
+                bg_color = '{color4}',
+                fg_color = '{color14}',
+            }},
+            new_tab_hover = {{
+                bg_color = '{color9}',
+                fg_color = '{color0}',
+                italic = true,
+            }},
+        }},
+    }},
