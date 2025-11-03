@@ -25,7 +25,7 @@ config.initial_rows = 31
 -- Font size and color scheme.
 config.font_size = 10
 config.font = wezterm.font 'Hack'
-config.color_scheme = 'Black Metal (Burzum) (base16)'
+config.color_scheme = 'srsBlue'
 
 -- Time status bar
 wezterm.on('update-right-status', function(window, pane)
@@ -38,82 +38,156 @@ window:set_right_status(wezterm.format {
 end)
 
 -- colors
-local color1  = '#c3c4c4' -- foreground
-local color2  = '#1e1e1e' -- background
-local color3  = '#010B28'
-local color4  = '#032562'
-local color5  = '#024E94'
-local color6  = '#D9DFD3'
-local color7  = '#1099BF'
-local color8  = '#7CC9D3'
-local color9  = '#456178'
-local color10  = '#7D99A0'
+local fg  = '#c3c4c4' -- foreground
+local bg  = '#1e1e1e' -- background
 
 config.colors = {
     -- general colors
-    foreground = color1,
-    background = color2,
-
-    -- selection
-    selection_fg = color1,
-    selection_bg = color5,
+    foreground = fg,
+    background = bg,
 
     -- cursor
-    cursor_bg = color1,
-    cursor_border = color2,
+    cursor_bg = fg,
+    cursor_border = bg,
+}
 
-    ansi = {
-        color3,
-        color4,
-        color5,-- low%
-        color6,
-        color7,
-        color8,
-        color9,
-        color10,
-    },
-    brights = {
-        color3,
-        color4,-- high%
-        color5,-- : and categories
-        color6,-- ~ and mid%
-        color7,-- $ and time
-        color8,
-        color9,
-        color10,-- headlines
-    },
 
-    --tab bar colors
-    tab_bar = {
-        background = color4,
-        active_tab = {
-            bg_color = color3,
-            fg_color = color1,
-            intensity = 'Bold',
-            underline = 'None',
-            italic = false,
-            strikethrough = false,
+config.color_schemes = {
+    ['srsBlue'] = {
+        -- general colors
+        foreground = fg,
+        background = bg,
+
+        -- selection
+        selection_fg = '#090b16',
+        selection_bg = '#024E94',
+
+        -- cursor
+        cursor_bg = fg,
+        cursor_border = bg,
+
+        ansi = {
+            '#090b16',
+            '#032562',
+            '#010B28',-- low%
+            '#645e63',
+            '#024E94',
+            '#318495',
+            '#7b8182',
+            '#8d8f98',
         },
-        inactive_tab = {
-            bg_color = color3,
-            fg_color = color1,
+        brights = {
+            '#595b6c',
+            '#035B9E',-- high%
+            '#2971AE',-- : and categories
+            '#867E85',-- ~ and mid%
+            '#0EABCD',-- $ and time
+            '#42B0C7',
+            '#A5ACAE',
+            '#c1c2c4',-- headlines
         },
-        inactive_tab_hover = {
-            bg_color = color10,
-            fg_color = color3,
-            italic = false,
+
+        --tab bar colors
+        tab_bar = {
+            background = '#032562',
+            active_tab = {
+                bg_color = '#010B28',
+                fg_color = '#A5ACAE',
+                intensity = 'Bold',
+                underline = 'None',
+                italic = false,
+                strikethrough = false,
+            },
+            inactive_tab = {
+                bg_color = '#024E94',
+                fg_color = '#A5ACAE',
+            },
+            inactive_tab_hover = {
+                bg_color = '#035B9E',
+                fg_color = '#090b16',
+                italic = false,
+            },
+            new_tab = {
+                bg_color = '#024E94',
+                fg_color = '#A5ACAE',
+            },
+            new_tab_hover = {
+                bg_color = '#035B9E',
+                fg_color = '#090b16',
+                italic = true,
+            },
         },
-        new_tab = {
-            bg_color = color5,
-            fg_color = color1,
-        },
-        new_tab_hover = {
-            bg_color = color10,
-            fg_color = color2,
-            italic = true,
-        },
+    },
+    ['srsGreen'] = {
+        -- general colors
+        foreground = '#c3c4c4',
+            background = '#121413',
+
+            -- selection
+            selection_fg = '#4b5a4c',
+            selection_bg = '#657c5b',
+
+            -- cursor
+            cursor_bg = '#c3c4c4',
+            cursor_border = '#121413',
+
+            ansi = {
+                '#121413',
+                '#4b5a4c',
+                '#526851',-- low%
+                '#577354',
+                '#5d9151',
+                '#657c5b',
+                '#5d6e61',
+                '#8f998f',
+            },
+            brights = {
+                '#5a6f64',
+                '#657966',-- high%
+                '#6E8B6D',-- : and categories
+                '#759A71',-- ~ and mid%
+                '#7DC26C',-- $ and time
+                '#87A67A',
+                '#7D9382',
+                '#c3c4c4',-- headlines
+            },
+
+            --tab bar colors
+            tab_bar = {
+                background = '#4b5a4c',
+                active_tab = {
+                    bg_color = '#526851',
+                    fg_color = '#7D9382',
+                    intensity = 'Bold',
+                    underline = 'None',
+                    italic = false,
+                    strikethrough = false,
+                },
+                inactive_tab = {
+                    bg_color = '#5d9151',
+                    fg_color = '#7D9382',
+                },
+                inactive_tab_hover = {
+                    bg_color = '#657966',
+                    fg_color = '#121413',
+                    italic = false,
+                },
+                new_tab = {
+                    bg_color = '#5d9151',
+                    fg_color = '#7D9382',
+                },
+                new_tab_hover = {
+                    bg_color = '#657966',
+                    fg_color = '#121413',
+                    italic = true,
+                },
+            },
+    },
+    ['srsblueprint'] = {
+        background = 'blue',
     },
 }
+
 
 -- Session config
 config.unix_domains = {
