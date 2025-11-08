@@ -234,6 +234,9 @@ alias ....="cd ../../.."
 alias .....="cd ../../../.."
 
 alias pls='sudo $(history -p !!)'
+alias blend='LD_PRELOAD=/usr/lib/libjpeg.so.9 /usr/bin/blender'
+alias wt="feh \"$url\""
+alias re='sudo reboot now'
 
 # git
 alias gs="git status"
@@ -242,8 +245,6 @@ alias gc='git commit -m "Add files"'
 alias gp='git push origin main'
 alias gstash="git stash"
 
-alias blend='LD_PRELOAD=/usr/lib/libjpeg.so.9 /usr/bin/blender'
-alias wt="feh \"$url\""
 
 # Add an "alert" alias for long running commands.
 # example: sleep 10; alert
@@ -584,14 +585,34 @@ lfa() {
 
 ### List orphaned packages
 lo() {
-local orphans
-  orphans=$(pacman -Qtqd)
+  local orphans desc
+  orphans=$(pacman -Qtqd 2>/dev/null)
 
-echo -e "${YELLOW}The following orphaned packages were found:${RESET}"
-  echo "$orphans" | while read -r pkg; do
-    desc=$(pacman -Qi "$pkg" | awk -F': ' '/^Description/ { print $2 }')
+  if [[ -z "$orphans" ]]; then
+    echo -e "${GREEN}No orphaned packages found!${RESET}"
+    return 0
+  fi
+
+  echo -e "${YELLOW}The following orphaned packages were found:${RESET}"
+  while read -r pkg; do
+    [[ -z "$pkg" ]] && continue
+    desc=$(pacman -Qi "$pkg" 2>/dev/null | awk -F': ' '/^Description/ { print $2 }')
     echo -e "  ${MAGENTA}$pkg${RESET} - ${GRAY}$desc${RESET}"
-  done
+  done <<< "$orphans"
+}
+
+
+### Remove orphans
+ro(){
+local orphans
+orphans=$(pacman -Qtdq 2>/dev/null)
+
+if [[ -z "$orphans" ]]; then
+  echo -e "${GREEN}No orphaned packages to remove!${RESET}"
+  return 0
+fi
+
+sudo pacman -Rns $orphans
 }
 
 ### List all user installed packages
@@ -691,7 +712,7 @@ checkreboot() {
 
         # Compare running and installed kernel versions
         if [[ ${active_kernel} != ${current_kernel} ]]; then
-            echo -e "${RESET} running kernel (${WHITE}${active_kernel}${BYELLOW}) does not match the boot kernel (${WHITE}${current_kernel}${BYELLOW}).${RESET}"
+            echo -e "${RESET} running kernel (${WHITE}${active_kernel}${RESET} ) does not match the boot kernel (${WHITE}${current_kernel}${RESET})."
             reboot_required=1
         else
             echo -e "${RESET} running kernel (${WHITE}${active_kernel}${RESET}) is up to date${RESET}"
@@ -792,45 +813,4 @@ hex_to_rgb() {
 rgb_to_hex() {
     IFS=',' read -r r g b <<< "$1"
     printf "#%02x%02x%02x\n" "$r" "$g" "$b"
-}
-
-### generate a password based on a word and master password
-pass() {
-  local word="${1:?Usage: pass <word> [length]}"
-  local len="${2:-16}"
-  local pw
-  read -s -p "Master password: " pw
-  echo
-
-  PATH="$PATH:/usr/bin:/bin:/usr/local/bin"
-
-  if ! command -v wl-copy >/dev/null 2>&1; then
-    echo "Error: wl-copy not found in PATH. Install with: sudo pacman -S wl-clipboard"
-    echo "PATH is currently: $PATH"
-    return 1
-  fi
-
-  local salt_file="$HOME/.salt"
-  if [[ ! -f "$salt_file" ]]; then
-    mkdir -p "$(dirname "$salt_file")"
-    head -c 32 /dev/urandom | base64 > "$salt_file"
-    chmod 600 "$salt_file"
-    echo "Created new salt: $salt_file"
-  fi
-
-  local salt chars charlen digest i out
-  salt=$(<"$salt_file")
-  chars='abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%&*()-_=+[]{}<>?'
-  charlen=${#chars}
-  digest=$(printf '%s' "$pw$word$salt" | sha256sum | awk '{print $1}')
-
-  for ((i=0; i<len; i++)); do
-    local hex=${digest:$(( (i*2) % ${#digest} )):2}
-    local idx=$((0x$hex % charlen))
-    out+="${chars:$idx:1}"
-  done
-
-  printf '%s' "$out" | wl-copy --type text/plain
-  echo "Password copied to clipboard."
-  unset pw salt digest out
 }
