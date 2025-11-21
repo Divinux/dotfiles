@@ -2,8 +2,9 @@
 # GENERAL SETTINGS AND EXPORTS
 ######################################
 
-location=""
-url=""
+country=
+location=
+url=
 separator=false
 autoconnect_enabled=false
 
@@ -31,15 +32,15 @@ shopt -s histappend
 export PATH="$PATH:/home/siri/.local/bin"
 
 # Reloads history and hooks in the gamifier
-export PROMPT_COMMAND="history -a; history -n; update_exp; $PROMPT_COMMAND"
-
+#export PROMPT_COMMAND="history -a; history -n; update_exp; $PROMPT_COMMAND"
+export PROMPT_COMMAND="history -a; history -c; history -r; update_exp; $PROMPT_COMMAND"
 # don't put duplicate lines or lines starting with space in the history.
 export HISTCONTROL=ignoreboth
 export HISTIGNORE=ls:ll:la:l:cd:pwd:exit:mc:su:df
 
 # for setting history length see HISTSIZE and HISTFILESIZE in bash(1)
-HISTSIZE=1000000
-HISTFILESIZE=1000000
+HISTSIZE=
+HISTFILESIZE=$HISTSIZE
 
 if [ "$separator" == "true" ]; then
     export PROMPT_COMMAND='q="- $(date +%T)"; while [[ ${#q} -lt $COLUMNS ]]; do q="${q:0:1}$q"; done; echo -e "\033[0;90m$q";'
@@ -211,8 +212,8 @@ else
 fi
 
 #alias ff='fastfetch'
-#green alias ff='fastfetch -l /home/siri/archh.png --logo-type kitty --logo-width 45 --logo-padding-top 2 --logo-padding-left 0'
-alias ff='fastfetch -l /home/siri/archblu.png --logo-type kitty --logo-width 45 --logo-padding-top 1 --logo-padding-left 0'
+alias ff='fastfetch -l /home/siri/archh.png --logo-type kitty --logo-width 45 --logo-padding-top 2 --logo-padding-left 0'
+#alias ff='fastfetch -l /home/siri/archblu.png --logo-type kitty --logo-width 45 --logo-padding-top 1 --logo-padding-left 0'
 alias h='history'
 alias hg='history | grep '
 alias con='lsof -i'
@@ -225,7 +226,7 @@ alias brr='. ~/.bashrc'
 
 
 alias ll='ls -alF'
-alias la='ls -A'
+alias la='ls -lah'
 alias l='ls -CF'
 
 alias ..="cd .."
@@ -510,6 +511,11 @@ pkginfo() {
     pacman -Si "$1"
 }
 
+### List dependencies of a package
+ld() {
+    pactree -r "$1"
+}
+
 ### Show public IP address
 myip() {
     curl -s https://ipinfo.io/ip
@@ -537,6 +543,23 @@ ex() {
         esac
     else
         echo "'$1' is not a valid file"
+    fi
+}
+
+### Update mirrors
+um() {
+    echo "Finding fastest Arch mirrors in $country..."
+    sudo reflector \
+        --country $country \
+        --latest 20 \
+        --protocol https \
+        --sort rate \
+        --save /etc/pacman.d/mirrorlist
+
+    if [[ $? -eq 0 ]]; then
+        echo "Mirrorlist updated successfully!"
+    else
+        echo "Failed to update mirrorlist."
     fi
 }
 
@@ -600,7 +623,6 @@ lo() {
     echo -e "  ${MAGENTA}$pkg${RESET} - ${GRAY}$desc${RESET}"
   done <<< "$orphans"
 }
-
 
 ### Remove orphans
 ro(){
@@ -814,3 +836,4 @@ rgb_to_hex() {
     IFS=',' read -r r g b <<< "$1"
     printf "#%02x%02x%02x\n" "$r" "$g" "$b"
 }
+
