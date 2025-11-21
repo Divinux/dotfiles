@@ -2,6 +2,869 @@
 # GENERAL SETTINGS AND EXPORTS
 ######################################
 
+location=
+url=
+separator=false
+autoconnect_enabled=false
+showmotd=true
+
+# If not running interactively, don't do anything
+case $- in
+    *i*) ;;
+      *) return;;
+esac
+
+# If set, the pattern "**" used in a pathname expansion context will
+# match all files and zero or more directories and subdirectories.
+#shopt -s globstar
+
+# make less more friendly for non-text input files, see lesspipe(1)
+[ -x /usr/bin/lesspipe ] && eval "$(SHELL=/bin/sh lesspipe)"
+
+# check the window size after each command and, if necessary,
+# update the values of LINES and COLUMNS.
+shopt -s checkwinsize
+
+# append to the history file, don't overwrite it
+shopt -s histappend
+
+# Created by `pipx` on 2024-09-18 23:51:00
+export PATH="$PATH:/home/siri/.local/bin"
+
+# Reloads history and hooks in the gamifier
+#export PROMPT_COMMAND="history -a; history -n; update_exp; $PROMPT_COMMAND"
+export PROMPT_COMMAND="history -a; history -c; history -r; update_exp; $PROMPT_COMMAND"
+# don't put duplicate lines or lines starting with space in the history.
+export HISTCONTROL=ignoreboth
+export HISTIGNORE=ls:ll:la:l:cd:pwd:exit:mc:su:df
+
+# for setting history length see HISTSIZE and HISTFILESIZE in bash(1)
+HISTSIZE=
+HISTFILESIZE=$HISTSIZE
+
+if [ "$separator" == "true" ]; then
+    export PROMPT_COMMAND='q="- $(date +%T)"; while [[ ${#q} -lt $COLUMNS ]]; do q="${q:0:1}$q"; done; echo -e "\033[0;90m$q";'
+fi
+
+######################################
+### SOURCES
+######################################
+
+if [ -f ~/aliases ]; then
+    . ~/aliases
+fi
+
+if [ -f ~/gamifier ]; then
+    . ~/gamifier
+fi
+
+#pywal
+# Import colorscheme from 'wal' asynchronously
+# &   # Run the process in the background.
+# ( ) # Hide shell job control messages.
+# Not supported in the "fish" shell.
+#(cat ~/.cache/wal/sequences &)
+
+# Alternative (blocks terminal for 0-3ms)
+# cat ~/.cache/wal/sequences
+
+# To add support for TTYs this line can be optionally added.
+#source ~/.cache/wal/colors-tty.sh
+
+######################################
+# COLOR VARIABLES
+######################################
+BLACK="\033[30m"
+RED="\033[31m"
+GREEN="\033[32m"
+YELLOW="\033[33m"
+BLUE="\033[34m"
+MAGENTA="\033[35m"
+CYAN="\033[36m"
+LGRAY="\033[37m"
+GRAY="\033[90m"
+LRED="\033[91m"
+LGREEN="\033[92m"
+LYELLOW="\033[93m"
+LBLUE="\033[94m"
+LMAGENTA="\033[95m"
+LCYAN="\033[96m"
+WHITE="\033[97m"
+BOLD="\e[1m"
+REGULAR="\e[0m"
+RESET="\033[0m"
+
+BBLACK="\033[1;${BLACK}"
+BRED="\033[1;${RED}"
+BGREEN="\033[1;${GREEN}"
+BYELLOW="\033[1;${YELLOW}"
+BBLUE="\033[1;${BLUE}"
+BMAGENTA="\033[1;${MAGENTA}"
+BCYAN="\033[1;${CYAN}"
+BLGRAY="\033[1;${LGRAY}"
+BGRAY="\033[1;${GRAY}"
+BLRED="\033[1;${LRED}"
+BLGREEN="\033[1;${LGREEN}"
+BLYELLOW="\033[1;${LYELLOW}"
+BLBLUE="\033[1;${LBLUE}"
+BLMAGENTA="\033[1;${LMAGENTA}"
+BLCYAN="\033[1;${LCYAN}"
+BWHITE="\033[1;${WHITE}"
+
+# fzf theme
+export FZF_DEFAULT_OPTS=$FZF_DEFAULT_OPTS'
+  --color=fg:-1,fg+:#c3c4c4,bg:-1,bg+:#262626
+  --color=hl:#577354,hl+:#577354,info:#577354,marker:#577354
+  --color=prompt:#577354,spinner:#577354,pointer:#577354,header:#577354
+  --color=border:#262626,label:#aeaeae,query:#d9d9d9
+  --border="rounded" --border-label="" --preview-window="border-rounded" --prompt="> "
+  --marker=">" --pointer="│" --separator="─" --scrollbar="│"
+  --info="right"'
+
+######################################
+# PROMPT SETTINGS
+######################################
+
+# Prompt styles
+# name@host~:$
+prompt_style1='\[\e[91;1m\]\u\[\e[94m\]@\[\e[92m\]\H\[\e[93m\]\w\[\e[91m\]:$(if [ $? -eq 0 ]; then echo "\[\e[92m\]\$"; else echo "\[\e[91m\]\$"; fi)\[\e[0m\] '
+# 11:16 ~:$
+prompt_style2='\[\e[92m\]\A\[\e[m\] \[\e[94m\]\w\[\e[93m\]:$(if [ $? -eq 0 ]; then echo "\[\e[92m\]\$"; else echo "\[\e[91m\]\$"; fi)\[\e[0m\] '
+# [name@host] ~$
+prompt_style3='\[\e[95m\][\u@\h] \[\e[92m\]\w$(if [ $? -eq 0 ]; then echo "\[\e[92m\]\$"; else echo "\[\e[91m\]\$"; fi)\[\e[0m\] '
+# name ~>
+prompt_style4='\[\033[32;1m\]\u \[\033[34;1m\]\w$(if [ $? -eq 0 ]; then echo "\[\033[32;1m\]>"; else echo "\[\033[31;1m\]>"; fi)\[\033[0m\] '
+
+# Check for selected style, or load default
+if [ -f "$HOME/.prompt_theme" ]; then
+  PROMPT_THEME=$(<"$HOME/.prompt_theme")
+else
+  PROMPT_THEME="style1"
+fi
+
+### Select prompt style
+setprompt() {
+  local theme
+  case "$1" in
+    1|style1) theme="style1" ;;
+    2|style2) theme="style2" ;;
+    3|style3) theme="style3" ;;
+    4|style4) theme="style4" ;;
+    *) echo "Unknown prompt style: $1"; return 1 ;;
+  esac
+  echo "$theme" > "$HOME/.prompt_theme"   # save choice
+  apply_prompt "$theme"
+}
+
+# Apply selected prompt style
+apply_prompt() {
+  case "$1" in
+    style1) PS1="$prompt_style1" ;;
+    style2) PS1="$prompt_style2" ;;
+    style3) PS1="$prompt_style3" ;;
+    style4) PS1="$prompt_style4" ;;
+    *)      PS1="$prompt_style1" ;;
+  esac
+}
+apply_prompt "$PROMPT_THEME"
+
+# enable color support of ls and also add handy aliases
+if [ -x /usr/bin/dircolors ]; then
+    test -r ~/.dircolors && eval "$(dircolors -b ~/.dircolors)" || eval "$(dircolors -b)"
+    alias ls='ls --color=auto'
+    #alias dir='dir --color=auto'
+    #alias vdir='vdir --color=auto'
+
+    alias grep='grep --color=auto'
+    alias fgrep='fgrep --color=auto'
+    alias egrep='egrep --color=auto'
+fi
+
+# colored GCC warnings and errors
+export GCC_COLORS='error=01;31:warning=01;35:note=01;36:caret=01;32:locus=01:quote=01'
+
+######################################
+# ALIASES
+######################################
+
+# Detect distribution and set alias for package updates
+if [ -f /etc/arch-release ]; then
+    # Arch
+    alias u='sudo pacman -Syu && checkreboot'
+    alias i='sudo pacman -S '
+    alias f='pacman -Ss '
+    alias r='sudo pacman -R '
+    alias rr='sudo pacman -Rs '
+    alias rrr='sudo pacman -Rns '
+    alias c='sudo pacman -Sc'
+    alias y='yay -S '
+    alias p='paru'
+elif [ -f /etc/lsb-release ]; then
+    # Debian
+    alias u='sudo apt update && sudo apt upgrade && checkreboot'
+    alias i='sudo apt install '
+    alias f='apt search '
+    alias r='sudo apt remove '
+    alias rr='sudo apt purge '
+    alias c='sudo apt autoremove && sudo apt clean'
+else
+    echo "Unsupported distribution or cannot detect distribution."
+fi
+
+#alias ff='fastfetch'
+alias ff='fastfetch -l /home/siri/archh.png --logo-type kitty --logo-width 45 --logo-padding-top 2 --logo-padding-left 0'
+#alias ff='fastfetch -l /home/siri/archblu.png --logo-type kitty --logo-width 45 --logo-padding-top 1 --logo-padding-left 0'
+alias h='history'
+alias hg='history | grep '
+alias con='lsof -i'
+
+alias rss='cleed'
+alias rsss='neix'
+alias bat='bat -p'
+alias br='kate ~/.bashrc'
+alias brr='. ~/.bashrc'
+
+
+alias ll='ls -alF'
+alias la='ls -lah'
+alias l='ls -CF'
+
+alias ..="cd .."
+alias ...="cd ../.."
+alias ....="cd ../../.."
+alias .....="cd ../../../.."
+
+alias pls='sudo $(history -p !!)'
+alias blend='LD_PRELOAD=/usr/lib/libjpeg.so.9 /usr/bin/blender'
+alias wt="feh \"$url\""
+alias re='sudo reboot now'
+
+# git
+alias gs="git status"
+alias ga='git add .'
+alias gc='git commit -m "Add files"'
+alias gp='git push origin main'
+alias gstash="git stash"
+
+
+# Add an "alert" alias for long running commands.
+# example: sleep 10; alert
+alias alert='notify-send --urgency=low -i "$([ $? = 0 ] && echo terminal || echo error)" "$(history|tail -n1|sed -e '\''s/^\s*[0-9]\+\s*//;s/[;&|]\s*alert$//'\'')"'
+alias showscheme='echo -e "${BBLACK}#${BRED}#${BGREEN}#${BYELLOW}#${BBLUE}#${BMAGENTA}#${BCYAN}#${BLGRAY}#\n${BGRAY}#${BLRED}#${BLGREEN}#${BLYELLOW}#${BLBLUE}#${BLMAGENTA}#${BLCYAN}#${BWHITE}#\n
+${BBLACK}###BLACK##${BRED}####RED###${BGREEN}###GREEN##${BYELLOW}##YELLOW##${BBLUE}###BLUE###${BMAGENTA}##MAGENTA#${BCYAN}###CYAN###${BLGRAY}##LGRAY###\n${BGRAY}###GRAY###${BLRED}###LRED###${BLGREEN}##LGREEN##${BLYELLOW}#LYELLOW##${BLBLUE}##LBLUE###${BLMAGENTA}#LMAGENTA#${BLCYAN}##LCYAN###${BWHITE}##WHITE###"'
+alias colortest='for x in `seq 0 8`; do for i in `seq 30 37`; do for a in `seq 40 47`; do echo -ne "\e[$x;$i;$a""m\\\e[$x;$i;$a""m\e[0;37;40m "; done; echo; done; done; echo ""'
+
+######################################
+### SYSTEMD ALIASES
+# source https://www.linuxquestions.org/questions/linux-general-1/ultimate-prompt-and-bashrc-file-4175518169/
+######################################
+
+# Get a list of all services
+alias services='systemctl list-units --type=service --state=running,failed'
+alias servicesall='systemctl list-units --type=service'
+# Find what systemd services have failed
+alias {failed,servicefailed}='systemctl --failed'
+# Get the status of a services
+alias servicestatus='sudo systemctl status'
+# Start a service and enable automatic startup at boot
+alias serviceenable='sudo systemctl enable --now'
+# Disable a service
+alias servicedisable='sudo systemctl disable'
+# Start a service
+alias servicestart='sudo systemctl start'
+# Stop a service
+alias servicestop='sudo systemctl stop'
+# Forcefully terminate a service
+alias servicekill='sudo systemctl kill'
+# Stop and restart a service
+alias servicerestart='sudo systemctl restart'
+# Reload a service's configuration (soft restart)
+alias servicereload='sudo systemctl reload'
+# Tell how long it took to boot the system
+alias boottime='systemd-analyze'
+# Tell how long it took to boot the system
+alias boottimelist='systemd-analyze blame'
+# Generate a visual boot time analysis chart as a graphic SVG image
+alias bootchart='systemd-analyze plot > ./boot.svg && echo "Boot chart saved to ${PWD/#$HOME/~}/boot.svg"'
+# View kernel messages from current boot
+alias bootmessages='journalctl -b -k'
+# View kernel messages from previous boot
+alias bootprevious='journalctl -b -1 -k'
+# Filter for warning and errors
+alias booterrors='journalctl -b -k -p warning..emerg'
+# List boots
+alias bootlist='journalctl --list-boots'
+# Clear system log entries from the systemd journal
+alias {clearsystemlogs,cleansystemlogs}='echo -ne "${BBLUE}Before${RESET}: "; journalctl --disk-usage; sudo journalctl --rotate; sudo journalctl --vacuum-time=1s; echo -ne "${BBLUE}After${RESET}: "; journalctl --disk-usage'
+# Fast reboot user space and not the kernel
+alias rebootfast='systemctl soft-reboot'
+
+# Create aliases to start/enable and stop/disable the SSH server
+alias sshstatus='systemctl status sshd.service'
+alias sshstart='sudo systemctl start sshd.service && sudo systemctl enable sshd.service'
+alias sshstop='sudo systemctl stop sshd.service && sudo systemctl disable sshd.service'
+alias sshrestart='sudo systemctl restart sshd.service && sudo systemctl enable sshd.service'
+
+######################################
+### DIRECTORY ALIASES
+######################################
+
+# This allows you to bookmark your favorite places across the file system
+# Define a variable containing a path and you will be able to cd into it
+# regardless of the directory you're in like this:
+# export desktop="${HOME}/Desktop"
+# cd desktop
+shopt -s cdable_vars
+
+# Declare an associative array for directory locations (with alternatives)
+# NOTE: These aliases are case sensitive where lower case is the local user
+#       directory and upper case is the global system directory
+declare -A ALIASES=(
+	["autostart"]="${XDG_CONFIG_HOME:-${HOME}/.config}/autostart"
+	["desktop"]="$(command -v xdg-user-dir > /dev/null && xdg-user-dir DESKTOP || echo "${HOME}/Desktop")"
+	["docs"]="$(command -v xdg-user-dir > /dev/null && xdg-user-dir DOCUMENTS || echo "${HOME}/Documents")"
+	["documents"]="$(command -v xdg-user-dir > /dev/null && xdg-user-dir DOCUMENTS || echo "${HOME}/Documents")"
+	["downloads"]="$(command -v xdg-user-dir > /dev/null && xdg-user-dir DOWNLOAD || echo "${HOME}/Downloads")"
+	["dl"]="$(command -v xdg-user-dir > /dev/null && xdg-user-dir DOWNLOAD || echo "${HOME}/Downloads")"
+	["music"]="$(command -v xdg-user-dir > /dev/null && xdg-user-dir MUSIC || echo "${HOME}/Music")"
+	["pics"]="$(command -v xdg-user-dir > /dev/null && xdg-user-dir PICTURES || echo "${HOME}/Pictures")"
+	["pictures"]="$(command -v xdg-user-dir > /dev/null && xdg-user-dir PICTURES || echo "${HOME}/Pictures")"
+	["vids"]="$(command -v xdg-user-dir > /dev/null && xdg-user-dir VIDEOS || echo "${HOME}/Videos")"
+)
+
+# Save original IFS and set it to space for parsing directories
+OLD_IFS="${IFS}"
+IFS=' '
+
+# Loop through the associative array and create aliases and exports for existing directories
+for ALIAS in "${!ALIASES[@]}"; do
+	DIRECTORIES=(${ALIASES[$ALIAS]})
+	for DIRECTORY in "${DIRECTORIES[@]}"; do
+		if [[ -d $DIRECTORY ]]; then
+			alias "${ALIAS}"="cd \"${DIRECTORY}\""
+			export "${ALIAS}"="${DIRECTORY}"
+			break # Only set the first found directory
+		fi
+	done
+done
+
+# Restore original IFS
+IFS="${OLD_IFS}"
+
+# Clean up
+unset OLD_IFS DIRECTORY DIRECTORIES ALIAS ALIASES
+
+######################################
+# FUNCTIONS
+######################################
+
+### MOTD
+motd(){
+echo ""
+printf "${BLYELLOW}"
+echo "$(date +"%A, %d %B %Y"). It is $(date +"%H:%M")"
+echo ""
+printf "${BRED}"
+curl "wttr.in/$location?format=2"
+printf "${BBLUE}"
+echo ""
+date +"%A,"| figlet -f script
+printf "${BRED}"
+date +"%d %B %Y"| figlet -f smscript
+printf "${BLGRAY}"
+echo ""
+date +"%H:%M"| figlet -f smscript
+echo ""
+printf "${BMAGENTA}"
+if [ -f ~/rss ]; then
+    . ~/rss
+fi
+echo ""
+printf "${RED}"
+}
+
+### Change directory and list all files
+cd() {
+    builtin cd "$@" && ls -AF
+}
+
+### Search the filesystem dynamically and cd into shortest found directory
+fz() {
+  local dir
+  dir=$(fd --type d --hidden \
+           --exclude '.git' \
+           --exclude 'node_modules' \
+           --exclude '.cache' \
+           --exclude '/mnt' \
+           --exclude '/run' \
+           --exclude '/proc' \
+           --exclude '/sys' \
+           --exclude '/dev' \
+           --exclude '/home/siri/.config/konsave' \
+           --exclude '/home/siri/Downloads/dotfiles-main' \
+           . / 2>/dev/null \
+    | fzf --filter="$*" --print-query \
+          --extended-exact --height 40% --reverse \
+          --preview 'tree -C {} | head -n 20' \
+    | awk 'NR>1 {print length($0), $0}' | sort -n | cut -d" " -f2- \
+    | head -1) \
+    && cd "$dir"
+}
+
+### Search the filesystem dynamically and show all options, unless there is only one
+fzz() {
+  local dir
+  dir=$(fd --type d --hidden \
+           --exclude '.git' \
+           --exclude 'node_modules' \
+           --exclude '.cache' \
+           --exclude '/mnt' \
+           --exclude '/run' \
+           --exclude '/proc' \
+           --exclude '/sys' \
+           --exclude '/dev' \
+           --exclude '/home/siri/.config/konsave' \
+           --exclude '/home/siri/Downloads/dotfiles-main' \
+           . / 2>/dev/null \
+    | awk '{ print length, $0 }' | sort -n | cut -d' ' -f2- \
+    | fzf --query="$*" --select-1 --exit-0 \
+          --extended-exact --no-sort --height 40% --reverse \
+          --preview 'tree -C {} | head -n 20') \
+    && cd "$dir"
+}
+
+### Copy a given file and rename it to file-datetime.bu
+bu () {
+  # Check if a file is provided
+  if [ -z "$1" ]; then
+    echo "Usage: bu <file>"
+    return 1
+  fi
+
+  # Backup the file
+  cp "$1" "$(basename "$1")-$(date +%Y%m%d%H%M%S).bu"
+  echo "Backup of $1 created"
+}
+
+# Check for existing tmux session and connect, or create a new one
+tmux_auto_connect() {
+    # Name prefix for sessions
+    local session_prefix="main"
+
+    # Check if any tmux sessions exist
+    if tmux ls 2>/dev/null; then
+        # Try to find a session without attachments
+        local detached_session
+        detached_session=$(tmux ls 2>/dev/null | grep -v "(attached)" | awk -F: '{print $1}' | head -n 1)
+
+        if [ -n "$detached_session" ]; then
+            # Attach to the first session without attachments
+            tmux attach-session -t "$detached_session"
+        else
+            # All sessions are attached; create a new session with a sequential name
+            local session_count
+            session_count=$(tmux ls 2>/dev/null | wc -l)
+            local new_session_name="${session_prefix}_$((session_count + 1))"
+            tmux new-session -s "$new_session_name"
+        fi
+    else
+        # No sessions exist; create the first session
+        # tmux new-session -s "${session_prefix}_1"
+        # If it is the first session, show motd
+        if [ "$showmotd" = "true" ]; then
+            tmux new-session -s "${session_prefix}_1" \; send-keys " source ~/.bashrc; clear; motd" C-m
+        else
+            tmux new-session -s "${session_prefix}_1" \; send-keys " source ~/.bashrc; clear" C-m
+        fi
+
+    fi
+}
+
+if [ "$autoconnect_enabled" == "true" ]; then
+    if [ -n "$PS1" ] && [ "$TERM" != "screen" ] && [ -z "$TMUX" ]; then
+        tmux_auto_connect
+    fi
+else
+    if [ -n "$PS1" ] && [ "$TERM" != "screen" ] && [ -z "$TMUX" ] && [ "$showmotd" = "true" ]; then
+        motd
+    fi
+fi
+
+### Find binary names installed by a package
+fb() {
+    pacman -Ql "$1" | awk '$2 ~ /(\/(usr\/local\/)?s?bin\/)/ && $2 !~ /(\/(usr\/local\/)?s?bin\/?)$/' | xargs -n1 basename
+}
+
+### Find binary names installed by a package and displays the path
+fbp () {
+    pacman -Ql "$1" | grep 'bin/'
+}
+
+### Find which package owns a file
+whoowns() {
+    pacman -Qo "$1"
+}
+
+### List all files in a package
+listfiles() {
+    pacman -Ql "$1"
+}
+
+### Show description, size, deps of a package
+pkginfo() {
+    pacman -Si "$1"
+}
+
+### List dependencies of a package
+ld() {
+    pactree -r "$1"
+}
+
+### Show public IP address
+myip() {
+    curl -s https://ipinfo.io/ip
+    echo
+}
+
+### Extract any archive
+ex() {
+    if [ -f "$1" ]; then
+        case "$1" in
+            *.tar.bz2)   tar xjf "$1"   ;;
+            *.tar.gz)    tar xzf "$1"   ;;
+            *.tar.xz)    tar xf "$1"    ;;
+            *.lzma)      unlzma "$1"    ;;
+            *.bz2)       bunzip2 "$1"   ;;
+            *.rar)       unrar x "$1"   ;;
+            *.gz)        gunzip "$1"    ;;
+            *.tar)       tar xf "$1"    ;;
+            *.tbz2)      tar xjf "$1"   ;;
+            *.tgz)       tar xzf "$1"   ;;
+            *.zip)       unzip "$1"     ;;
+            *.Z)         uncompress "$1";;
+            *.7z)        7z x "$1"      ;;
+            *)           echo "'$1' cannot be extracted via extract()" ;;
+        esac
+    else
+        echo "'$1' is not a valid file"
+    fi
+}
+
+### Update mirrors
+um() {
+    echo "Finding fastest Arch mirrors..."
+
+    (
+        sudo reflector \
+            --latest 20 \
+            --age 24 \
+            --protocol https \
+            --sort rate \
+            --save /etc/pacman.d/mirrorlist \
+            >/dev/null 2>&1 &
+        pid=$!
+
+        spinner=(⠋ ⠙ ⠹ ⠸ ⠼ ⠴ ⠦ ⠧ ⠇ ⠏)
+        i=0
+
+        while kill -0 "$pid" 2>/dev/null; do
+            printf "\r%s Updating mirrorlist..." "${spinner[i]}"
+            i=$(( (i + 1) % ${#spinner[@]} ))
+            sleep 0.12
+        done
+
+        wait "$pid"
+        exit $?
+    )
+
+    status=$?
+    printf "\r%-40s\r" ""
+
+    if [[ $status -eq 0 ]]; then
+        echo "Mirrorlist updated successfully!"
+    else
+        echo "Failed to update mirrorlist."
+    fi
+}
+
+### List all functions in .bashrc in original order, only if preceded by ### comment
+lf() {
+  awk -v COL1="$LBLUE" -v COL2="$GRAY" -v RESET="$RESET" '
+    # Save only lines starting with ###
+    /^\s*###[^#]?/ { desc = $0; next }
+
+    # Match function definitions
+    /^\s*(function\s+)?[a-zA-Z0-9_]+\s*\(\)\s*\{/ {
+      if (desc) {
+        name = $0
+        sub(/^\s*function\s+/, "", name)
+        sub(/\s*\(\)\s*\{.*/, "", name)
+        gsub(/^\s*###+\s*/, "", desc)  # remove leading ### and spaces
+        printf "%s%-20s%s %s%s%s\n", COL1, name, RESET, COL2, desc, RESET
+        desc = ""
+      }
+    }
+  ' ~/.bashrc
+}
+
+### List all functions in .bashrc alphabetically
+lfa() {
+  grep -E '^\s*#|^\s*(function\s+)?[a-zA-Z0-9_]+\s*\(\)\s*\{' ~/.bashrc | \
+    awk '
+      # Save only lines starting with ###
+      /^\s*###[^#]?/ { desc = $0; next }
+
+      # Match function definitions
+      /^\s*(function\s+)?[a-zA-Z0-9_]+\s*\(\)\s*\{/ {
+        if (desc) {
+          name = $0
+          sub(/^\s*function\s+/, "", name)
+          sub(/\s*\(\)\s*\{.*/, "", name)
+          gsub(/^\s*###+\s*/, "", desc)  # remove leading ### and spaces
+          print name "\t" desc
+          desc = ""
+        }
+      }
+    ' | sort | while IFS=$'\t' read -r name desc; do
+      printf "${LBLUE}%-20s${RESET} ${GRAY}%s${RESET}\n" "$name" "$desc"
+    done
+}
+
+### List orphaned packages
+lo() {
+  local orphans desc
+  orphans=$(pacman -Qtqd 2>/dev/null)
+
+  if [[ -z "$orphans" ]]; then
+    echo -e "${GREEN}No orphaned packages found!${RESET}"
+    return 0
+  fi
+
+  echo -e "${YELLOW}The following orphaned packages were found:${RESET}"
+  while read -r pkg; do
+    [[ -z "$pkg" ]] && continue
+    desc=$(pacman -Qi "$pkg" 2>/dev/null | awk -F': ' '/^Description/ { print $2 }')
+    echo -e "  ${MAGENTA}$pkg${RESET} - ${GRAY}$desc${RESET}"
+  done <<< "$orphans"
+}
+
+### Remove orphans
+ro(){
+local orphans
+orphans=$(pacman -Qtdq 2>/dev/null)
+
+if [[ -z "$orphans" ]]; then
+  echo -e "${GREEN}No orphaned packages to remove!${RESET}"
+  return 0
+fi
+
+sudo pacman -Rns $orphans
+}
+
+### List all user installed packages
+li() {
+  echo -e "${YELLOW}Packages installed through pacman:${RESET}"
+  echo
+  pacman -Qe
+  echo
+  echo -e "${YELLOW}Packages installed through AUR:${RESET}"
+  echo
+  pacman -Qm
+}
+
+### List all user installed packages with descriptions
+lid() {
+  echo -e "${YELLOW}Packages installed through pacman:${RESET}"
+  echo
+  pacman -Qe | while read -r pkg _; do
+    desc=$(pacman -Si "$pkg" 2>/dev/null | awk -F': *' '/^Description/ {print $2}')
+    printf "${GREEN}%-20s${RESET} %s\n" "$pkg" "$desc"
+  done
+
+  echo
+  echo -e "${YELLOW}Packages installed through AUR:${RESET}"
+  echo
+  pacman -Qm | while read -r pkg _; do
+    desc=$(pacman -Si "$pkg" 2>/dev/null | awk -F': *' '/^Description/ {print $2}')
+    # Fallback: try yay -Si if pacman doesn't find the AUR package
+    [[ -z "$desc" && $(command -v yay) ]] && desc=$(yay -Si "$pkg" 2>/dev/null | awk -F': *' '/^Description/ {print $2}')
+    printf "${CYAN}%-20s${RESET} %s\n" "$pkg" "$desc"
+  done
+}
+
+### Determine if a system reboot is required
+checkreboot() {
+	# Initialize a variable to indicate if a reboot is required
+	#echo
+    printf "${BOLD}${LBLUE}::${RESET} ${BOLD}Checking libraries...${REGULAR}\n"
+    local reboot_required=0
+
+    # Step 1: get deleted libraries and their associated packages
+    local libs_and_pkgs=$(
+        grep -H "lib.*(deleted)" /proc/*/maps 2>/dev/null |
+        awk -F: '
+            {
+                split($1, a, "/")
+                pid = a[3]
+                match($0, /\/[^ ]*lib[^ ]+/)
+                if (pid && RSTART) {
+                    lib = substr($0, RSTART, RLENGTH)
+                    print pid, lib
+                }
+            }
+        ' |
+        sort -u |
+        while read -r pid lib; do
+            [[ -r /proc/$pid/comm ]] || continue
+            cmd=$(<"/proc/$pid/comm")
+            printf "%s|%s\n" "$cmd" "$lib"
+        done
+    )
+
+    # Step 2: unique library paths
+    local unique_libs
+    unique_libs=$(awk -F'|' '{print $2}' <<< "$libs_and_pkgs" | sort -u)
+
+    if [[ -n $unique_libs ]]; then
+        echo -e "${BYELLOW} the following libraries require a reboot:${RESET}"
+
+        # Print unique libraries
+        while read -r lib; do
+            echo "    $lib (deleted)"
+        done <<< "$unique_libs"
+
+        echo
+        echo -e "${BYELLOW} affected packages:${RESET}"
+
+        # Print packages in a compact columned table
+        awk -F'|' '{print $1}' <<< "$libs_and_pkgs" | sort -u | column
+        echo
+        reboot_required=1
+    else
+        echo -e "${RESET} no running programs affected${RESET}"
+    fi
+
+    printf "${BOLD}${LBLUE}::${RESET} ${BOLD}Checking kernel...${REGULAR}\n"
+    # Check if pacman exists (indicative of an Arch-based system)
+    if command -v pacman &> /dev/null; then
+        # Normalize running kernel version string
+        local active_kernel=$(uname -r | tr '-' '.')
+
+        # Query the current kernel version from installed packages
+        local current_kernel=$(pacman -Q | grep '^linux[0-9]* ' | awk '{print $2}' | sort -V | tail -n1)
+
+        # Normalize current kernel version string
+        current_kernel=${current_kernel//-/.}
+
+        # Compare running and installed kernel versions
+        if [[ ${active_kernel} != ${current_kernel} ]]; then
+            echo -e "${RESET} running kernel (${WHITE}${active_kernel}${RESET} ) does not match the boot kernel (${WHITE}${current_kernel}${RESET})."
+            reboot_required=1
+        else
+            echo -e "${RESET} running kernel (${WHITE}${active_kernel}${RESET}) is up to date${RESET}"
+        fi
+
+    # Check for Debian/Ubuntu
+    elif command -v dpkg &> /dev/null; then
+        # Get running kernel version
+        local active_kernel=$(uname -r)
+
+        # Check if a reboot is required via /var/run/reboot-required
+        if [[ -f /var/run/reboot-required ]]; then
+            echo -e "${LGRAY} a reboot is required${RESET}"
+            reboot_required=1
+        else
+            echo -e "${LGRAY} running kernel (${active_kernel}) is up to date${RESET}"
+        fi
+    fi
+
+    # Final message and exit code
+    if [[ ${reboot_required} -eq 0 ]]; then
+        echo -e "${BGREEN}No reboot is required.${RESET}"
+        return 0
+    else
+        echo -e "${BYELLOW}A reboot is required.${RESET}"
+        return 1
+    fi
+}
+
+### Convert between rgb and hex colors
+# Usage: colorconvert "#rrggbb" or "r,g,b"
+colorconvert() {
+    local input="$1"
+
+    # Detect input type
+    if [[ "$input" =~ ^#?[0-9A-Fa-f]{3}$ || "$input" =~ ^#?[0-9A-Fa-f]{6}$ ]]; then
+        hex_to_rgb "$input"
+    elif [[ "$input" =~ ^[0-9]{1,3},[0-9]{1,3},[0-9]{1,3}$ ]]; then
+        rgb_to_hex "$input"
+    else
+        echo "Usage:"
+        echo "  colorconvert \"#rrggbb\""
+        echo "  colorconvert \"r,g,b\""
+        return 1
+    fi
+}
+
+### Use hex colors in the terminal
+# Usage: colored_text "#ffffff" "Hello " "#000000" "World!"
+colored_text() {
+    local text=""
+
+    while [[ $# -gt 0 ]]; do
+        local color=$1
+        local part_text=$2
+        text+=$(colortext "$color" "$part_text")
+        shift 2
+    done
+
+    echo -e "$text"
+}
+
+# Subfunction to color text in the terminal
+colortext() {
+    local hex_color=$1
+    local text=$2
+
+    # Remove '#' if present
+    hex_color=${hex_color/#\#/}
+
+    if [[ ! $hex_color =~ ^[0-9A-Fa-f]{6}$ ]]; then
+        echo "Invalid hex color!"
+        return
+    fi
+
+    local rgb
+    rgb=$(hex_to_rgb "$hex_color")
+    IFS=',' read -r r g b <<< "$rgb"
+
+    echo -e "\033[38;2;${r};${g};${b}m${text}\033[0m"
+}
+
+# Convert hex to RGB
+# Usage: hex_to_rgb "#rrggbb"
+hex_to_rgb() {
+    local hex="${1#'#'}"  # remove leading '#'
+    if [[ ${#hex} -eq 3 ]]; then
+        hex="${hex:0:1}${hex:0:1}${hex:1:1}${hex:1:1}${hex:2:1}${hex:2:1}"
+    fi
+    local r=$((16#${hex:0:2}))
+    local g=$((16#${hex:2:2}))
+    local b=$((16#${hex:4:2}))
+    echo "$r,$g,$b"
+}
+
+# Convert RGB to hex
+# Usage: rgb_to_hex "r,g,b"
+rgb_to_hex() {
+    IFS=',' read -r r g b <<< "$1"
+    printf "#%02x%02x%02x\n" "$r" "$g" "$b"
+}
+
+######################################
+# GENERAL SETTINGS AND EXPORTS
+######################################
+
 country=
 location=
 url=
