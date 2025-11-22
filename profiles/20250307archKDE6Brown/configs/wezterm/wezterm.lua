@@ -1,5 +1,7 @@
 -- Pull in the wezterm API
 local wezterm = require 'wezterm'
+-- Required for mouse bindings
+local act = wezterm.action
 -- This will hold the configuration.
 local config = wezterm.config_builder()
 
@@ -25,7 +27,7 @@ config.initial_rows = 31
 -- Font size and color scheme.
 config.font_size = 10
 config.font = wezterm.font 'Hack'
-config.color_scheme = 'srsBlue'
+config.color_scheme = 'srsPurple'
 
 -- Time status bar
 wezterm.on('update-right-status', function(window, pane)
@@ -121,67 +123,132 @@ config.color_schemes = {
     ['srsGreen'] = {
         -- general colors
         foreground = '#c3c4c4',
-            background = '#121413',
+        background = '#121413',
 
-            -- selection
-            selection_fg = '#4b5a4c',
-            selection_bg = '#657c5b',
+        -- selection
+        selection_fg = '#4b5a4c',
+        selection_bg = '#657c5b',
 
-            -- cursor
-            cursor_bg = '#c3c4c4',
-            cursor_border = '#121413',
+        -- cursor
+        cursor_bg = '#c3c4c4',
+        cursor_border = '#121413',
 
-            ansi = {
-                '#121413',
-                '#4b5a4c',
-                '#526851',-- low%
-                '#577354',
-                '#5d9151',
-                '#657c5b',
-                '#5d6e61',
-                '#8f998f',
+        ansi = {
+            '#121413',
+            '#4b5a4c',
+            '#526851',-- low%
+            '#577354',
+            '#5d9151',
+            '#657c5b',
+            '#5d6e61',
+            '#8f998f',
+        },
+        brights = {
+            '#5a6f64',
+            '#657966',-- high%
+            '#6E8B6D',-- : and categories
+            '#759A71',-- ~ and mid%
+            '#7DC26C',-- $ and time
+            '#87A67A',
+            '#7D9382',
+            '#c3c4c4',-- headlines
+        },
+
+        --tab bar colors
+        tab_bar = {
+            background = '#4b5a4c',
+            active_tab = {
+                bg_color = '#526851',
+                fg_color = '#c3c4c4',
+                intensity = 'Bold',
+                underline = 'None',
+                italic = false,
+                strikethrough = false,
             },
-            brights = {
-                '#5a6f64',
-                '#657966',-- high%
-                '#6E8B6D',-- : and categories
-                '#759A71',-- ~ and mid%
-                '#7DC26C',-- $ and time
-                '#87A67A',
-                '#7D9382',
-                '#c3c4c4',-- headlines
+            inactive_tab = {
+                bg_color = '#5d9151',
+                fg_color = '#7D9382',
             },
+            inactive_tab_hover = {
+                bg_color = '#657966',
+                fg_color = '#121413',
+                italic = false,
+            },
+            new_tab = {
+                bg_color = '#5d9151',
+                fg_color = '#c3c4c4',
+            },
+            new_tab_hover = {
+                bg_color = '#657966',
+                fg_color = '#c3c4c4',
+                italic = true,
+            },
+        },
+    },
+    ['srsPurple'] = {
+        -- general colors
+        foreground = '#c0c0c2',
+        background = '#04040b',
 
-            --tab bar colors
-            tab_bar = {
-                background = '#4b5a4c',
-                active_tab = {
-                    bg_color = '#526851',
-                    fg_color = '#7D9382',
-                    intensity = 'Bold',
-                    underline = 'None',
-                    italic = false,
-                    strikethrough = false,
-                },
-                inactive_tab = {
-                    bg_color = '#5d9151',
-                    fg_color = '#7D9382',
-                },
-                inactive_tab_hover = {
-                    bg_color = '#657966',
-                    fg_color = '#121413',
-                    italic = false,
-                },
-                new_tab = {
-                    bg_color = '#5d9151',
-                    fg_color = '#7D9382',
-                },
-                new_tab_hover = {
-                    bg_color = '#657966',
-                    fg_color = '#121413',
-                    italic = true,
-                },
+        -- selection
+        selection_fg = '#2a187e',
+        selection_bg = '#6c4c8f',
+
+        -- cursor
+        cursor_bg = '#c0c0c2',
+        cursor_border = '#04040b',
+
+        ansi = {
+            '#04040b',
+            '#2a187e',
+            '#351e88',-- low%
+            '#422598',
+            '#58349e',
+            '#6c4c8f',
+            '#7b4eb1',
+            '#898995',
+        },
+        brights = {
+            '#545466',
+            '#3820A9',-- high%
+            '#4729B6',-- : and categories
+            '#5932CB',-- ~ and mid%
+            '#7646D3',-- $ and time
+            '#9166BF',
+            '#A469EC',
+            '#c0c0c2',-- headlines
+        },
+
+        --tab bar colors
+        tab_bar = {
+            background = '#2a187e',
+            active_tab = {
+                bg_color = '#351e88',
+                fg_color = '#A469EC',
+                intensity = 'Bold',
+                underline = 'None',
+                italic = false,
+                strikethrough = false,
             },
+            inactive_tab = {
+                bg_color = '#58349e',
+                fg_color = '#A469EC',
+            },
+            inactive_tab_hover = {
+                bg_color = '#3820A9',
+                fg_color = '#04040b',
+                italic = false,
+            },
+            new_tab = {
+                bg_color = '#58349e',
+                fg_color = '#A469EC',
+            },
+            new_tab_hover = {
+                bg_color = '#3820A9',
+                fg_color = '#04040b',
+                italic = true,
+            },
+        },
     },
     ['srsblueprint'] = {
         background = 'blue',
@@ -201,6 +268,23 @@ config.default_gui_startup_args = { 'connect', 'unix' }
 wezterm.on('window-config-reloaded', function(window, pane)
 window:perform_action(wezterm.action.ResetFontAndWindowSize, pane)
 end)
+
+-- bind rightclick to paste
+config.mouse_bindings = {
+    {
+        event = { Down = { streak = 1, button = "Right" } },
+        mods = "NONE",
+        action = wezterm.action_callback(function(window, pane)
+        local has_selection = window:get_selection_text_for_pane(pane) ~= ""
+        if has_selection then
+            window:perform_action(act.CopyTo("ClipboardAndPrimarySelection"), pane)
+            window:perform_action(act.ClearSelection, pane)
+            else
+                window:perform_action(act({ PasteFrom = "Clipboard" }), pane)
+                end
+                end),
+    },
+}
 
 -- Finally, return the configuration to wezterm:
 return config
