@@ -187,65 +187,65 @@ config.color_schemes = {
     },
     ['srsPurple'] = {
         -- general colors
-        foreground = '#c0c0c2',
-        background = '#04040b',
+        foreground = '#c3c1c4',
+        background = '#120814',
 
         -- selection
-        selection_fg = '#2a187e',
-        selection_bg = '#6c4c8f',
+        selection_fg = '#3b0938',
+        selection_bg = '#613112',
 
         -- cursor
-        cursor_bg = '#c0c0c2',
-        cursor_border = '#04040b',
+        cursor_bg = '#c3c1c4',
+        cursor_border = '#120814',
 
         ansi = {
-            '#04040b',
-            '#2a187e',
-            '#351e88',-- low%
-            '#422598',
-            '#58349e',
-            '#6c4c8f',
-            '#7b4eb1',
-            '#898995',
+            '#120814',
+            '#3b0938',
+            '#510b3b',-- low%
+            '#89125D',
+            '#652124',
+            '#613112',
+            '#660d45',
+            '#958c97',
         },
         brights = {
-            '#545466',
-            '#3820A9',-- high%
-            '#4729B6',-- : and categories
-            '#5932CB',-- ~ and mid%
-            '#7646D3',-- $ and time
-            '#9166BF',
-            '#A469EC',
-            '#c0c0c2',-- headlines
+            '#66586b',
+            '#4F0D4B',-- high%
+            '#6D0F4F',-- : and categories
+            '#6F0F69',-- ~ and mid%
+            '#872C31',-- $ and time
+            '#824218',
+            '#89125D',
+            '#c3c1c4',-- headlines
         },
 
         --tab bar colors
         tab_bar = {
-            background = '#2a187e',
+            background = '#3b0938',
             active_tab = {
-                bg_color = '#351e88',
-                fg_color = '#A469EC',
+                bg_color = '#510b3b',
+                fg_color = '#958c97',
                 intensity = 'Bold',
                 underline = 'None',
                 italic = false,
                 strikethrough = false,
             },
             inactive_tab = {
-                bg_color = '#58349e',
-                fg_color = '#A469EC',
+                bg_color = '#530b4e',
+                fg_color = '#89125D',
             },
             inactive_tab_hover = {
-                bg_color = '#3820A9',
-                fg_color = '#04040b',
+                bg_color = '#4F0D4B',
+                fg_color = '#120814',
                 italic = false,
             },
             new_tab = {
-                bg_color = '#58349e',
-                fg_color = '#A469EC',
+                bg_color = '#120814',
+                fg_color = '#958c97',
             },
             new_tab_hover = {
-                bg_color = '#3820A9',
-                fg_color = '#04040b',
+                bg_color = '#4F0D4B',
+                fg_color = '#120814',
                 italic = true,
             },
         },
