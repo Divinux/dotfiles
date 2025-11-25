@@ -1,0 +1,104 @@
+[
+    {
+        "auto_start": true,
+        "brightness": 100,
+        "devices": [
+            {
+                "brightness": 100,
+                "description": "MSI Mystic Light Device (185-byte)",
+                "is_percentage_fill": false,
+                "is_segment": false,
+                "location": "HID: /dev/hidraw6",
+                "name": "MSI MAG B550 TOMAHAWK (MS-7C91)",
+                "reverse": false,
+                "segment_idx": -1,
+                "serial": "A020210908A7",
+                "vendor": "MSI",
+                "version": "AP/LD 10.7 / 1.5",
+                "zone_idx": 0
+            },
+            {
+                "brightness": 100,
+                "description": "MSI Mystic Light Device (185-byte)",
+                "is_percentage_fill": false,
+                "is_segment": false,
+                "location": "HID: /dev/hidraw6",
+                "name": "MSI MAG B550 TOMAHAWK (MS-7C91)",
+                "reverse": false,
+                "segment_idx": -1,
+                "serial": "A020210908A7",
+                "vendor": "MSI",
+                "version": "AP/LD 10.7 / 1.5",
+                "zone_idx": 1
+            },
+            {
+                "brightness": 100,
+                "description": "MSI Mystic Light Device (185-byte)",
+                "is_percentage_fill": false,
+                "is_segment": false,
+                "location": "HID: /dev/hidraw6",
+                "name": "MSI MAG B550 TOMAHAWK (MS-7C91)",
+                "reverse": false,
+                "segment_idx": -1,
+                "serial": "A020210908A7",
+                "vendor": "MSI",
+                "version": "AP/LD 10.7 / 1.5",
+                "zone_idx": 2
+            },
+            {
+                "brightness": 100,
+                "description": "MSI Mystic Light Device (185-byte)",
+                "is_percentage_fill": false,
+                "is_segment": false,
+                "location": "HID: /dev/hidraw6",
+                "name": "MSI MAG B550 TOMAHAWK (MS-7C91)",
+                "reverse": false,
+                "segment_idx": -1,
+                "serial": "A020210908A7",
+                "vendor": "MSI",
+                "version": "AP/LD 10.7 / 1.5",
+                "zone_idx": 3
+            },
+            {
+                "brightness": 100,
+                "description": "MSI Mystic Light Device (185-byte)",
+                "is_percentage_fill": false,
+                "is_segment": false,
+                "location": "HID: /dev/hidraw6",
+                "name": "MSI MAG B550 TOMAHAWK (MS-7C91)",
+                "reverse": false,
+                "segment_idx": -1,
+                "serial": "A020210908A7",
+                "vendor": "MSI",
+                "version": "AP/LD 10.7 / 1.5",
+                "zone_idx": 4
+            }
+        ],
+        "fps": 60,
+        "hardware": 1,
+        "hardware_feature": 0,
+        "measure_color": {
+            "color_stops": [
+                [
+                    0.0,
+                    0
+                ],
+                [
+                    49.0,
+                    0
+                ],
+                [
+                    50.0,
+                    65535
+                ],
+                [
+                    100.0,
+                    255
+                ]
+            ]
+        },
+        "name": "temps",
+        "refresh_interval": 100,
+        "running": true
+    }
+]
