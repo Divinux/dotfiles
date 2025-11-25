@@ -1,11 +1,17 @@
 [ButtonColors]
-ButtonBackgroundColorsActive=Accent
-ButtonBackgroundColorsInactive=Accent
+AdjustBackgroundColorOnPoorContrastActive=false
+AdjustBackgroundColorOnPoorContrastInactive=false
+ButtonBackgroundColorsActive=TitleBarText
+ButtonBackgroundColorsInactive=TitleBarText
 ButtonBackgroundOpacityActive=61
-ButtonIconColorsActive=Accent
-ButtonIconColorsInactive=Accent
+ButtonIconColorsActive=TitleBarText
+ButtonIconOpacityActive=70
+ButtonIconOpacityInactive=38
 CloseButtonIconColorActive=AsSelected
 CloseButtonIconColorInactive=AsSelected
+OnPoorIconContrastActive=Nothing
+OnPoorIconContrastInactive=Nothing
+UseHoverAccentActive=true
 
 [ButtonSizing]
 ButtonCustomCornerRadius=1
@@ -22,7 +28,7 @@ ShadowStrength=102
 [Style]
 ButtonGradient=true
 FrameCornerRadius=FCR_Custom
-FrameCustomCornerRadius=13
+FrameCustomCornerRadius=14
 MenuItemDrawStrongFocus=false
 MenuOpacity=32
 ScrollBarTopBottomMargins=6
