@@ -136,11 +136,47 @@ export FZF_DEFAULT_OPTS=$FZF_DEFAULT_OPTS'
 prompt_style1='\[\e[91;1m\]\u\[\e[94m\]@\[\e[92m\]\H\[\e[93m\]\w\[\e[91m\]:$(if [ $? -eq 0 ]; then echo "\[\e[92m\]\$"; else echo "\[\e[91m\]\$"; fi)\[\e[0m\] '
 # 11:16 ~:$
 prompt_style2='\[\e[92m\]\A\[\e[m\] \[\e[94m\]\w\[\e[93m\]:$(if [ $? -eq 0 ]; then echo "\[\e[92m\]\$"; else echo "\[\e[91m\]\$"; fi)\[\e[0m\] '
-# [name@host] ~$
-prompt_style3='\[\e[95m\][\u@\h] \[\e[92m\]\w$(if [ $? -eq 0 ]; then echo "\[\e[92m\]\$"; else echo "\[\e[91m\]\$"; fi)\[\e[0m\] '
+# $ name ~ >
+prompt_style3='\[\e[0m\]$( [ $? -eq 0 ] && printf "\[\e[92m\]\$" || printf "\[\e[91m\]\$" )\
+ \[\e[91;1m\]\u \[\e[94m\]\[\e[93;1m\]\W \[\e[92m\]>\[\e[0m\] '
 # name ~>
 prompt_style4='\[\033[32;1m\]\u \[\033[34;1m\]\w$(if [ $? -eq 0 ]; then echo "\[\033[32;1m\]>"; else echo "\[\033[31;1m\]>"; fi)\[\033[0m\] '
+# ┌──[name:host~]
+# └─$
+prompt_style5='\[\e[91;1m\]┌──[\[\e[91;1m\]\u\[\e[94m\]@\[\e[92m\]\h \[\e[93m\]\W\[\e[91;1m\]]\
+\n\[\e[91;1m\]└─$( [ $? -eq 0 ] && printf "\[\e[92m\]\$" || printf "\[\e[91m\]\$" )\[\e[0m\] '
+#  ✔    siri    dsvr    ~ 
+prompt_style6='\[\e[0m\]\
+$( [ $? -eq 0 ] && printf "\[\e[42;30m\] ✔ " || printf "\[\e[41;30m\] ✘ " )\
+\[\e[0m\]\[\e[44;97m\]   \u \[\e[0m\]\[\e[44m\]\
+\[\e[45;97m\]   \h \[\e[0m\]\[\e[45m\]\
+\[\e[46;30m\]   \w \[\e[0m\]\[\e[46m\]\
+\[\e[0m\] '
+#  siri  dsvr  ~ 
+prompt_style7='\[\e[0m\]\
+\[\e[94m\] \u \[\e[94m\] \h \[\e[94m\] \w \
+$( [ $? -eq 0 ] && printf "\[\e[32m\]" || printf "\[\e[31m\]" ) \
+\[\e[0m\]\n\$ '
+# ★   siri@dsvr   ~
+prompt_style8='\[\e[0m\]\
+$( [ $? -eq 0 ] && printf "\[\e[32m\]★" || printf "\[\e[31m\]★" )\
+ \[\e[38;5;75m\]  \u@\h \
+\[\e[38;5;141m\]  \W\
+\[\e[0m\]\n\$ '
+# ╔═[   siri -   dsvr ]
+# ╚═[   ~ ] ✔ $
+prompt_style9='\
+$(
+    if [ $? -eq 0 ]; then
+        frame="\[\e[32m\]"     # green frame when OK
+    else
+        frame="\[\e[31m\]"     # red frame on error
+    fi
 
+    printf "%s╔═[ \[\e[36m\]  \u\[\e[33m\] - \[\e[35m\]  \h\[\e[0m\] %s]\n" "$frame" "$frame"
+    printf "%s╚═[ \[\e[34m\]  \w\[\e[0m\] %s] " "$frame" "$frame"
+)\
+\[\e[0m\]\$ '
 # Check for selected style, or load default
 if [ -f "$HOME/.prompt_theme" ]; then
   PROMPT_THEME=$(<"$HOME/.prompt_theme")
@@ -149,13 +185,18 @@ else
 fi
 
 ### Select prompt style
-setprompt() {
+ps() {
   local theme
   case "$1" in
     1|style1) theme="style1" ;;
     2|style2) theme="style2" ;;
     3|style3) theme="style3" ;;
     4|style4) theme="style4" ;;
+    5|style5) theme="style5" ;;
+    6|style6) theme="style6" ;;
+    7|style7) theme="style7" ;;
+    8|style8) theme="style8" ;;
+    9|style9) theme="style9" ;;
     *) echo "Unknown prompt style: $1"; return 1 ;;
   esac
   echo "$theme" > "$HOME/.prompt_theme"   # save choice
@@ -169,6 +210,11 @@ apply_prompt() {
     style2) PS1="$prompt_style2" ;;
     style3) PS1="$prompt_style3" ;;
     style4) PS1="$prompt_style4" ;;
+    style5) PS1="$prompt_style5" ;;
+    style6) PS1="$prompt_style6" ;;
+    style7) PS1="$prompt_style7" ;;
+    style8) PS1="$prompt_style8" ;;
+    style9) PS1="$prompt_style9" ;;
     *)      PS1="$prompt_style1" ;;
   esac
 }
@@ -216,6 +262,10 @@ elif [ -f /etc/lsb-release ]; then
     alias c='sudo apt autoremove && sudo apt clean'
 else
     echo "Unsupported distribution or cannot detect distribution."
+fi
+
+if [ -f /etc/lsb-release ]; then
+    alias fd='fdfind'
 fi
 
 #alias ff='fastfetch'
@@ -366,7 +416,7 @@ unset OLD_IFS DIRECTORY DIRECTORIES ALIAS ALIASES
 ######################################
 
 ### MOTD
-motd(){
+motd() {
 echo ""
 printf "${BLYELLOW}"
 echo "$(date +"%A, %d %B %Y"). It is $(date +"%H:%M")"
@@ -441,7 +491,7 @@ fzz() {
 }
 
 ### Copy a given file and rename it to file-datetime.bu
-bu () {
+bu() {
   # Check if a file is provided
   if [ -z "$1" ]; then
     echo "Usage: bu <file>"
@@ -753,7 +803,7 @@ lo() {
 }
 
 ### Remove orphans
-ro(){
+ro() {
     local orphans
     orphans=$(pacman -Qtdq 2>/dev/null)
 
@@ -799,7 +849,7 @@ lid() {
 ### Install all packages needed for this bashrc to function
 installdeps() {
     # Packages *you* want, regardless of distro
-    local packagelist="figlet toilet xmlstarlet pkgfile"
+    local packagelist="figlet toilet xmlstarlet pkgfile fzf gawk fd fdfind"
 
     echo "Installing dependencies for this Bash configuration..."
 
