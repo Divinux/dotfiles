@@ -177,14 +177,13 @@ $(
     text_color="\[\e[94m\]"    # color for username, host, path
 
     # Top line
-    printf "%s╔═[ %s  %s%s%s - %s  %s%s%s %s]\n" \
-        "$frame" "$icon_color" "$text_color" "\u" "$text_color" "$icon_color" "$text_color" "\h" "$frame" "$frame"
+    printf "%s╔═[ %s  %s%s%s%s%s  %s%s%s%s%s  %s%s%s %s]\n" \
+        "$frame" "$icon_color" "$text_color" "\u" "$frame" " - " "$icon_color" "$text_color" "\h" "$frame" " - " "$icon_color" "$text_color" "\A" "$frame"
 
     # Bottom line
-    printf "%s╚═[ %s  %s%s%s %s] " \
-        "$frame" "$icon_color" "$text_color" "\w" "$text_color" "$frame"
-)\
-\[\e[0m\]\$ '
+    printf "%s╚═[ %s  %s%s%s %s]%s \$\[\e[0m\] " \
+        "$frame" "$icon_color" "$text_color" "\w" "$frame" "$frame" "$text_color"
+)'
 # Check for selected style, or load default
 if [ -f "$HOME/.prompt_theme" ]; then
   PROMPT_THEME=$(<"$HOME/.prompt_theme")
