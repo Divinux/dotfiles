@@ -1,9 +1,9 @@
 ######################################
-# GENERAL SETTINGS AND EXPORTS
+# GENERAL SETTINGS
 ######################################
 
-location=
-url=
+location=""
+url=""
 separator=false
 autoconnect_enabled=false
 showmotd=true
@@ -28,34 +28,40 @@ shopt -s checkwinsize
 # append to the history file, don't overwrite it
 shopt -s histappend
 
-# Created by `pipx` on 2024-09-18 23:51:00
-export PATH="$PATH:/home/siri/.local/bin"
+# for setting history length see HISTSIZE and HISTFILESIZE in bash(1)
+HISTSIZE=
+HISTFILESIZE=$HISTSIZE
 
-# Reloads history and hooks in the gamifier
-#export PROMPT_COMMAND="history -a; history -n; update_exp; $PROMPT_COMMAND"
-export PROMPT_COMMAND="history -a; history -c; history -r; update_exp; $PROMPT_COMMAND"
+######################################
+### SOURCES AND EXPORTS
+######################################
+
 # don't put duplicate lines or lines starting with space in the history.
 export HISTCONTROL=ignoreboth
 export HISTIGNORE=ls:ll:la:l:cd:pwd:exit:mc:su:df
 
-# for setting history length see HISTSIZE and HISTFILESIZE in bash(1)
-HISTSIZE=
-HISTFILESIZE=$HISTSIZE
+# Created by `pipx` on 2024-09-18 23:51:00
+export PATH="$PATH:/home/siri/.local/bin"
 
 if [ "$separator" == "true" ]; then
     export PROMPT_COMMAND='q="- $(date +%T)"; while [[ ${#q} -lt $COLUMNS ]]; do q="${q:0:1}$q"; done; echo -e "\033[0;90m$q";'
 fi
 
-######################################
-### SOURCES
-######################################
+if [ -f ~/gamifier ]; then
+    . ~/gamifier
+    # Reloads history and hooks in the gamifier
+    #export PROMPT_COMMAND="history -a; history -n; update_exp; $PROMPT_COMMAND"
+    export PROMPT_COMMAND="history -a; history -c; history -r; update_exp; $PROMPT_COMMAND"
+fi
+
+# Enable pkgfile's command-not-found hook if available
+if command -v pkgfile >/dev/null 2>&1 && \
+   [ -f /usr/share/doc/pkgfile/command-not-found.bash ]; then
+    source /usr/share/doc/pkgfile/command-not-found.bash
+fi
 
 if [ -f ~/aliases ]; then
     . ~/aliases
-fi
-
-if [ -f ~/gamifier ]; then
-    . ~/gamifier
 fi
 
 #pywal
@@ -166,6 +172,7 @@ apply_prompt() {
     *)      PS1="$prompt_style1" ;;
   esac
 }
+
 apply_prompt "$PROMPT_THEME"
 
 # enable color support of ls and also add handy aliases
@@ -212,8 +219,9 @@ else
 fi
 
 #alias ff='fastfetch'
-alias ff='fastfetch -l /home/siri/archh.png --logo-type kitty --logo-width 45 --logo-padding-top 2 --logo-padding-left 0'
+#alias ff='fastfetch -l /home/siri/archh.png --logo-type kitty --logo-width 45 --logo-padding-top 2 --logo-padding-left 0'
 #alias ff='fastfetch -l /home/siri/archblu.png --logo-type kitty --logo-width 45 --logo-padding-top 1 --logo-padding-left 0'
+alias ff='fastfetch -l /home/siri/archprpl.png --logo-type kitty --logo-width 45 --logo-padding-top 2 --logo-padding-left 0'
 alias h='history'
 alias hg='history | grep '
 alias con='lsof -i'
@@ -223,7 +231,7 @@ alias rsss='neix'
 alias bat='bat -p'
 alias br='kate ~/.bashrc'
 alias brr='. ~/.bashrc'
-
+alias cv="grep -Ec '(vmx|svm)' /proc/cpuinfo"
 
 alias ll='ls -alF'
 alias la='ls -lah'
@@ -245,7 +253,6 @@ alias ga='git add .'
 alias gc='git commit -m "Add files"'
 alias gp='git push origin main'
 alias gstash="git stash"
-
 
 # Add an "alert" alias for long running commands.
 # example: sleep 10; alert
@@ -375,7 +382,7 @@ printf "${BLGRAY}"
 echo ""
 date +"%H:%M"| figlet -f smscript
 echo ""
-printf "${BMAGENTA}"
+printf "${RESET}"
 if [ -f ~/rss ]; then
     . ~/rss
 fi
@@ -491,33 +498,130 @@ else
 fi
 
 ### Find binary names installed by a package
+# fb() {
+#     pacman -Ql "$1" | awk '$2 ~ /(\/(usr\/local\/)?s?bin\/)/ && $2 !~ /(\/(usr\/local\/)?s?bin\/?)$/' | xargs -n1 basename
+# }
 fb() {
-    pacman -Ql "$1" | awk '$2 ~ /(\/(usr\/local\/)?s?bin\/)/ && $2 !~ /(\/(usr\/local\/)?s?bin\/?)$/' | xargs -n1 basename
+    if [ -f /etc/arch-release ]; then
+        # Arch / Manjaro / EndeavourOS / etc.
+        pacman -Ql "$1" \
+            | awk '$2 ~ /(\/(usr\/local\/)?s?bin\/)/ && $2 !~ /(\/(usr\/local\/)?s?bin\/?)$/' \
+            | xargs -n1 basename
+
+    elif [ -f /etc/lsb-release ]; then
+        # Debian / Ubuntu / Mint / Pop!_OS / etc.
+        dpkg -L "$1" \
+            | awk '$0 ~ /(\/(usr\/local\/)?s?bin\/)/ && $0 !~ /(\/(usr\/local\/)?s?bin\/?)$/' \
+            | xargs -n1 basename
+
+    else
+        echo "fb: unsupported or undetected distribution" >&2
+        return 1
+    fi
 }
 
 ### Find binary names installed by a package and displays the path
-fbp () {
-    pacman -Ql "$1" | grep 'bin/'
+# fbp () {
+#     pacman -Ql "$1" | grep 'bin/'
+# }
+### Find binary paths installed by a package
+fbp() {
+    if [ -f /etc/arch-release ]; then
+        # Arch
+        pacman -Ql "$1" \
+            | awk '$2 ~ /(\/(usr\/local\/)?s?bin\/)/ && $2 !~ /(\/(usr\/local\/)?s?bin\/?)$/ { print $2 }'
+
+    elif [ -f /etc/lsb-release ]; then
+        # Debian/Ubuntu
+        dpkg -L "$1" \
+            | awk '$0 ~ /(\/(usr\/local\/)?s?bin\/)/ && $0 !~ /(\/(usr\/local\/)?s?bin\/?)$/ { print $0 }'
+
+    else
+        echo "fbp: unsupported or undetected distribution" >&2
+        return 1
+    fi
 }
 
+
 ### Find which package owns a file
+# whoowns() {
+#     pacman -Qo "$1"
+# }
 whoowns() {
-    pacman -Qo "$1"
+    if [ -f /etc/arch-release ]; then
+        # Arch / Manjaro / etc.
+        pacman -Qo "$1"
+
+    elif [ -f /etc/lsb-release ]; then
+        # Debian / Ubuntu / etc.
+        dpkg -S "$1"
+
+    else
+        echo "whoowns: unsupported or undetected distribution" >&2
+        return 1
+    fi
 }
 
 ### List all files in a package
+# listfiles() {
+#     pacman -Ql "$1"
+# }
 listfiles() {
-    pacman -Ql "$1"
+    if [ -f /etc/arch-release ]; then
+        # Arch / Manjaro / etc.
+        pacman -Ql "$1"
+
+    elif [ -f /etc/lsb-release ]; then
+        # Debian / Ubuntu / etc.
+        dpkg -L "$1"
+
+    else
+        echo "listfiles: unsupported or undetected distribution" >&2
+        return 1
+    fi
 }
 
 ### Show description, size, deps of a package
+# pkginfo() {
+#     pacman -Si "$1"
+# }
 pkginfo() {
-    pacman -Si "$1"
+    if [ -f /etc/arch-release ]; then
+        # Arch / Manjaro / etc.
+        pacman -Si "$1"
+
+    elif [ -f /etc/lsb-release ]; then
+        # Debian / Ubuntu / etc.
+        apt show "$1"
+
+    else
+        echo "pkginfo: unsupported or undetected distribution" >&2
+        return 1
+    fi
 }
 
 ### List dependencies of a package
+# ld() {
+#     pactree -r "$1"
+# }
 ld() {
-    pactree -r "$1"
+    if [ -f /etc/arch-release ]; then
+        # Arch / Manjaro / etc.
+        pactree -r "$1"
+
+    elif [ -f /etc/lsb-release ]; then
+        # Debian / Ubuntu / etc.
+        if command -v apt-rdepends >/dev/null 2>&1; then
+            apt-rdepends "$1"
+        else
+            # fallback: show direct dependencies only
+            apt-cache depends "$1" | grep "Depends:" | awk '{print $2}'
+        fi
+
+    else
+        echo "ld: unsupported or undetected distribution" >&2
+        return 1
+    fi
 }
 
 ### Show public IP address
@@ -650,15 +754,15 @@ lo() {
 
 ### Remove orphans
 ro(){
-local orphans
-orphans=$(pacman -Qtdq 2>/dev/null)
+    local orphans
+    orphans=$(pacman -Qtdq 2>/dev/null)
 
-if [[ -z "$orphans" ]]; then
-  echo -e "${GREEN}No orphaned packages to remove!${RESET}"
-  return 0
-fi
+    if [[ -z "$orphans" ]]; then
+    echo -e "${GREEN}No orphaned packages to remove!${RESET}"
+    return 0
+    fi
 
-sudo pacman -Rns $orphans
+    sudo pacman -Rns $orphans
 }
 
 ### List all user installed packages
@@ -674,23 +778,70 @@ li() {
 
 ### List all user installed packages with descriptions
 lid() {
-  echo -e "${YELLOW}Packages installed through pacman:${RESET}"
-  echo
-  pacman -Qe | while read -r pkg _; do
-    desc=$(pacman -Si "$pkg" 2>/dev/null | awk -F': *' '/^Description/ {print $2}')
-    printf "${GREEN}%-20s${RESET} %s\n" "$pkg" "$desc"
-  done
+    echo -e "${YELLOW}Packages installed through pacman:${RESET}"
+    echo
+    pacman -Qe | while read -r pkg _; do
+        desc=$(pacman -Si "$pkg" 2>/dev/null | awk -F': *' '/^Description/ {print $2}')
+        printf "${GREEN}%-20s${RESET} %s\n" "$pkg" "$desc"
+    done
 
-  echo
-  echo -e "${YELLOW}Packages installed through AUR:${RESET}"
-  echo
-  pacman -Qm | while read -r pkg _; do
-    desc=$(pacman -Si "$pkg" 2>/dev/null | awk -F': *' '/^Description/ {print $2}')
-    # Fallback: try yay -Si if pacman doesn't find the AUR package
-    [[ -z "$desc" && $(command -v yay) ]] && desc=$(yay -Si "$pkg" 2>/dev/null | awk -F': *' '/^Description/ {print $2}')
-    printf "${CYAN}%-20s${RESET} %s\n" "$pkg" "$desc"
-  done
+    echo
+    echo -e "${YELLOW}Packages installed through AUR:${RESET}"
+    echo
+    pacman -Qm | while read -r pkg _; do
+        desc=$(pacman -Si "$pkg" 2>/dev/null | awk -F': *' '/^Description/ {print $2}')
+        # Fallback: try yay -Si if pacman doesn't find the AUR package
+        [[ -z "$desc" && $(command -v yay) ]] && desc=$(yay -Si "$pkg" 2>/dev/null | awk -F': *' '/^Description/ {print $2}')
+        printf "${CYAN}%-20s${RESET} %s\n" "$pkg" "$desc"
+    done
 }
+
+### Install all packages needed for this bashrc to function
+installdeps() {
+    # Packages *you* want, regardless of distro
+    local packagelist="figlet toilet xmlstarlet pkgfile"
+
+    echo "Installing dependencies for this Bash configuration..."
+
+    if [ -f /etc/arch-release ]; then
+        # Arch / Manjaro / Endeavour / etc.
+        for pkg in $packagelist; do
+            if pacman -Qi "$pkg" >/dev/null 2>&1; then
+                echo "✓ $pkg already installed"
+            else
+                echo "→ Installing $pkg (Arch)"
+                sudo pacman -S --noconfirm "$pkg" 2>/dev/null || \
+                    echo "✗ Failed to install $pkg (not available?)"
+            fi
+        done
+
+    elif [ -f /etc/lsb-release ]; then
+        # Debian / Ubuntu / Mint / Pop!_OS / etc.
+        for pkg in $packagelist; do
+            # Check if the package exists in apt-cache (skip if unknown)
+            if ! apt-cache search "^$pkg$" >/dev/null 2>&1; then
+                echo "✗ $pkg not available on this distro — skipping"
+                continue
+            fi
+
+            # Check if already installed
+            if dpkg -s "$pkg" >/dev/null 2>&1; then
+                echo "✓ $pkg already installed"
+            else
+                echo "→ Installing $pkg (Debian/Ubuntu)"
+                sudo apt-get install -y "$pkg" 2>/dev/null || \
+                    echo "✗ Failed to install $pkg"
+            fi
+        done
+
+    else
+        echo "installdeps: unsupported or undetected distribution" >&2
+        return 1
+    fi
+
+    echo "Dependency installation complete."
+}
+
 
 ### Determine if a system reboot is required
 checkreboot() {
