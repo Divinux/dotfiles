@@ -173,8 +173,16 @@ $(
         frame="\[\e[31m\]"     # red frame on error
     fi
 
-    printf "%s╔═[ \[\e[36m\]  \u\[\e[33m\] - \[\e[35m\]  \h\[\e[0m\] %s]\n" "$frame" "$frame"
-    printf "%s╚═[ \[\e[34m\]  \w\[\e[0m\] %s] " "$frame" "$frame"
+    icon_color="\[\e[91m\]"    # color for icons
+    text_color="\[\e[94m\]"    # color for username, host, path
+
+    # Top line
+    printf "%s╔═[ %s  %s%s%s - %s  %s%s%s %s]\n" \
+        "$frame" "$icon_color" "$text_color" "\u" "$text_color" "$icon_color" "$text_color" "\h" "$frame" "$frame"
+
+    # Bottom line
+    printf "%s╚═[ %s  %s%s%s %s] " \
+        "$frame" "$icon_color" "$text_color" "\w" "$text_color" "$frame"
 )\
 \[\e[0m\]\$ '
 # Check for selected style, or load default
