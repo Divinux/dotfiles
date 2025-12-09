@@ -135,7 +135,7 @@ export FZF_DEFAULT_OPTS=$FZF_DEFAULT_OPTS'
 # name@host~:$
 prompt_style1='\[\e[91;1m\]\u\[\e[94m\]@\[\e[92m\]\H\[\e[93m\]\w\[\e[91m\]:$(if [ $? -eq 0 ]; then echo "\[\e[92m\]\$"; else echo "\[\e[91m\]\$"; fi)\[\e[0m\] '
 # 11:16 ~:$
-prompt_style2='\[\e[92m\]\A\[\e[m\] \[\e[94m\]\w\[\e[93m\]:$(if [ $? -eq 0 ]; then echo "\[\e[92m\]\$"; else echo "\[\e[91m\]\$"; fi)\[\e[0m\] '
+prompt_style2='\[\e[1m\]\[\e[92m\]\A\[\e[22m\] \[\e[1m\]\[\e[94m\]\w\[\e[1m\]\[\e[93m\]:$(if [ $? -eq 0 ]; then echo "\[\e[1m\]\[\e[92m\]\$"; else echo "\[\e[1m\]\[\e[91m\]\$"; fi)\[\e[0m\] '
 # $ name ~ >
 prompt_style3='\[\e[0m\]$( [ $? -eq 0 ] && printf "\[\e[92m\]\$" || printf "\[\e[91m\]\$" )\
  \[\e[91;1m\]\u \[\e[94m\]\[\e[93;1m\]\W \[\e[92m\]>\[\e[0m\] '
@@ -145,25 +145,25 @@ prompt_style4='\[\033[32;1m\]\u \[\033[34;1m\]\w$(if [ $? -eq 0 ]; then echo "\[
 # └─$
 prompt_style5='\[\e[91;1m\]┌──[\[\e[91;1m\]\u\[\e[94m\]@\[\e[92m\]\h \[\e[93m\]\W\[\e[91;1m\]]\
 \n\[\e[91;1m\]└─$( [ $? -eq 0 ] && printf "\[\e[92m\]\$" || printf "\[\e[91m\]\$" )\[\e[0m\] '
-#  ✔    siri    dsvr    ~ 
+#  ✔    name    host    ~ 
 prompt_style6='\[\e[0m\]\
 $( [ $? -eq 0 ] && printf "\[\e[42;30m\] ✔ " || printf "\[\e[41;30m\] ✘ " )\
 \[\e[0m\]\[\e[44;97m\]   \u \[\e[0m\]\[\e[44m\]\
 \[\e[45;97m\]   \h \[\e[0m\]\[\e[45m\]\
 \[\e[46;30m\]   \w \[\e[0m\]\[\e[46m\]\
 \[\e[0m\] '
-#  siri  dsvr  ~ 
+#  name  host  ~ 
 prompt_style7='\[\e[0m\]\
 \[\e[94m\] \u \[\e[94m\] \h \[\e[94m\] \w \
 $( [ $? -eq 0 ] && printf "\[\e[32m\]" || printf "\[\e[31m\]" ) \
 \[\e[0m\]\n\$ '
-# ★   siri@dsvr   ~
+# ★   name@host   ~
 prompt_style8='\[\e[0m\]\
 $( [ $? -eq 0 ] && printf "\[\e[32m\]★" || printf "\[\e[31m\]★" )\
  \[\e[38;5;75m\]  \u@\h \
 \[\e[38;5;141m\]  \W\
 \[\e[0m\]\n\$ '
-# ╔═[   siri -   dsvr ]
+# ╔═[   name -   host ]
 # ╚═[   ~ ] ✔ $
 prompt_style9='\
 $(
