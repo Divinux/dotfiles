@@ -41,7 +41,7 @@ export HISTCONTROL=ignoreboth
 export HISTIGNORE=ls:ll:la:l:cd:pwd:exit:mc:su:df
 
 # Created by `pipx` on 2024-09-18 23:51:00
-export PATH="$PATH:/home/siri/.local/bin"
+#export PATH="$PATH:/home/siri/.local/bin"
 
 if [ "$separator" == "true" ]; then
     export PROMPT_COMMAND='q="- $(date +%T)"; while [[ ${#q} -lt $COLUMNS ]]; do q="${q:0:1}$q"; done; echo -e "\033[0;90m$q";'
@@ -289,6 +289,7 @@ alias bat='bat -p'
 alias br='kate ~/.bashrc'
 alias brr='. ~/.bashrc'
 alias cv="grep -Ec '(vmx|svm)' /proc/cpuinfo"
+alias path="echo "$PATH" | tr : '\n'"
 
 alias ll='ls -alF'
 alias la='ls -lah'
@@ -429,7 +430,7 @@ printf "${BLYELLOW}"
 echo "$(date +"%A, %d %B %Y"). It is $(date +"%H:%M")"
 echo ""
 printf "${BRED}"
-curl "wttr.in/$location?format=2"
+#curl "wttr.in/$location?format=2"
 printf "${BBLUE}"
 echo ""
 date +"%A,"| figlet -f script
