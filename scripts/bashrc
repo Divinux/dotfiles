@@ -324,45 +324,16 @@ alias colortest='for x in `seq 0 8`; do for i in `seq 30 37`; do for a in `seq 4
 # source https://www.linuxquestions.org/questions/linux-general-1/ultimate-prompt-and-bashrc-file-4175518169/
 ######################################
 
-# Get a list of all services
 alias services='systemctl list-units --type=service --state=running,failed'
 alias servicesall='systemctl list-units --type=service'
-# Find what systemd services have failed
 alias {failed,servicefailed}='systemctl --failed'
-# Get the status of a services
-alias servicestatus='sudo systemctl status'
-# Start a service and enable automatic startup at boot
-alias serviceenable='sudo systemctl enable --now'
-# Disable a service
-alias servicedisable='sudo systemctl disable'
-# Start a service
-alias servicestart='sudo systemctl start'
-# Stop a service
-alias servicestop='sudo systemctl stop'
-# Forcefully terminate a service
-alias servicekill='sudo systemctl kill'
-# Stop and restart a service
-alias servicerestart='sudo systemctl restart'
-# Reload a service's configuration (soft restart)
-alias servicereload='sudo systemctl reload'
-# Tell how long it took to boot the system
-alias boottime='systemd-analyze'
-# Tell how long it took to boot the system
-alias boottimelist='systemd-analyze blame'
-# Generate a visual boot time analysis chart as a graphic SVG image
 alias bootchart='systemd-analyze plot > ./boot.svg && echo "Boot chart saved to ${PWD/#$HOME/~}/boot.svg"'
-# View kernel messages from current boot
 alias bootmessages='journalctl -b -k'
-# View kernel messages from previous boot
 alias bootprevious='journalctl -b -1 -k'
-# Filter for warning and errors
 alias booterrors='journalctl -b -k -p warning..emerg'
-# List boots
 alias bootlist='journalctl --list-boots'
-# Clear system log entries from the systemd journal
 alias {clearsystemlogs,cleansystemlogs}='echo -ne "${BBLUE}Before${RESET}: "; journalctl --disk-usage; sudo journalctl --rotate; sudo journalctl --vacuum-time=1s; echo -ne "${BBLUE}After${RESET}: "; journalctl --disk-usage'
-# Fast reboot user space and not the kernel
-alias rebootfast='systemctl soft-reboot'
+alias rebootfast='systemctl soft-reboot' # Fast reboot user space and not the kernel
 
 # Create aliases to start/enable and stop/disable the SSH server
 alias sshstatus='systemctl status sshd.service'
@@ -657,6 +628,71 @@ pkginfo() {
         return 1
     fi
 }
+
+### Show reason package was installed
+packagereason() {
+    if [ -z "$1" ]; then
+        echo "usage: packagereason <package>" >&2
+        return 1
+    fi
+
+    local pkg="$1"
+
+    if [ -f /etc/arch-release ]; then
+        # ---- Arch / Manjaro / etc. ----
+
+        echo "==> pacman -Qi $pkg"
+        pacman -Qi "$pkg" 2>/dev/null || return 1
+        echo
+
+        echo "==> Install log entry"
+        grep "installed $pkg" /var/log/pacman.log || echo "No install entry found"
+        echo
+
+        echo "==> Install log context"
+        grep -C 5 "installed $pkg" /var/log/pacman.log || echo "No context found"
+        echo
+
+        echo "==> Reverse dependencies (pacman -Rns --print)"
+        pacman -Rns --print "$pkg" 2>/dev/null || echo "Nothing would be removed"
+
+    elif [ -f /etc/lsb-release ]; then
+        # ---- Debian / Ubuntu / Mint ----
+
+        echo "==> apt show $pkg"
+        apt show "$pkg" 2>/dev/null || return 1
+        echo
+
+        echo "==> Install reason (manual vs auto)"
+        if apt-mark showmanual | grep -qx "$pkg"; then
+            echo "Install Reason  : Manually installed"
+        elif apt-mark showauto | grep -qx "$pkg"; then
+            echo "Install Reason  : Installed as a dependency"
+        else
+            echo "Install Reason  : Unknown"
+        fi
+        echo
+
+        echo "==> Install log entry"
+        grep -R "Install: .*${pkg}" /var/log/apt/history.log* 2>/dev/null \
+            || echo "No install entry found"
+        echo
+
+        echo "==> Install log context"
+        grep -R -C 5 "Install: .*${pkg}" /var/log/apt/history.log* 2>/dev/null \
+            || echo "No context found"
+        echo
+
+        echo "==> Reverse dependencies (apt rdepends)"
+        apt-cache rdepends "$pkg" 2>/dev/null || echo "No reverse dependencies found"
+
+    else
+        echo "packagereason: unsupported or undetected distribution" >&2
+        return 1
+    fi
+}
+
+
 
 ### List dependencies of a package
 # ld() {
@@ -1070,3 +1106,12 @@ rgb_to_hex() {
     printf "#%02x%02x%02x\n" "$r" "$g" "$b"
 }
 
+checkerrors(){
+for i in {0..1}; do
+    echo "===== Boot -$i ====="
+    journalctl -b -$i -p warning..alert --no-pager | grep -E --color=auto \
+        "error|fail|cannot|hole|EMERGENCY|ALERT|CRITICAL|watchdog"
+    echo
+done
+
+}
