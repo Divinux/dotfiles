@@ -5,7 +5,6 @@ Personal collection of dotfiles for linux desktop personalization.
 <img src="screenshots/latest.png" width="800">
 
 ![Application Video](screenshots/brown.gif)
-![Application Video](screenshots/brown.mp4)
 
 <img src="screenshots/animfetch.gif" width="800">
 
