@@ -2,7 +2,7 @@
 
 Personal collection of dotfiles for linux desktop personalization.
 
-<img src="screenshots/current.png" width="800">
+<img src="screenshots/latest.png" width="800">
 
 ![Application Video](screenshots/brown.gif)
 
