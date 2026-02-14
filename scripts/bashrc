@@ -42,6 +42,11 @@ export HISTIGNORE=ls:ll:la:l:cd:pwd:exit:mc:su:df
 
 # Created by `pipx` on 2024-09-18 23:51:00
 #export PATH="$PATH:/home/siri/.local/bin"
+case ":$PATH:" in
+  *":$HOME/.cargo/bin:"*) ;;
+  *) export PATH="$PATH:$HOME/.cargo/bin" ;;
+esac
+
 
 if [ "$separator" == "true" ]; then
     export PROMPT_COMMAND='q="- $(date +%T)"; while [[ ${#q} -lt $COLUMNS ]]; do q="${q:0:1}$q"; done; echo -e "\033[0;90m$q";'
@@ -250,7 +255,7 @@ export GCC_COLORS='error=01;31:warning=01;35:note=01;36:caret=01;32:locus=01:quo
 # Detect distribution and set alias for package updates
 if [ -f /etc/arch-release ]; then
     # Arch
-    alias u='sudo pacman -Syu && checkreboot'
+    alias u='lastupdate && sudo pacman -Syu && checkreboot'
     alias i='sudo pacman -S '
     alias f='pacman -Ss '
     alias r='sudo pacman -R '
@@ -289,7 +294,7 @@ alias bat='bat -p'
 alias br='kate ~/.bashrc'
 alias brr='. ~/.bashrc'
 alias cv="grep -Ec '(vmx|svm)' /proc/cpuinfo"
-alias path="echo "$PATH" | tr : '\n'"
+alias path='echo "$PATH" | tr ":" "\n"'
 
 alias ll='ls -alF'
 alias la='ls -lah'
@@ -1032,6 +1037,44 @@ checkreboot() {
         return 1
     fi
 }
+
+### Display the last time the system was updated
+lastupdate() {
+    local stamp_file="$HOME/.last_update"
+    local now
+    now=$(date +%s)
+
+    if [[ -f "$stamp_file" ]]; then
+        local last
+        last=$(cat "$stamp_file")
+
+        if [[ "$last" =~ ^[0-9]+$ ]]; then
+            local diff=$((now - last))
+
+            local days=$((diff / 86400))
+            local hours=$(((diff % 86400) / 3600))
+            local minutes=$(((diff % 3600) / 60))
+
+            printf "${BOLD}${LBLUE}::${RESET} ${BOLD}Last update:${RESET}"
+            date -d "@$last" "+ %Y-%m-%d %H:%M:%S"
+
+            echo -n " "
+            if (( days > 0 )); then
+                echo -n "${days}d "
+            fi
+            if (( hours > 0 )); then
+                echo -n "${hours}h "
+            fi
+            echo "${minutes}m ago"
+        fi
+    else
+        printf "${BOLD}${LBLUE}::${RESET} ${BOLD}No previous update timestamp found.${RESET}"
+        echo
+    fi
+
+    date +%s > "$stamp_file"
+}
+
 
 ### Convert between rgb and hex colors
 # Usage: colorconvert "#rrggbb" or "r,g,b"
