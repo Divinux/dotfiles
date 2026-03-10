@@ -59,4 +59,8 @@ Personal collection of dotfiles for linux desktop personalization.
 - **Konsave** - dotfiles backup and reload
   - [GitHub](https://github.com/Prayag2/konsave)
 
----
+## Download and replace .bashrc
+
+```bash
+wget -O .bashrc https://github.com/Divinux/dotfiles/raw/refs/heads/main/scripts/bashrc
+```
