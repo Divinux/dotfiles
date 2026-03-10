@@ -434,7 +434,16 @@ rm() {
     trash="$HOME/.trash"
     mkdir -p "$trash"
 
-    for f in "$@"; do
+    files=()
+
+    for arg in "$@"; do
+        case "$arg" in
+            -*) ;;
+            *) files+=("$arg") ;;
+        esac
+    done
+
+    for f in "${files[@]}"; do
         ts=$(date +%s)
         base=$(basename "$f")
         mv -- "$f" "$trash/${base}.${ts}"
