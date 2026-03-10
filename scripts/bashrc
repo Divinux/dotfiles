@@ -429,6 +429,18 @@ cd() {
     builtin cd "$@" && ls -AF
 }
 
+### Move files to trash instead of deleting
+rm() {
+    trash="$HOME/.trash"
+    mkdir -p "$trash"
+
+    for f in "$@"; do
+        ts=$(date +%s)
+        base=$(basename "$f")
+        mv -- "$f" "$trash/${base}.${ts}"
+    done
+}
+
 ### Search the filesystem dynamically and cd into shortest found directory
 fz() {
   local dir
