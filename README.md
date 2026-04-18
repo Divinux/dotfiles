@@ -39,9 +39,13 @@ Personal collection of dotfiles for linux desktop personalization.
   - [KDE Store](https://store.kde.org/p/2118297)
   - [GitHub](https://github.com/nclarius/Plasma-window-decorations)
 
-- **Active Blur** - Wallpaper effect plugin
+- **Active Blur** - Wallpaper blur plugin
   - [KDE Store](https://store.kde.org/p/2134907)
   - [GitHub](https://github.com/bouteillerAlan/blurredwallpaper)
+
+- **KDE Wallpaper Effects** - Alternative Wallpaper effect plugin
+  - [KDE Store](https://store.kde.org/p/2145723)
+  - [GitHub](https://github.com/luisbocanegra/plasma-wallpaper-effects)
 
 - **KZones** - KWin Script for tiling zones
   - [KDE Store](https://store.kde.org/p/1909220)
