@@ -189,46 +189,36 @@ $(
     printf "%s╚═[ %s  %s%s%s %s]%s \$\[\e[0m\] " \
         "$frame" "$icon_color" "$text_color" "\w" "$frame" "$frame" "$text_color"
 )'
+
 # Check for selected style, or load default
-if [ -f "$HOME/.prompt_theme" ]; then
-  PROMPT_THEME=$(<"$HOME/.prompt_theme")
+if [[ -f "$HOME/.prompt_theme" ]]; then
+  read -r PROMPT_THEME < "$HOME/.prompt_theme"
 else
-  PROMPT_THEME="style1"
+  PROMPT_THEME=1
 fi
 
 ### Select prompt style
 sp() {
-  local theme
-  case "$1" in
-    1|style1) theme="style1" ;;
-    2|style2) theme="style2" ;;
-    3|style3) theme="style3" ;;
-    4|style4) theme="style4" ;;
-    5|style5) theme="style5" ;;
-    6|style6) theme="style6" ;;
-    7|style7) theme="style7" ;;
-    8|style8) theme="style8" ;;
-    9|style9) theme="style9" ;;
-    *) echo "Unknown prompt style: $1"; return 1 ;;
-  esac
-  echo "$theme" > "$HOME/.prompt_theme"   # save choice
-  apply_prompt "$theme"
+  local n="$1"
+  local var="prompt_style$n"
+
+  # Validate: must be a number AND corresponding variable must exist
+  [[ $n =~ ^[0-9]+$ && -v $var ]] || {
+    echo "Unknown prompt style: $1"
+    return 1
+  }
+
+  echo "$n" > "$HOME/.prompt_theme"
+  apply_prompt "$n"
 }
 
 # Apply selected prompt style
 apply_prompt() {
-  case "$1" in
-    style1) PS1="$prompt_style1" ;;
-    style2) PS1="$prompt_style2" ;;
-    style3) PS1="$prompt_style3" ;;
-    style4) PS1="$prompt_style4" ;;
-    style5) PS1="$prompt_style5" ;;
-    style6) PS1="$prompt_style6" ;;
-    style7) PS1="$prompt_style7" ;;
-    style8) PS1="$prompt_style8" ;;
-    style9) PS1="$prompt_style9" ;;
-    *)      PS1="$prompt_style1" ;;
-  esac
+  local n="$1"
+  local var="prompt_style$n"
+
+  # Set PS1 from the corresponding variable
+  PS1="${!var}"
 }
 
 apply_prompt "$PROMPT_THEME"
