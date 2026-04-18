@@ -191,10 +191,10 @@ $(
 )'
 
 # Check for selected style, or load default
-if [[ -f "$HOME/.prompt_theme" ]]; then
-  read -r PROMPT_THEME < "$HOME/.prompt_theme"
+if [[ -f "$HOME/.prompt_style" ]]; then
+  read -r PROMPT_STYLE < "$HOME/.prompt_style"
 else
-  PROMPT_THEME=1
+  PROMPT_STYLE=1
 fi
 
 ### Select prompt style
@@ -208,7 +208,7 @@ sp() {
     return 1
   }
 
-  echo "$n" > "$HOME/.prompt_theme"
+  echo "$n" > "$HOME/.prompt_style"
   apply_prompt "$n"
 }
 
@@ -221,7 +221,7 @@ apply_prompt() {
   PS1="${!var}"
 }
 
-apply_prompt "$PROMPT_THEME"
+apply_prompt "$PROMPT_STYLE"
 
 # enable color support of ls and also add handy aliases
 if [ -x /usr/bin/dircolors ]; then
