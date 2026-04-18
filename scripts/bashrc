@@ -197,7 +197,7 @@ else
 fi
 
 ### Select prompt style
-ps() {
+sp() {
   local theme
   case "$1" in
     1|style1) theme="style1" ;;
