@@ -1124,6 +1124,19 @@ gacp() {
   fi
 }
 
+### Squash a given number of already pushed commits
+grbp() {
+  local n="${1:-1}"
+
+  if ! [[ "$n" =~ ^[0-9]+$ ]] || [[ "$n" -lt 1 ]]; then
+    echo "Usage: gsquash <number_of_commits>"
+    return 1
+  fi
+
+  git rebase -i "HEAD~$n"
+  git push --force-with-lease
+}
+
 ### Convert between rgb and hex colors
 # Usage: colorconvert "#rrggbb" or "r,g,b"
 colorconvert() {
