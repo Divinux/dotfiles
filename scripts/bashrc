@@ -1210,6 +1210,47 @@ rgb_to_hex() {
     printf "#%02x%02x%02x\n" "$r" "$g" "$b"
 }
 
+### Search the xkcd color database for a keyword or give a random selection
+xkcd() {
+    local search_term="$1"
+    local color_file="${XKCD_COLOR_FILE:-$HOME/.xkcd-colors.txt}"
+
+    # Check if file exists; if not, offer to download
+    if [[ ! -f "$color_file" ]]; then
+        echo "Color file not found at $color_file"
+        read -p "Would you like to automatically download it now? [Y/n] " -r reply
+        reply=${reply:-Y}   # Default to "Y" if user presses Enter
+
+        if [[ "$reply" =~ ^[Yy]([Ee][Ss])?$ ]]; then
+            echo "Downloading xkcd color list..."
+            if curl -fso "$color_file" https://xkcd.com/color/rgb.txt; then
+                echo "Download successful! File saved to $color_file"
+                echo ""
+            else
+                echo "Download failed. Please check your internet connection or try manually:"
+                echo "  curl -o ~/.xkcd-colors.txt https://xkcd.com/color/rgb.txt"
+                return 1
+            fi
+        else
+            echo "Download cancelled. You can manually download the file later with:"
+            echo "  curl -o ~/.xkcd-colors.txt https://xkcd.com/color/rgb.txt"
+            return 1
+        fi
+    fi
+
+    if [[ -z "$search_term" ]]; then
+        shuf -n 10 "$color_file" | while IFS= read -r line; do
+        hex=$(echo "$line" | awk '{print $NF}')
+        colortext "$hex" "$line"
+    done
+    else
+        grep -i "$search_term" "$color_file" | while IFS= read -r line; do
+        hex=$(echo "$line" | awk '{print $NF}')
+        colortext "$hex" "$line"
+        done
+    fi
+}
+
 ### Check logs for errors
 checkerrors() {
 for i in {0..1}; do
