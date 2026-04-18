@@ -959,7 +959,7 @@ installdeps() {
 
 ### Update bashrc from github
 ubr() {
-    wget -O ~/.bashrc https://github.com/Divinux/dotfiles/raw/refs/heads/main/scripts/bashrc
+wget -O ~/.bashrc https://github.com/Divinux/dotfiles/raw/refs/heads/main/scripts/bashrc
 }
 
 ### Determine if a system reboot is required
@@ -1169,12 +1169,12 @@ rgb_to_hex() {
     printf "#%02x%02x%02x\n" "$r" "$g" "$b"
 }
 
-### Check logs for errors
-checkerrors() {
+checkerrors(){
 for i in {0..1}; do
     echo "===== Boot -$i ====="
     journalctl -b -$i -p warning..alert --no-pager | grep -E --color=auto \
         "error|fail|cannot|hole|EMERGENCY|ALERT|CRITICAL|watchdog"
     echo
 done
+
 }
