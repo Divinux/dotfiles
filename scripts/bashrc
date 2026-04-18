@@ -676,7 +676,7 @@ packagereason() {
         echo
 
         echo "==> Install log context"
-        grep -C 5 "installed $pkg" /var/log/pacman.log || echo "No context found"
+        grep -C 10 "installed $pkg" /var/log/pacman.log || echo "No context found"
         echo
 
         echo "==> Reverse dependencies (pacman -Rns --print)"
@@ -705,7 +705,7 @@ packagereason() {
         echo
 
         echo "==> Install log context"
-        grep -R -C 5 "Install: .*${pkg}" /var/log/apt/history.log* 2>/dev/null \
+        grep -R -C 10 "Install: .*${pkg}" /var/log/apt/history.log* 2>/dev/null \
             || echo "No context found"
         echo
 
@@ -810,6 +810,30 @@ um() {
         echo "Failed to update mirrorlist."
     fi
 }
+
+### Display pacman stats
+pstats() {
+    echo "Total package updates: "
+    grep -c "\[ALPM\] upgraded " /var/log/pacman.log
+    echo
+
+    echo "Unique packages updated: "
+    grep "\[ALPM\] upgraded " /var/log/pacman.log | awk '{print $4}' | sort -u | wc -l
+    echo
+
+    echo "Package update count: "
+    awk '
+/\[ALPM\] upgraded / { upgrades[$4]++ }
+END {
+    while ( ("pacman -Qq" | getline pkg) > 0 ) {
+        if (!(pkg in upgrades)) upgrades[pkg]=0
+    }
+    close("pacman -Qq")
+    for (pkg in upgrades)
+        printf "%-40s %d\n", pkg, upgrades[pkg]
+}' /var/log/pacman.log | sort -k2 -nr
+}
+
 
 ### List all functions in .bashrc in original order, only if preceded by ### comment
 lf() {
