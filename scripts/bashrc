@@ -1095,6 +1095,38 @@ lastupdate() {
     date +%s > "$stamp_file"
 }
 
+### Push to github repo, autodetecting branch and remote
+gacp() {
+  local msg="${*:-Add files}"
+  local branch remote
+
+  branch=$(git branch --show-current)
+
+  if [[ -z "$branch" ]]; then
+    echo "Not on a branch (detached HEAD). Aborting."
+    return 1
+  fi
+
+  # Try to get upstream remote (best case)
+  remote=$(git config --get "branch.$branch.remote")
+
+  # Fallback: first remote (usually origin)
+  if [[ -z "$remote" ]]; then
+    remote=$(git remote | head -n1)
+  fi
+
+  if [[ -z "$remote" ]]; then
+    echo "No remote found. Aborting push."
+    return 1
+  fi
+
+  git status
+  git add .
+
+  if git commit -m "$msg"; then
+    git push -u "$remote" "$branch"
+  fi
+}
 
 ### Convert between rgb and hex colors
 # Usage: colorconvert "#rrggbb" or "r,g,b"
