@@ -256,7 +256,7 @@ if [ -f /etc/arch-release ]; then
     alias p='paru'
 elif [ -f /etc/lsb-release ]; then
     # Debian
-    alias u='sudo apt update && sudo apt upgrade && checkreboot'
+    alias u='lastupdate && sudo apt update && sudo apt upgrade && checkreboot'
     alias i='sudo apt install '
     alias f='apt search '
     alias r='sudo apt remove '
@@ -543,9 +543,6 @@ else
 fi
 
 ### Find binary names installed by a package
-# fb() {
-#     pacman -Ql "$1" | awk '$2 ~ /(\/(usr\/local\/)?s?bin\/)/ && $2 !~ /(\/(usr\/local\/)?s?bin\/?)$/' | xargs -n1 basename
-# }
 fb() {
     if [ -f /etc/arch-release ]; then
         # Arch / Manjaro / EndeavourOS / etc.
@@ -566,10 +563,6 @@ fb() {
 }
 
 ### Find binary names installed by a package and displays the path
-# fbp () {
-#     pacman -Ql "$1" | grep 'bin/'
-# }
-### Find binary paths installed by a package
 fbp() {
     if [ -f /etc/arch-release ]; then
         # Arch
@@ -589,9 +582,6 @@ fbp() {
 
 
 ### Find which package owns a file
-# whoowns() {
-#     pacman -Qo "$1"
-# }
 whoowns() {
     if [ -f /etc/arch-release ]; then
         # Arch / Manjaro / etc.
@@ -608,9 +598,6 @@ whoowns() {
 }
 
 ### List all files in a package
-# listfiles() {
-#     pacman -Ql "$1"
-# }
 listfiles() {
     if [ -f /etc/arch-release ]; then
         # Arch / Manjaro / etc.
@@ -627,9 +614,6 @@ listfiles() {
 }
 
 ### Show description, size, deps of a package
-# pkginfo() {
-#     pacman -Si "$1"
-# }
 pkginfo() {
     if [ -f /etc/arch-release ]; then
         # Arch / Manjaro / etc.
@@ -711,9 +695,6 @@ packagereason() {
 
 
 ### List dependencies of a package
-# ld() {
-#     pactree -r "$1"
-# }
 ld() {
     if [ -f /etc/arch-release ]; then
         # Arch / Manjaro / etc.
@@ -764,7 +745,7 @@ ex() {
     fi
 }
 
-### Update mirrors
+### Update mirrors (Arch only)
 um() {
     echo "Finding fastest Arch mirrors..."
 
@@ -801,7 +782,7 @@ um() {
     fi
 }
 
-### Display pacman stats
+### Display pacman stats (Arch only)
 pstats() {
     echo "Total package updates: "
     grep -c "\[ALPM\] upgraded " /var/log/pacman.log
@@ -868,7 +849,7 @@ lfa() {
     done
 }
 
-### List orphaned packages
+### List orphaned packages (Arch only)
 lo() {
   local orphans desc
   orphans=$(pacman -Qtqd 2>/dev/null)
@@ -886,7 +867,7 @@ lo() {
   done <<< "$orphans"
 }
 
-### Remove orphans
+### Remove orphans (Arch only)
 ro() {
     local orphans
     orphans=$(pacman -Qtdq 2>/dev/null)
@@ -899,7 +880,7 @@ ro() {
     sudo pacman -Rns $orphans
 }
 
-### List all user installed packages
+### List all user installed packages (Arch only)
 li() {
   echo -e "${YELLOW}Packages installed through pacman:${RESET}"
   echo
@@ -910,7 +891,7 @@ li() {
   pacman -Qm
 }
 
-### List all user installed packages with descriptions
+### List all user installed packages with descriptions (Arch only)
 lid() {
     echo -e "${YELLOW}Packages installed through pacman:${RESET}"
     echo
@@ -976,6 +957,10 @@ installdeps() {
     echo "Dependency installation complete."
 }
 
+### Update bashrc from github
+ubr() {
+wget -O ~/.bashrc https://github.com/Divinux/dotfiles/raw/refs/heads/main/scripts/bashrc
+}
 
 ### Determine if a system reboot is required
 checkreboot() {
