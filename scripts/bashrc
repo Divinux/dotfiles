@@ -1055,6 +1055,46 @@ checkreboot() {
     fi
 }
 
+### Remotely reboots a machine and sends a desktop alert when the machine comes back online
+rre() {
+  local host="$1"
+  local user="${2:-$USER}"
+  local timeout="${3:-300}"
+
+  if [[ -z "$host" ]]; then
+    echo "Usage: reboot_wait <host> [user] [timeout_seconds]"
+    return 1
+  fi
+
+  echo "Rebooting $host..."
+  ssh -t "$user@$host" 'sudo reboot now' 2>&1
+
+  echo
+  echo "Waiting for $host to go offline..."
+  while ping -c1 -W1 "$host" &>/dev/null; do
+    sleep 1
+  done
+
+  echo "$host is offline. Waiting to come back..."
+
+  local start_time=$(date +%s)
+  while true; do
+    if ping -c1 -W1 "$host" &>/dev/null; then
+        echo "$host is back online!"
+        notify-send --urgency=low -i terminal "$host is back online!"
+        return 0
+    fi
+
+    if (( $(date +%s) - start_time > timeout )); then
+        echo "Timeout waiting for $host"
+        notify-send --urgency=low -i error "Timeout waiting for $host"
+        return 1
+    fi
+
+    sleep 2
+  done
+}
+
 ### Display the last time the system was updated
 lastupdate() {
     local stamp_file="$HOME/.last_update"
