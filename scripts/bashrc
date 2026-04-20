@@ -1057,28 +1057,40 @@ checkreboot() {
 
 ### Remotely reboots a machine and sends a desktop alert when the machine comes back online
 rre() {
-  local host="$1"
-  local user="${2:-$USER}"
-  local timeout="${3:-300}"
+    local host user timeout
+    host="$1"
 
-  if [[ -z "$host" ]]; then
-    echo "Usage: reboot_wait <host> [user] [timeout_seconds]"
-    return 1
-  fi
+    # detect if second arg is numeric (timeout) or username
+    if [[ "$2" =~ ^[0-9]+$ ]]; then
+        user="$USER"
+        timeout="$2"
+    else
+        user="${2:-$USER}"
+        timeout="${3:-300}"
+    fi
 
-  echo "Rebooting $host..."
-  ssh -t "$user@$host" 'sudo reboot now' 2>&1
+    if [[ -z "$host" ]]; then
+        echo "Usage: rre <host> [user|timeout] [timeout]"
+        return 1
+    fi
 
-  echo
-  echo "Waiting for $host to go offline..."
-  while ping -c1 -W1 "$host" &>/dev/null; do
-    sleep 1
-  done
+    echo "Rebooting $host..."
+    ssh -t "$user@$host" 'sudo reboot now' || {
+        echo "$host unreachable. Aborting."
+        notify-send --urgency=low -i error "$host unreachable. Aborting."
+        return 1
+    }
 
-  echo "$host is offline. Waiting to come back..."
+    echo
+    echo "Waiting for $host to go offline..."
+    while ping -c1 -W1 "$host" &>/dev/null; do
+        sleep 1
+    done
 
-  local start_time=$(date +%s)
-  while true; do
+    echo "$host is offline. Waiting to come back..."
+
+    local start_time=$(date +%s)
+    while true; do
     if ping -c1 -W1 "$host" &>/dev/null; then
         echo "$host is back online!"
         notify-send --urgency=low -i terminal "$host is back online!"
@@ -1091,8 +1103,7 @@ rre() {
         return 1
     fi
 
-    sleep 2
-  done
+    done
 }
 
 ### Display the last time the system was updated
