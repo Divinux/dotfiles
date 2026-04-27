@@ -953,6 +953,7 @@ installdeps() {
 ### Update bashrc from github
 ubr() {
     wget -O ~/.bashrc https://github.com/Divinux/dotfiles/raw/refs/heads/main/scripts/bashrc
+    installdeps
 	brr
 }
 
