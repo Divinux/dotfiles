@@ -907,7 +907,7 @@ lid() {
 ### Install all packages needed for this bashrc to function
 installdeps() {
     # Packages *you* want, regardless of distro
-    local packagelist="figlet toilet xmlstarlet pkgfile fzf gawk fd fdfind tree"
+    local packagelist="figlet toilet xmlstarlet pkgfile fzf gawk fd fd-find tree"
 
     echo "Installing dependencies for this Bash configuration..."
 
