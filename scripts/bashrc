@@ -457,7 +457,7 @@ fz() {
           --preview 'tree -C {} | head -n 20' \
     | awk 'NR>1 {print length($0), $0}' | sort -n | cut -d" " -f2- \
     | head -1) \
-    && cd "$dir"
+    [[ -n "$dir" ]] && cd "$dir"
 }
 
 ### Search the filesystem dynamically and show all options, unless there is only one
@@ -479,7 +479,7 @@ fzz() {
     | fzf --query="$*" --select-1 --exit-0 \
           --extended-exact --no-sort --height 40% --reverse \
           --preview 'tree -C {} | head -n 20') \
-    && cd "$dir"
+    [[ -n "$dir" ]] && cd "$dir"
 }
 
 ### Copy a given file and rename it to file-datetime.bu
