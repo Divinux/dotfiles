@@ -909,35 +909,57 @@ ro() {
     sudo pacman -Rns $orphans
 }
 
-### List all user installed packages (Arch only)
+### List all user installed packages
 li() {
-  echo -e "${YELLOW}Packages installed through pacman:${RESET}"
-  echo
-  pacman -Qe
-  echo
-  echo -e "${YELLOW}Packages installed through AUR:${RESET}"
-  echo
-  pacman -Qm
+    if [ -f /etc/arch-release ]; then
+        # Arch / Manjaro / etc.
+        echo -e "${YELLOW}Packages installed through pacman:${RESET}"
+        echo
+        pacman -Qe
+        echo
+        echo -e "${YELLOW}Packages installed through AUR:${RESET}"
+        echo
+        pacman -Qm
+    elif [ -f /etc/lsb-release ]; then
+        # Debian / Ubuntu / etc.
+        echo -e "${YELLOW}Packages installed manually (apt):${RESET}"
+        apt-mark showmanual
+    else
+        echo "li: unsupported or undetected distribution" >&2
+        return 1
+    fi
 }
 
-### List all user installed packages with descriptions (Arch only)
+### List all user installed packages with descriptions
 lid() {
-    echo -e "${YELLOW}Packages installed through pacman:${RESET}"
-    echo
-    pacman -Qe | while read -r pkg _; do
-        desc=$(pacman -Si "$pkg" 2>/dev/null | awk -F': *' '/^Description/ {print $2}')
-        printf "${GREEN}%-20s${RESET} %s\n" "$pkg" "$desc"
-    done
-
-    echo
-    echo -e "${YELLOW}Packages installed through AUR:${RESET}"
-    echo
-    pacman -Qm | while read -r pkg _; do
-        desc=$(pacman -Si "$pkg" 2>/dev/null | awk -F': *' '/^Description/ {print $2}')
-        # Fallback: try yay -Si if pacman doesn't find the AUR package
-        [[ -z "$desc" && $(command -v yay) ]] && desc=$(yay -Si "$pkg" 2>/dev/null | awk -F': *' '/^Description/ {print $2}')
-        printf "${CYAN}%-20s${RESET} %s\n" "$pkg" "$desc"
-    done
+    if [ -f /etc/arch-release ]; then
+        # Arch / Manjaro / etc.
+        echo -e "${YELLOW}Packages installed through pacman:${RESET}"
+        echo
+        pacman -Qe | while read -r pkg _; do
+            desc=$(pacman -Si "$pkg" 2>/dev/null | awk -F': *' '/^Description/ {print $2}')
+            printf "${GREEN}%-20s${RESET} %s\n" "$pkg" "$desc"
+        done
+        echo
+        echo -e "${YELLOW}Packages installed through AUR:${RESET}"
+        echo
+        pacman -Qm | while read -r pkg _; do
+            desc=$(pacman -Si "$pkg" 2>/dev/null | awk -F': *' '/^Description/ {print $2}')
+            # Fallback: try yay -Si if pacman doesn't find the AUR package
+            [[ -z "$desc" && $(command -v yay) ]] && desc=$(yay -Si "$pkg" 2>/dev/null | awk -F': *' '/^Description/ {print $2}')
+            printf "${CYAN}%-20s${RESET} %s\n" "$pkg" "$desc"
+        done
+    elif [ -f /etc/lsb-release ]; then
+        # Debian / Ubuntu / etc.
+        echo -e "${YELLOW}Manually installed packages:${RESET}"
+        apt-mark showmanual | while read -r pkg; do
+            desc=$(apt-cache show "$pkg" 2>/dev/null | awk -F': ' '/^Description/ {print $2; exit}')
+            printf "${GREEN}%-20s${RESET} %s\n" "$pkg" "$desc"
+        done
+    else
+        echo "lid: unsupported or undetected distribution" >&2
+        return 1
+    fi
 }
 
 ### Install all packages needed for this bashrc to function
