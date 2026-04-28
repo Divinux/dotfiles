@@ -930,32 +930,70 @@ li() {
     fi
 }
 
-### List all user installed packages with descriptions
+### List all user installed packages with descriptions and cache them
 lid() {
+    local cache_dir="${XDG_CACHE_HOME:-$HOME/.cache}/lid"
+    mkdir -p "$cache_dir"
+
+    get_desc_arch() {
+        local pkg="$1"
+        local cache_file="$cache_dir/$pkg"
+
+        if [[ -f "$cache_file" ]]; then
+            cat "$cache_file"
+            return
+        fi
+
+        local desc
+        desc=$(pacman -Si "$pkg" 2>/dev/null | awk -F': *' '/^Description/ {print $2}')
+
+        # AUR fallback
+        if [[ -z "$desc" && $(command -v yay) ]]; then
+            desc=$(yay -Si "$pkg" 2>/dev/null | awk -F': *' '/^Description/ {print $2}')
+        fi
+
+        desc="${desc:-<no description>}"
+        printf "%s" "$desc" > "$cache_file"
+        printf "%s" "$desc"
+    }
+
+    get_desc_deb() {
+        local pkg="$1"
+        local cache_file="$cache_dir/$pkg"
+
+        if [[ -f "$cache_file" ]]; then
+            cat "$cache_file"
+            return
+        fi
+
+        local desc
+        desc=$(apt-cache show "$pkg" 2>/dev/null | awk -F': ' '/^Description/ {print $2; exit}')
+        desc="${desc:-<no description>}"
+
+        printf "%s" "$desc" > "$cache_file"
+        printf "%s" "$desc"
+    }
+
     if [ -f /etc/arch-release ]; then
-        # Arch / Manjaro / etc.
-        echo -e "${YELLOW}Packages installed through pacman:${RESET}"
-        echo
+        echo -e "${YELLOW}Packages installed through pacman:${RESET}\n"
         pacman -Qe | while read -r pkg _; do
-            desc=$(pacman -Si "$pkg" 2>/dev/null | awk -F': *' '/^Description/ {print $2}')
+            desc=$(get_desc_arch "$pkg")
             printf "${GREEN}%-20s${RESET} %s\n" "$pkg" "$desc"
         done
-        echo
-        echo -e "${YELLOW}Packages installed through AUR:${RESET}"
-        echo
+
+        echo -e "\n${YELLOW}Packages installed through AUR:${RESET}\n"
         pacman -Qm | while read -r pkg _; do
-            desc=$(pacman -Si "$pkg" 2>/dev/null | awk -F': *' '/^Description/ {print $2}')
-            # Fallback: try yay -Si if pacman doesn't find the AUR package
-            [[ -z "$desc" && $(command -v yay) ]] && desc=$(yay -Si "$pkg" 2>/dev/null | awk -F': *' '/^Description/ {print $2}')
+            desc=$(get_desc_arch "$pkg")
             printf "${CYAN}%-20s${RESET} %s\n" "$pkg" "$desc"
         done
+
     elif [ -f /etc/lsb-release ]; then
-        # Debian / Ubuntu / etc.
         echo -e "${YELLOW}Manually installed packages:${RESET}"
         apt-mark showmanual | while read -r pkg; do
-            desc=$(apt-cache show "$pkg" 2>/dev/null | awk -F': ' '/^Description/ {print $2; exit}')
+            desc=$(get_desc_deb "$pkg")
             printf "${GREEN}%-20s${RESET} %s\n" "$pkg" "$desc"
         done
+
     else
         echo "lid: unsupported or undetected distribution" >&2
         return 1
