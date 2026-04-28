@@ -7,6 +7,8 @@ url=""
 separator=false
 autoconnect_enabled=false
 showmotd=true
+packagelist="figlet toilet xmlstarlet pkgfile fzf gawk fd fd-find tree"
+fzdeps="fd fzf tree"
 
 # If not running interactively, don't do anything
 case $- in
@@ -437,8 +439,39 @@ rm() {
     done
 }
 
+# checks dependencies of a function
+require() {
+  local missing=()
+  local cmd resolved target real
+
+  for cmd in "$@"; do
+    resolved=$(command -v "$cmd" 2>/dev/null)
+
+    if [[ -z "$resolved" ]]; then
+      missing+=("$cmd")
+      continue
+    fi
+
+    # handle aliases
+    target=${resolved#alias $cmd=\'}
+    target=${target%% *}
+    target=${target%\'}
+    [[ "$resolved" != alias* ]] && target="$resolved"
+
+    if ! real=$(type -P "$target"); then
+      missing+=("$cmd")
+    fi
+  done
+
+  if ((${#missing[@]})); then
+    printf "Missing dependency(ies): %s\n" "${missing[*]}"
+    return 1
+  fi
+}
+
 ### Search the filesystem dynamically and cd into shortest found directory
 fz() {
+  require $fzdeps || return
   local dir
   dir=$(fd --type d --hidden \
            --exclude '.git' \
@@ -462,6 +495,7 @@ fz() {
 
 ### Search the filesystem dynamically and show all options, unless there is only one
 fzz() {
+  require $fzdeps || return
   local dir
   dir=$(fd --type d --hidden \
            --exclude '.git' \
@@ -906,9 +940,6 @@ lid() {
 
 ### Install all packages needed for this bashrc to function
 installdeps() {
-    # Packages *you* want, regardless of distro
-    local packagelist="figlet toilet xmlstarlet pkgfile fzf gawk fd fd-find tree"
-
     echo "Installing dependencies for this Bash configuration..."
 
     if [ -f /etc/arch-release ]; then
