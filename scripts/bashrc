@@ -49,9 +49,11 @@ case ":$PATH:" in
   *) export PATH="$PATH:$HOME/.cargo/bin" ;;
 esac
 
-
-if [ "$separator" == "true" ]; then
-    export PROMPT_COMMAND='q="- $(date +%T)"; while [[ ${#q} -lt $COLUMNS ]]; do q="${q:0:1}$q"; done; echo -e "\033[0;90m$q";'
+# uses the draw_separator function to separate commands
+if [[ "$separator" == "true" ]]; then
+    PROMPT_COMMAND=draw_separator
+else
+    PROMPT_COMMAND=""
 fi
 
 if [ -f ~/gamifier ]; then
@@ -1339,4 +1341,13 @@ for i in {0..1}; do
         "error|fail|cannot|hole|EMERGENCY|ALERT|CRITICAL|watchdog"
     echo
 done
+}
+
+# draws a separator line between each command in terminal output
+draw_separator() {
+    q="- $(date +%T)"
+    while [[ ${#q} -lt $COLUMNS ]]; do
+        q="${q:0:1}$q"
+    done
+    echo -e "\033[0;90m$q"
 }
