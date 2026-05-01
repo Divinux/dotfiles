@@ -300,6 +300,7 @@ alias pls='sudo $(history -p !!)'
 alias blend='LD_PRELOAD=/usr/lib/libjpeg.so.9 /usr/bin/blender'
 alias wt="feh \"$url\""
 alias re='sudo reboot now'
+alias pb='curl -T - https://api.pastes.dev/post'
 
 # git
 alias gs="git status"
