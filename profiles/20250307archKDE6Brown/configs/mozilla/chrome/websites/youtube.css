@@ -28,11 +28,12 @@
     /* Sidebar / Navigation */
     #guide-content.ytd-app,
     ytd-guide-renderer,
+    ytd-mini-guide-renderer,
     #contentContainer.app-drawer,
     .style-scope ytd-two-column-browse-results-renderer,
     .style-scope ytd-rich-grid-renderer,
     .style-scope ytd-feed-filter-chip-bar-renderer {
-        background-color: var(--surface_container_low) !important;
+        background-color: var(--surface) !important;
     }
 
     /* Progress bar */
