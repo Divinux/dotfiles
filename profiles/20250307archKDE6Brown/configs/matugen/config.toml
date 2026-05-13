@@ -7,6 +7,10 @@ output_path = "/home/siri/.mozilla/firefox/na1yw4v7.default-release/chrome/color
 input_path = "/home/siri/.config/matugen/pywalfox-colors.json"
 output_path = "/home/siri/.cache/wal/colors.json"
 
-[templates.wezterm-colors]
+[templates.wezterm-colors-lua]
 input_path = "/home/siri/.config/matugen/wezterm_theme.lua"
 output_path = "/home/siri/.cache/wal/wezterm_matugen.lua"
+
+[templates.wezterm-colors-toml]
+input_path = "/home/siri/.config/matugen/wezterm_theme.toml"
+output_path = "/home/siri/.cache/wal/wezterm_matugen.toml"

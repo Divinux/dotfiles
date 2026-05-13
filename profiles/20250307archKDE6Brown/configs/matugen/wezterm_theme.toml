@@ -1,0 +1,89 @@
+[metadata]
+name = ""
+author = "Divinux"
+origin_url = "hhttps://github.com/Divinux/dotfiles"
+
+[colors]
+foreground = "{{colors.on_surface_variant.default.hex}}"
+background = "{{colors.background.default.hex}}"
+
+cursor_fg = "{{colors.background.default.hex}}"
+cursor_bg = "{{colors.on_surface_variant.default.hex}}"
+cursor_border = "{{colors.background.default.hex}}"
+compose_cursor = "{{colors.on_surface_variant.default.hex}}"
+
+selection_fg = "{{colors.on_surface_variant.default.hex}}"
+selection_bg = "{{colors.secondary_fixed_dim.default.hex}}"
+
+split = "{{colors.secondary_fixed_dim.default.hex}}"
+scrollbar_thumb = "{{colors.secondary_fixed_dim.default.hex}}"
+visual_bell = "{{colors.on_surface_variant.default.hex}}"
+
+ansi = [
+    "{{base16.base00.default.hex}}",
+    "{{base16.base01.default.hex}}",
+    "{{base16.base02.default.hex}}",
+    "{{base16.base03.default.hex}}",
+    "{{base16.base04.default.hex}}",
+    "{{base16.base05.default.hex}}",
+    "{{base16.base06.default.hex}}",
+    "{{base16.base07.default.hex}}"
+]
+
+brights = [
+    "{{base16.base08.default.hex}}",
+    "{{base16.base09.default.hex}}",
+    "{{base16.base0a.default.hex}}",
+    "{{base16.base0b.default.hex}}",
+    "{{base16.base0c.default.hex}}",
+    "{{base16.base0d.default.hex}}",
+    "{{base16.base0e.default.hex}}",
+    "{{base16.base0f.default.hex}}"
+]
+
+[colors.tab_bar]
+background = "{{base16.base00.default.hex}}"
+inactive_tab_edge = "{{base16.base00.default.hex}}"
+inactive_tab_edge_hover = "{{base16.base00.default.hex}}"
+
+[colors.tab_bar.active_tab]
+bg_color = "{{colors.background.default.hex}}"
+fg_color = "{{colors.on_surface_variant.default.hex}}"
+intensity = "Normal"
+italic = false
+strikethrough = false
+underline = "None"
+
+[colors.tab_bar.inactive_tab]
+bg_color = "{{base16.base01.default.hex}}"
+fg_color = "{{colors.on_surface_variant.default.hex}}"
+intensity = "Normal"
+italic = false
+strikethrough = false
+underline = "None"
+
+[colors.tab_bar.inactive_tab_hover]
+bg_color = "{{base16.base05.default.hex}}"
+fg_color = "{{colors.background.default.hex}}"
+intensity = "Normal"
+italic = false
+strikethrough = false
+underline = "None"
+
+[colors.tab_bar.new_tab]
+bg_color = "{{base16.base01.default.hex}}"
+fg_color = "{{colors.on_surface_variant.default.hex}}"
+intensity = "Normal"
+italic = false
+strikethrough = false
+underline = "None"
+
+[colors.tab_bar.new_tab_hover]
+bg_color = "{{base16.base05.default.hex}}"
+fg_color = "{{colors.background.default.hex}}"
+intensity = "Normal"
+italic = false
+strikethrough = false
+underline = "None"
+
+
