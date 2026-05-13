@@ -4,8 +4,8 @@
         --yt-spec-base-background: var(--background) !important;
         --yt-spec-raised-background: var(--surface_container) !important;
         --yt-spec-general-background-a: var(--background) !important;
-        --yt-spec-general-background-b: var(--surface_container_low) !important;
-        --yt-spec-general-background-c: var(--surface_container_lowest) !important;
+        --yt-spec-general-background-b: var(--background) !important;
+        --yt-spec-general-background-c: var(--background) !important;
         --yt-spec-menu-background: var(--surface_container) !important;
         --yt-spec-text-primary: var(--on_surface) !important;
         --yt-spec-text-secondary: var(--on_surface_variant) !important;
@@ -23,6 +23,8 @@
         --t2d807bb79e75606d: var(--primary) !important;
         --t6216186c28b3834b: var(--on_primary) !important;
         --t617db776af0de196: var(--primary) !important;
+        --dark-theme-background-color: var(--background) !important;
+        --t3e41d7b17b187f69: var(--background) !important;
     }
 
     /* Sidebar / Navigation */
@@ -101,9 +103,11 @@
     ytd-mini-guide-entry-renderer[frosted-glass],
     ytd-mini-guide-renderer[frosted-glass] {
         background-color: var(--background) !important;
-        color: var(--on_background) !important
+        color: var(--background) !important
     }
-
+    [dark] {
+        --t3e41d7b17b187f69: var(--background) !important;
+    }
 
     /* Buttons */
     ytd-button-renderer.style-primary {
