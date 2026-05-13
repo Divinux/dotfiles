@@ -6,3 +6,7 @@ output_path = "/home/siri/.mozilla/firefox/na1yw4v7.default-release/chrome/color
 [templates.pywalfox-colors]
 input_path = "/home/siri/.config/matugen/pywalfox-colors.json"
 output_path = "/home/siri/.cache/wal/colors.json"
+
+[templates.wezterm-colors]
+input_path = "/home/siri/.config/matugen/wezterm_theme.lua"
+output_path = "/home/siri/.cache/wal/wezterm_matugen.lua"

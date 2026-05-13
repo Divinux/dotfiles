@@ -24,11 +24,6 @@ config.cursor_blink_ease_out = 'Linear'
 config.initial_cols = 130
 config.initial_rows = 31
 
--- Font size and color scheme.
-config.font_size = 10
-config.font = wezterm.font 'Hack'
-config.color_scheme = 'srsPurple'
-
 -- Time status bar
 wezterm.on('update-right-status', function(window, pane)
 local date = wezterm.strftime '%Y-%m-%d %H:%M:%S'
@@ -39,9 +34,15 @@ window:set_right_status(wezterm.format {
 })
 end)
 
--- colors
-local fg  = '#c3c4c4' -- foreground
-local bg  = '#1e1e1e' -- background
+-- Font size and color scheme.
+config.font_size = 10
+config.font = wezterm.font 'Hack'
+config.color_scheme = 'srsGray'
+
+-- color overrides
+--local fg  = '#c3c4c4' -- foreground
+--local bg  = '#1e1e1e' -- background flat gray
+local bg  = '#0c0d0f' -- background moon blue
 
 config.colors = {
     -- general colors
@@ -57,16 +58,16 @@ config.colors = {
 config.color_schemes = {
     ['srsBlue'] = {
         -- general colors
-        foreground = fg,
-        background = bg,
+        foreground = '#c4c6cf',
+        background = '#111318',
 
         -- selection
         selection_fg = '#090b16',
         selection_bg = '#024E94',
 
         -- cursor
-        cursor_bg = fg,
-        cursor_border = bg,
+        cursor_bg = foreground,
+        cursor_border = background,
 
         ansi = {
             '#090b16',
@@ -122,65 +123,70 @@ config.color_schemes = {
     },
     ['srsGreen'] = {
         -- general colors
-        foreground = '#c3c4c4',
-        background = '#121413',
+        foreground = '#c0c9c0',
+        background = '#0f1511',
 
         -- selection
-        selection_fg = '#4b5a4c',
-        selection_bg = '#657c5b',
+        selection_fg = '#213528',
+        selection_bg = '#b5ccba',
 
         -- cursor
-        cursor_bg = '#c3c4c4',
-        cursor_border = '#121413',
+        cursor_fg = '#213528',
+        cursor_bg = '#dfe4dd',
+        cursor_border = '#dfe4dd',
+
+        -- split
+        split = '#b5ccba',
 
         ansi = {
-            '#121413',
-            '#4b5a4c',
-            '#526851',-- low%
-            '#577354',
-            '#5d9151',
-            '#657c5b',
-            '#5d6e61',
-            '#8f998f',
+            '#2a2d2b',
+            '#333a34',
+            '#3c463d',-- low%
+            '#465346',
+            '#4f5f4e',
+            '#586c57',
+            '#617860',
+            '#6b8569',
         },
         brights = {
-            '#5a6f64',
-            '#657966',-- high%
-            '#6E8B6D',-- : and categories
-            '#759A71',-- ~ and mid%
-            '#7DC26C',-- $ and time
-            '#87A67A',
-            '#7D9382',
-            '#c3c4c4',-- headlines
+            '#6a8469',
+            '#516452',-- high%
+            '#425044',-- : and categories
+            '#3a443d',-- ~ and mid%
+            '#363d38',-- $ and time
+            '#333935',
+            '#313733',
+            '#303531',-- headlines
         },
 
         --tab bar colors
         tab_bar = {
-            background = '#4b5a4c',
+            background = '#2a2d2b',
+
             active_tab = {
-                bg_color = '#526851',
-                fg_color = '#c3c4c4',
+                bg_color = '#1c211d',
+                fg_color = '#c0c9c0',
                 intensity = 'Bold',
                 underline = 'None',
                 italic = false,
                 strikethrough = false,
             },
             inactive_tab = {
-                bg_color = '#5d9151',
-                fg_color = '#7D9382',
+                bg_color = '#333a34',
+                fg_color = '#c0c9c0',
             },
             inactive_tab_hover = {
-                bg_color = '#657966',
-                fg_color = '#121413',
+                bg_color = '#586c57',
+                fg_color = '#0f1511',
                 italic = false,
             },
             new_tab = {
-                bg_color = '#5d9151',
-                fg_color = '#c3c4c4',
+                bg_color = '#333a34',
+                fg_color = '#c0c9c0',
             },
             new_tab_hover = {
-                bg_color = '#657966',
-                fg_color = '#c3c4c4',
+                bg_color = '#586c57',
+                fg_color = '#0f1511',
                 italic = true,
             },
         },
@@ -246,6 +252,71 @@ config.color_schemes = {
             new_tab_hover = {
                 bg_color = '#4F0D4B',
                 fg_color = '#120814',
+                italic = true,
+            },
+        },
+    },
+    ['srsGray'] = {
+        -- general colors
+        foreground = '#c0c1c3',
+        background = '#000000',
+
+        -- selection
+        selection_fg = '#494846',
+        selection_bg = '#63605e',
+
+        -- cursor
+        cursor_bg = '#c0c1c3',
+        cursor_border = '#06080f',
+
+        ansi = {
+            '#06080f',
+            '#494846',
+            '#45464b',-- low%
+            '#535150',
+            '#605d5d',
+            '#63605e',
+            '#506274',
+            '#8a8d96',
+        },
+        brights = {
+            '#565969',
+            '#62605E',-- high%
+            '#5C5E64',-- : and categories
+            '#6F6C6B',-- ~ and mid%
+            '#817D7C',-- $ and time
+            '#84817E',
+            '#6B839B',
+            '#c0c1c3',-- headlines
+        },
+
+        --tab bar colors
+        tab_bar = {
+            background = '#1e1e1e',
+            active_tab = {
+                bg_color = '#0c0d0f',
+                fg_color = '#c0c1c3',
+                intensity = 'Bold',
+                underline = 'None',
+                italic = false,
+                strikethrough = false,
+            },
+            inactive_tab = {
+                bg_color = '#1e1e1e',
+                fg_color = '#c0c1c3',
+            },
+            inactive_tab_hover = {
+                bg_color = '#62605E',
+                fg_color = '#06080f',
+                italic = false,
+            },
+            new_tab = {
+                bg_color = '#1e1e1e',
+                fg_color = '#c0c1c3',
+            },
+            new_tab_hover = {
+                bg_color = '#62605E',
+                fg_color = '#06080f',
                 italic = true,
             },
         },
