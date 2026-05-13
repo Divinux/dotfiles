@@ -48,6 +48,11 @@
         --control-checked-bgColor-hover: var(--primary_fixed_dim) !important;
         --control-checked-bgColor-active: var(--primary_fixed) !important;
 
+        /* Disabled buttons */
+        --button-default-bgColor-disabled: var(--surface_container_high) !important;
+        --button-default-fgColor-disabled: var(--on_surface_variant) !important;
+        --button-default-borderColor-disabled: var(--outline_variant) !important;
+
         /* Star button */
         --button-star-iconColor: var(--primary) !important;
 
