@@ -22,7 +22,7 @@ visual_bell = "#c0c1c3"
 ansi = [
     '#06080f',
     '#494846',
-    '#45464b',
+    '#45464b', #low%
     '#535150',
     '#605d5d',
     '#63605e',
@@ -32,13 +32,13 @@ ansi = [
 
 brights = [
     '#565969',
-    '#62605E',
-    '#5C5E64',
-    '#6F6C6B',
-    '#817D7C',
+    '#62605E', # high%
+    '#5C5E64', # : and categories
+    '#6F6C6B', # ~ and mid%
+    '#817D7C', # $ and time
     '#84817E',
     '#6B839B',
-    '#c0c1c3'
+    '#c0c1c3' # headlines
 ]
 
 [colors.tab_bar]

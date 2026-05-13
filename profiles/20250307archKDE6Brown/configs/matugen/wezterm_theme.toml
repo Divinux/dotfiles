@@ -22,7 +22,7 @@ visual_bell = "{{colors.on_surface_variant.default.hex}}"
 ansi = [
     "{{base16.base00.default.hex}}",
     "{{base16.base01.default.hex}}",
-    "{{base16.base02.default.hex}}",
+    "{{base16.base02.default.hex}}", #low%
     "{{base16.base03.default.hex}}",
     "{{base16.base04.default.hex}}",
     "{{base16.base05.default.hex}}",
@@ -32,13 +32,13 @@ ansi = [
 
 brights = [
     "{{base16.base08.default.hex}}",
-    "{{base16.base09.default.hex}}",
-    "{{base16.base0a.default.hex}}",
-    "{{base16.base0b.default.hex}}",
-    "{{base16.base0c.default.hex}}",
+    "{{base16.base09.default.hex}}", # high%
+    "{{base16.base0a.default.hex}}", # : and categories
+    "{{base16.base0b.default.hex}}", # ~ and mid%
+    "{{base16.base0c.default.hex}}", # $ and time
     "{{base16.base0d.default.hex}}",
     "{{base16.base0e.default.hex}}",
-    "{{base16.base0f.default.hex}}"
+    "{{base16.base0f.default.hex}}" # headlines
 ]
 
 [colors.tab_bar]
