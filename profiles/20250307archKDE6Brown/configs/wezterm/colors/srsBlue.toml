@@ -1,0 +1,89 @@
+[metadata]
+name = "srsBlue"
+author = "Divinux"
+origin_url = "hhttps://github.com/Divinux/dotfiles"
+
+[colors]
+foreground = "#c4c6cf"
+background = "#111318"
+
+cursor_fg = "#c4c6cf"
+cursor_bg =  "#c4c6cf"
+cursor_border = "#111318"
+compose_cursor = "#c4c6cf"
+
+selection_fg = "#111318"
+selection_bg = "#bdc7dc"
+
+split = "#c4c6cf"
+scrollbar_thumb = "#c4c6cf"
+visual_bell = "#c4c6cf"
+
+ansi = [
+    '#090b16',
+    '#032562',
+    '#010B28',
+    '#645e63',
+    '#024E94',
+    '#318495',
+    '#7b8182',
+    '#8d8f98'
+]
+
+brights = [
+    '#595b6c',
+    '#035B9E',
+    '#2971AE',
+    '#867E85',
+    '#0EABCD',
+    '#42B0C7',
+    '#A5ACAE',
+    '#c1c2c4'
+]
+
+[colors.tab_bar]
+background = "#032562"
+inactive_tab_edge = "#032562"
+inactive_tab_edge_hover = "#032562"
+
+[colors.tab_bar.active_tab]
+bg_color = "#010B28"
+fg_color = "#A5ACAE"
+intensity = "Normal"
+italic = false
+strikethrough = false
+underline = "None"
+
+[colors.tab_bar.inactive_tab]
+bg_color = "#024E94"
+fg_color = "#A5ACAE"
+intensity = "Normal"
+italic = false
+strikethrough = false
+underline = "None"
+
+[colors.tab_bar.inactive_tab_hover]
+bg_color = "#035B9E"
+fg_color = "#090b16"
+intensity = "Normal"
+italic = false
+strikethrough = false
+underline = "None"
+
+[colors.tab_bar.new_tab]
+bg_color = "#024E94"
+fg_color = "#A5ACAE"
+intensity = "Normal"
+italic = false
+strikethrough = false
+underline = "None"
+
+[colors.tab_bar.new_tab_hover]
+bg_color = "#035B9E"
+fg_color = "#090b16"
+intensity = "Normal"
+italic = false
+strikethrough = false
+underline = "None"
+
+
