@@ -1,0 +1,4 @@
+[config]
+[templates.firefox-website-colors]
+input_path = "/home/siri/.config/matugen/firefox-colors.css"
+output_path = "/home/siri/.mozilla/firefox/na1yw4v7.default-release/chrome/colors.css"

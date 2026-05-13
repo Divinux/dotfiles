@@ -28,19 +28,19 @@ panelview,
     background-color: hsla(0,0%,100%,.32) !important;
 }
 .titlebar-close:hover {
-    background-color: hsl(109,22%,30%) !important;
+    background-color: hsl(0,0%,30%) !important;
 }
 
 /* Custom icons */
 .titlebar-close {
-    background-image: url("file:///home/siri/.local/share/icons/klassy/48-1/window-close-symbolic.svg") !important;
+    background-image: url("file:///home/siri/assets/close-normal.svg") !important;
 }
 .titlebar-min {
-    background-image: url("file:///home/siri/.local/share/icons/klassy/48-1/window-minimize-symbolic.svg") !important;
+    background-image: url("file:///home/siri/assets/minimize-normal.svg") !important;
 }
 .titlebar-max {
-    background-image: url("file:///home/siri/.local/share/icons/klassy/48-1/window-maximize-symbolic.svg") !important;
+    background-image: url("file:///home/siri/assets/maximize-normal.svg") !important;
 }
 .titlebar-restore {
-    background-image: url("file:///home/siri/.local/share/icons/klassy/48-1/window-restore-symbolic.svg") !important;
+    background-image: url("file:///home/siri/assets/maximized-normal.svg") !important;
 }
