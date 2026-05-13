@@ -1,0 +1,20 @@
+@-moz-document domain("wikipedia.org") {
+    :root {
+        --background-color-base: var(--background) !important;
+        --background-color-base-fixed: var(--background) !important;
+        --background-color-backdrop-light: var(--background) !important;
+        --background-color-neutral: var(--surface_container_low) !important;
+        --background-color-neutral-subtle: var(--background) !important;
+        --background-color-interactive-subtle: var(--background) !important;
+
+        --color-base: var(--on_surface) !important;
+        --color-subtle: var(--on_surface_variant) !important;
+
+        --border-color-base: var(--outline_variant) !important;
+
+        --color-progressive: var(--primary) !important;
+        --color-progressive--hover: var(--primary_fixed_dim) !important;
+
+        --background-color-interactive: var(--surface_container) !important;
+    }
+}
