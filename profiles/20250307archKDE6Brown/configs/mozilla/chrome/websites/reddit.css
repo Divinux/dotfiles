@@ -1,171 +1,339 @@
-@-moz-document domain("reddit.com") {
-    * {
-        --bg-dark: var(--surface);
-        --bg-code: var(--surface_container_lowest);
-        --bg: var(--surface_container_low);
-        --bg-2: var(--surface_container);
-        --bg-3: var(--surface_container_high);
-        --bg-4: var(--surface_container_highest);
-        --highlight: var(--tertiary_container);
-        --highlight-2: var(--secondary_container);
-        --blue-accent: var(--primary_container);
-        --blue-dim: var(--primary);
-        --text: var(--on_surface);
-        --text-dark: var(--on_primary);
-        --cyan: var(--primary);
-        --blue: var(--primary);
-        --orange: var(--secondary);
-        --red: var(--error);
-        --red-dark: var(--on_error);
-        --green: var(--tertiary_container);
-        --green-dark: var(--tertiary);
-        --comment: var(--on_primary);
-        --border: var(--bg-2);
+/* ==UserStyle==
+ * @name               AMOLEDdit
+ * @namespace          https://github.com/Rejdesu/AMOLEDdit
+ * @description        Save your eyes with this dark theme for Old Reddit. Compatible with RES.
+ * @author             Rej <rejdesu@pm.me> (https://github.com/Rejdesu/)
+ * @version            1.0.41
+ * @license            MIT
+ * ==/UserStyle== */
 
-        --color-primary-onBackground: var(--on_surface) !important;
-        --color-primary-onBackground-selected: var(--shadow);
-        --color-neutral-border: var(--border) !important;
+/*Userstyle adapted as a template for matugen*/
 
-        --color-neutral-content: var(--text) !important;
-        --color-neutral-content-disabled: var(--text-dark) !important;
-        --color-neutral-content-weak: var(--text-dark) !important;
-        --color-neutral-content-strong: var(--text) !important;
-        --color-neutral-background: var(--bg-dark) !important;
-        --color-neutral-background-selected: var(--blue-dim) !important;
-        --color-neutral-background-weak: var(--bg) !important;
-        --color-neutral-background-medium: var(--bg) !important;
-        --color-neutral-background-strong: var(--bg) !important;
-        --color-neutral-background-hover: var(--bg) !important;
-        --color-neutral-border-weak: var(--border) !important;
-        --color-neutral-border-strong: var(--border) !important;
-        --color-tone-1: var(--text) !important;
-        --color-tone-2: var(--text) !important;
-        --color-tone-3: var(--bg-2) !important;
-        --color-tone-4: var(--bg-2) !important;
-        --color-tone-5: var(--bg-2) !important;
-        --color-tone-6: var(--bg-2) !important;
-        --color-tone-7: var(--bg-2) !important;
-        --color-primary: var(--blue-dim) !important;
-        --color-primary-hover: var(--blue-dim) !important;
-        --color-primary-background: var(--blue) !important;
-        --color-primary-background-hover: var(--blue-dim) !important;
-        --color-primary-background-selected: var(--blue-dim) !important;
-        --color-secondary: var(--text) !important;
-        --color-secondary-hover: var(--text);
-        --color-secondary-weak: var(--text-dark) !important;
-        --color-secondary-background: var(--highlight) !important;
-        --color-secondary-background-hover: var(--highlight) !important;
-        --color-secondary-background-selected: var(--highlight-2) !important;
-        --shreddit-content-background: var(--color-neutral-background) !important;
+@-moz-document domain("www.reddit.com"),
+domain("old.reddit.com") {
 
-        --button-border-color: transparent;
-        --button-border-color-activated: var(--border) !important;
-        --button-color-background-activated: var(--highlight-2) !important;
-        --button-color-text-activated: var(--text) !important;
-        --button-color-overlay: var(--color-button-overlay-focus) !important;
-        --button-border-color-hover: var(--border) !important;
-        --button-color-background-hover: var(--highlight-2) !important;
-        --button-color-text: var(--button-color-text-hover, var(--button-color-text-default)) !important;
-
-        --color-button-secondary-text: var(--text) !important;
-        --color-button-secondary-text-activated: var(--text) !important;
-        --color-button-secondary-text-disabled: var(--text) !important;
-        --color-button-secondary-border: var(--border) !important;
-        --color-button-secondary-background: var(--highlight) !important;
-        --color-button-secondary-background-focus: var(--highlight-2) !important;
-        --color-button-secondary-background-hover: var(--highlight-2) !important;
-        --color-button-secondary-background-activated: var(--highlight) !important;
-        --color-button-secondary-background-disabled: var(--highlight) !important;
-
-        --color-action-upvote: var(--blue);
-        --color-action-downvote: var(--red);
-        --color-media-background: var(--bg);
-        --color-media-onbackground: var(--text);
-        --color-media-onbackground-disabled: var(--highlight-2);
-
-        --newCommunityTheme-bodyText: var(--text);
-        --newCommunityTheme-metaText: var(--text-dark);
-        --newCommunityTheme-button: var(--text);
-        --newCommunityTheme-body: var(--bg-dark);
-        --newRedditTheme-actionIcon: var(--text);
-        --newCommunityTheme-line: var(--text-dark);
-        --newRedditTheme-line: var(--text-dark);
-        --newRedditTheme-linkText: var(--blue);
-        --newCommunityTheme-navIconFaded10: var(--highlight-2);
-        --newCommunityTheme-active: var(--blue-dim);
-        --newCommunityTheme-field: var(--bg-dark);
-        --newRedditTheme-button: var(--text);
-        --newCommunityTheme-actionIcon: var(--text);
-        --newCommunityTheme-bodyTextAlpha20: transparent;
-        --newRedditTheme-post: var(--bg);
-        --newRedditTheme-body: var(--bg-dark);
-        --newRedditTheme-field: var(--bg-dark);
-        --newCommunityTheme-navIcon: var(--text);
-        --newRedditTheme-actionIconAlpha50: var(--text);
-        --newRedditTheme-buttonAlpha05: var(--bg-dark);
-        --newRedditTheme-bodyText: var(--text);
-        --newCommunityTheme-buttonAlpha50: var(--text);
-        --pseudo-before-background: var(--bg-dark) !important;
-        --newRedditTheme-metaText: var(--text-dark);
-        --newRedditTheme-navIconFaded10: var(--highlight);
-
-        --button-color-background-default: transparent;
-        --button-color-background-focus: transparent;
-        --button-color-background-active: linear-gradient(transparent, transparent);
-        --button-color-background-disabled: transparent;
-        --button-color-text-default: var(--color-secondary-plain);
-        --button-color-text-disabled: var(--color-interactive-content-disabled);
-        --button-color-text-hover: var(--color-secondary-plain-hover);
-        --button-border-color-default: var(--color-neutral-border-medium);
-        --button-border-color-active: var(--color-neutral-border-strong);
-        --button-border-color-disabled: var(--border) !important;
-        --button-border-width-default: var(--border) !important;
-        --button-border-width-activated: var(--border) !important;
-
-        --newCommunityTheme-postLine: var(--text-dark);
-        --newRedditTheme-widgetColors-sidebarWidgetBackgroundColor: var(--bg-dark);
-        --newCommunityTheme-widgetColors-sidebarWidgetHeaderColor: var(--bg-dark);
-        --newRedditTheme-widgetColors-sidebarWidgetBorderColor: var(--border);
-        --post-icon-color: var(--text);
-        --newCommunityTheme-postIcon: var(--text);
-        --posttitletextcolor: var(--text);
-
-        color: var(--text);
+    /* font */
+    body {
+        font-family: "Noto Sans" !important;
+        background-color: transparent !important;
     }
 
-    svg { fill: var(--text); }
-
-    /* Background */
-    .bg-neutral-background {
-        background-color: var(--bg);
-        border-bottom: none;
+    /* main */
+    .res-nightmode html.res-nightmode,
+    .res-nightmode body,
+    .res-nightmode body .content,
+    .res-nightmode .modal-body,
+    .res-nightmode .side,
+    .res-nightmode .icon-menu a,
+    .res-nightmode .side .leavemoderator,
+    .res-nightmode .side .leavecontributor-button,
+    .res-nightmode .side .titlebox,
+    .res-nightmode .side .spacer .titlebox .redditname,
+    .res-nightmode .side .titlebox .flairtoggle,
+    .res-nightmode .side .usertext-body .md ol,
+    .res-nightmode .side .usertext-body .md ol ol,
+    .res-nightmode .side .usertext-body .md ol ol li,
+    .res-nightmode .modactionlisting table *,
+    .res-nightmode .side .recommend-box .rec-item,
+    .res-nightmode .crosspost-preview,
+    .res-nightmode .crosspost-thing-preview,
+    .res-nightmode .admin_takedown,
+    .res-nightmode .happening-now {
+        background-color: var(--background) !important;
+        border-color: var(--outline) !important;
     }
 
-    /* Borders */
-    .xs\:rounded-\[16px\] {
-        border-radius: 8px;
-        border: 1px solid var(--border);
-    }
-    .py-md {
-        border: 1px solid var(--border);
-        border-radius: 8px;
+    /* posts */
+    .res-nightmode .link,
+    .res-nightmode .helpcenter-form .section-content {
+        background-color: var(--background) !important;
     }
 
-    /* Images */
-    .rounded-\[16px\] {
-        border-radius: 8px;
-        border: none;
+    .res-nightmode .entry.res-selected,
+    .res-nightmode .entry.res-selected .md-container {
+        background-color: var(--surface_container_lowest) !important;
     }
 
-    /* Spacing between reddit posts */
-    .border-b-neutral-border-weak {
-        border: none;
-        height: 0.5rem;
+    .link.last-clicked {
+        border: none !important;
     }
 
-    .flair-content { color: var(--on_surface) !important; }
+    .res-nightmode .thing .title:visited,
+    .res-nightmode .thing.visited .title,
+    .res-nightmode .combined-search-page .search-result.visited a,
+    .res-nightmode .combined-search-page .search-result a:visited,
+    .res-nightmode .combined-search-page .search-result a:visited > mark {
+        color: #666 !important;
+    }
 
-    /* Store */
-    .text-global-brand-orangered { background: color-mix(in srgb, var(--orange) 20%, transparent); }
-    .text-global-brand-orangered faceplate-number { color: var(--orange); }
+    /* header shortcuts */
+    .res-nightmode #sr-header-area,
+    .res-nightmode #sr-more-link {
+        background-color: var(--background) !important;
+        color: #444 !important;
+    }
+
+    .res-nightmode #RESSubredditGroupDropdown a,
+    .res-nightmode .RESNotificationContent,
+    .res-nightmode .RESNotificationFooter,
+    .res-nightmode .sr-bar a {
+        font-family: "Noto Sans Mono" !important;
+        color: #e7e7e7 !important;
+    }
+
+    #sr-header-area {
+    border-bottom: 1px solid #222222 !important;
+    font-size: 100% !important;
+    }
+
+    /* header */
+    .res-nightmode #header,
+    .res-nightmode .liveupdate-home .content {
+        background-color: var(--background) !important;
+    }
+
+    /* header border */
+    #header {
+    border-bottom: 1px solid #1d1d1d !important;
+    }
+
+    /* header logo */
+    #header-img.default-header {
+    background-image: url(https://i.imgur.com/KydUHtq.png) !important;
+    }
+
+    /* header selected */
+    .res-nightmode .wiki-page .wiki-page-content .md.wiki > .toc ul,
+    .res-nightmode .tabmenu li a,
+    .res-nightmode .tabmenu li.selected a,
+    .res-nightmode #report form {
+        background-color: var(--background) !important;
+        border-top-left-radius: 5px !important;
+        border-top-right-radius: 5px !important;
+    }
+
+    .res-nightmode .tabmenu li.selected a {
+        border-bottom-color: #1d1d1d !important;
+    }
+
+    .tabmenu li.selected a {
+        border: 1px solid #333 !important;
+        border-top-left-radius: 5px !important;
+        border-top-right-radius: 5px !important;
+    }
+
+    /* header user panel */
+    .res-nightmode .login-form,
+    .res-nightmode .login-form-side .submit,
+    .res-nightmode #header-bottom-right,
+    .res-nightmode #srList,
+    .res-nightmode .dropdown.lightdrop .drop-choices {
+        background-color: var(--background) !important;
+        border-bottom: solid 1px #1d1d1d !important;
+        border-left: solid 1px #1d1d1d !important;
+        border-bottom-left-radius: 5px !important;
+    }
+
+    /* shortcute actions */
+    .res-nightmode #RESShortcutsEditContainer,
+    .res-nightmode #RESShortcutsSort,
+    .res-nightmode #RESShortcutsRight,
+    .res-nightmode #RESShortcutsLeft,
+    .res-nightmode #RESShortcutsAdd {
+        background: #1d1d1d !important;
+    }
+
+    /* many things */
+    .res-nightmode body,
+    .res-nightmode .sidebar .md,
+    .res-nightmode .side,
+    .res-nightmode .side *,
+    .res-nightmode .side .spacer,
+    .res-nightmode .content,
+    .res-nightmode .traffic-tables .traffic-table tr,
+    .res-nightmode .parentComment .md,
+    .res-nightmode .post-body.entry-content,
+    .res-nightmode .dsq-auth-header,
+    .res-nightmode .instructions .preftable th,
+    .res-nightmode #BigEditor .markdownEditor a,
+    .res-nightmode #BigEditor .markdownEditor .RESMacroDropdownTitle,
+    .res-nightmode #REScommentSubToggle,
+    .res-nightmode #alert_message,
+    .res-nightmode #report-action-form {
+        background-color: var(--background) !important;
+    }
+
+
+    /* search input */
+    #search input[type="text"] {
+    border: 1px solid #1d1d1d !important;
+    border-radius: 5px !important;
+    font-size: 13px;
+    font-family: "Noto Sans Mono" !important;
+    background-color: var(--background) !important;
+    }
+
+    /* premium banner */
+    .premium-banner {
+        display: none !important;
+    }
+
+    .premium-banner-outer {
+        display: none !important;
+    }
+
+    /* buttons sidebar */
+    .res-nightmode .morelink {
+        background: #111 !important;
+        background-color: var(--background) !important;
+        border-color: #1d1d1d !important;
+        border-radius: 2px !important;
+    }
+
+    /* sidebar res filter */
+    .multi-details form.add-sr .sr-name,
+    .filtered-details form.add-sr .sr-name {
+        border: 1px solid #1d1d1d !important;
+        border-radius: 5px !important;
+    }
+
+    .multi-details form.add-sr button.add,
+    .filtered-details form.add-sr button.add {
+        border: 5px solid transparent;
+        border-radius: 5px !important;
+    }
+
+    .multi-details button.remove-sr.add,
+    .filtered-details button.remove-sr.add,
+    .multi-details button.add.add,
+    .filtered-details button.add.add {
+        background-image: url(https://i.imgur.com/AkgVTaO.png) !important;
+    }
+
+    .res-nightmode .subreddits .remove-sr,
+    .res-nightmode .add-sr .add {
+        filter: none !important;
+    }
+
+    /* res pagenator */
+    .res-nightmode .RESDialogSmall > h3,
+    .res-nightmode .NERPageMarker {
+        display: none !important;
+    }
+
+    /* res grippy left */
+    .res-nightmode body.with-listing-chooser .listing-chooser .grippy,
+    .res-nightmode body.with-listing-chooser .listing-chooser.initialized .grippy,
+    .res-nightmode body.with-listing-chooser.listing-chooser-collapsed .listing-chooser .grippy,
+    .res-nightmode body.with-listing-chooser.listing-chooser-collapsed .listing-chooser.initialized .grippy {
+        background-color: var(--background) !important;
+    }
+
+    .res-nightmode body.with-listing-chooser .listing-chooser,
+    .res-nightmode body.with-listing-chooser.listing-chooser-collapsed .listing-chooser {
+        background-color: var(--background) !important;
+    }
+
+    .res-nightmode .listing-chooser li,
+    .res-nightmode .listing-chooser li.selected {
+        background-color: var(--background) !important;
+        color: #ececec !important;
+        border-color: #1d1d1d !important;
+    }
+
+    .res-nightmode body.with-listing-chooser .listing-chooser .grippy::after,
+    .res-nightmode body.with-listing-chooser .listing-chooser.initialized .grippy::after,
+    .res-nightmode body.with-listing-chooser.listing-chooser-collapsed .listing-chooser .grippy::after,
+    .res-nightmode body.with-listing-chooser.listing-chooser-collapsed .listing-chooser.initialized .grippy::after {
+        background-color: var(--background) !important;
+        border-right-color: #1d1d1d !important;
+    }
+
+    /* selected comment */
+    .res-nightmode .entry.res-selected,
+    .res-nightmode .entry.res-selected .md-container {
+        background-color: transparent !important;
+    }
+
+    .res-nightmode .entry.res-selected > .tagline,
+    .res-nightmode .entry.res-selected .md-container > .md,
+    .res-nightmode .entry.res-selected .md-container > .md p {
+        color: #ffffffe6 !important;
+    }
+
+    .res-commentBoxes.res-commentHoverBorder .content .comment:hover {
+        border-color: #1d1d1d !important;
+    }
+
+    /* res group dropdown */
+    #RESSubredditGroupDropdown {
+    background-color: var(--background) !important;
+    }
+
+    /* never ending reddit */
+    .res-nightmode #progressIndicator,
+    .res-nightmode .hover-bubble,
+    .res-nightmode .side .side-message,
+    .res-nightmode #editShortcutDialog,
+    .res-nightmode #RESShortcutsAddFormContainer {
+        border-color: #1d1d1d !important;
+        background-color: var(--background) !important;
+    }
+
+    /* sidebar */
+    .titlebox .bottom {
+        border-top: 1px solid #1d1d1d !important;
+    }
+
+    /* give gold */
+    .give-gold-button {
+        display: none !important;
+    }
+
+    /* sidebar share */
+    .res-nightmode .link .usertext-body .md,
+    .res-nightmode .side .linkinfo {
+        border-color: #1d1d1d !important;
+    }
+
+    /* stack border */
+    .panestack-title {
+        border-bottom: 1px dotted #444 !important;
+    }
+
+    /* ads and promoted */
+    .res-nightmode .organic-listing .link,
+    .res-nightmode .link.promotedlink,
+    .native-ad-container.native-sidebar-ad,
+    .native-ad-container {
+        display: none !important;
+    }
+
+    /* footer */
+    .footer,
+    .footer-parent,
+    .debuginfo {
+        display: none !important;
+    }
+
+
+    &.res-commentBoxes .comment,
+    &.res-commentBoxes .comment .comment .comment,
+    &.res-commentBoxes .comment .comment .comment .comment .comment,
+    &.res-commentBoxes .comment .comment .comment .comment .comment .comment .comment,
+    &.res-commentBoxes .comment .comment .comment .comment .comment .comment .comment .comment .comment {
+        background-color: var(--background) !important;
+    }
+
+    &.res-commentBoxes .comment .comment,
+    &.res-commentBoxes .comment .comment .comment .comment,
+    &.res-commentBoxes .comment .comment .comment .comment .comment .comment,
+    &.res-commentBoxes .comment .comment .comment .comment .comment .comment .comment .comment,
+    &.res-commentBoxes .comment .comment .comment .comment .comment .comment .comment .comment .comment .comment {
+        background-color: var(--surface_container_low) !important;
+    }
+
+    &.res-commentBoxes .comment {
+        border-color: hsl(0, 0%, 20%) !important;
+
 }
