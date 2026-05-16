@@ -1,0 +1,1098 @@
+{
+    "custom-styles": {
+        "Alerts": {
+            "Region Marker": {
+                "selected-text-color": "{color6}",
+                "text-color": "{color6}"
+            }
+        },
+        "Apache Configuration": {
+            "Directives": {
+                "bold": false
+            }
+        },
+        "Bash": {
+            "Path": {
+                "selected-text-color": "{color11}",
+                "text-color": "{color11}"
+            },
+            "Redirection": {
+                "selected-text-color": "{color13}",
+                "text-color": "{color13}"
+            },
+            "Variable": {
+                "selected-text-color": "{color12}",
+                "text-color": "{color12}"
+            }
+        },
+        "C": {
+            "Prep. Lib": {
+                "selected-text-color": "{color11}",
+                "text-color": "{color11}"
+            }
+        },
+        "C++": {
+            "Qt Macros": {
+                "bold": false,
+                "selected-text-color": "{color10}",
+                "text-color": "{color10}"
+            }
+        },
+        "CMake": {
+            "Builtin Variable": {
+                "selected-text-color": "{color9}",
+                "text-color": "{color9}"
+            }
+        },
+        "CSS": {
+            "Color": {
+                "bold": false
+            },
+            "Property": {
+                "selected-text-color": "{color14}",
+                "text-color": "{color14}"
+            },
+            "Selector Class": {
+                "italic": true
+            },
+            "Selector Id": {
+                "bold": false,
+                "selected-text-color": "{color10}",
+                "text-color": "{color10}"
+            },
+            "Selector Pseudo": {
+                "selected-text-color": "{color10}",
+                "text-color": "{color10}"
+            },
+            "Selector Tag": {
+                "selected-text-color": "{color13}",
+                "text-color": "{color13}"
+            },
+            "Unit": {
+                "selected-text-color": "{color13}",
+                "text-color": "{color13}"
+            }
+        },
+        "D": {
+            "Attribute": {
+                "bold": false
+            },
+            "Declarator": {
+                "bold": false
+            },
+            "Deprecated": {
+                "bold": false
+            },
+            "Expression": {
+                "bold": false
+            },
+            "Module": {
+                "bold": false
+            },
+            "Property": {
+                "bold": false
+            },
+            "Template": {
+                "bold": false
+            }
+        },
+        "Diff": {
+            "Added line": {
+                "selected-text-color": "{color10}",
+                "text-color": "{color10}"
+            },
+            "Changed line (new)": {
+                "background-color": "{color10}",
+                "selected-text-color": "{color10}",
+                "text-color": "{color10}"
+            },
+            "Changed line (old)": {
+                "selected-text-color": "{color13}",
+                "text-color": "{color13}"
+            },
+            "Removed line": {
+                "selected-text-color": "{color13}",
+                "text-color": "{color13}"
+            }
+        },
+        "Doxygen": {
+            "Custom Tags": {
+                "selected-text-color": "{color5}",
+                "text-color": "{color5}"
+            },
+            "Description": {
+                "selected-text-color": "{color3}",
+                "text-color": "{color3}"
+            },
+            "Entities": {
+                "bold": false
+            },
+            "HTML Tag": {
+                "bold": false,
+                "selected-text-color": "{color5}",
+                "text-color": "{color5}"
+            },
+            "Region": {
+                "selected-text-color": "{color6}",
+                "text-color": "{color6}"
+            },
+            "Tags": {
+                "bold": false,
+                "selected-text-color": "{color5}",
+                "text-color": "{color5}"
+            },
+            "Word": {
+                "bold": false,
+                "selected-text-color": "{color3}",
+                "text-color": "{color3}"
+            }
+        },
+        "GNU Assembler": {
+            "Label": {
+                "underline": true
+            }
+        },
+        "Go": {
+            "Builtin Function": {
+                "selected-text-color": "{color10}",
+                "text-color": "{color10}"
+            }
+        },
+        "HTML": {
+            "Doctype": {
+                "bold": false,
+                "italic": false,
+                "selected-text-color": "{color13}",
+                "text-color": "{color13}"
+            }
+        },
+        "ISO C++": {
+            "Prep. Lib": {
+                "selected-text-color": "{color11}",
+                "text-color": "{color11}"
+            },
+            "Standard Suffix": {
+                "selected-text-color": "{color13}",
+                "text-color": "{color13}"
+            },
+            "UDL Numeric Suffix": {
+                "selected-text-color": "{color13}",
+                "text-color": "{color13}"
+            },
+            "UDL String Suffix": {
+                "selected-text-color": "{color13}",
+                "text-color": "{color13}"
+            }
+        },
+        "Intel x86 (NASM)": {
+            "Label": {
+                "underline": true
+            },
+            "Registers": {
+                "selected-text-color": "{color9}",
+                "text-color": "{color9}"
+            }
+        },
+        "JSON": {
+            "Style_Keyword": {
+                "selected-text-color": "{color12}",
+                "text-color": "{color12}"
+            },
+            "Style_String_Key": {
+                "italic": false
+            }
+        },
+        "JavaScript": {
+            "Built-in Objects": {
+                "italic": true
+            },
+            "Function (Built-in)": {
+                "selected-text-color": "{color10}",
+                "text-color": "{color10}"
+            },
+            "Object Member": {
+                "selected-text-color": "{foreground}",
+                "text-color": "{foreground}"
+            }
+        },
+        "JavaScript React (JSX)": {
+            "Attribute": {
+                "italic": true
+            },
+            "Component Tag": {
+                "bold": false,
+                "selected-text-color": "{color14}",
+                "text-color": "{color14}"
+            }
+        },
+        "Makefile": {
+            "Operator": {
+                "selected-text-color": "{color13}",
+                "text-color": "{color13}"
+            },
+            "Prereq": {
+                "italic": false,
+                "selected-text-color": "{color11}",
+                "text-color": "{color11}"
+            },
+            "Target": {
+                "selected-text-color": "{color14}",
+                "text-color": "{color14}"
+            },
+            "Variable": {
+                "selected-text-color": "{color9}",
+                "text-color": "{color9}"
+            }
+        },
+        "Markdown": {
+            "Blockquote: Link": {
+                "selected-text-color": "{color14}",
+                "text-color": "{color14}"
+            },
+            "Email": {
+                "selected-text-color": "{color14}",
+                "text-color": "{color14}"
+            },
+            "Emphasis Text": {
+                "selected-text-color": "{color11}",
+                "text-color": "{color11}"
+            },
+            "Header H1": {
+                "selected-text-color": "{color12}",
+                "text-color": "{color12}"
+            },
+            "Header H2": {
+                "selected-text-color": "{color12}",
+                "text-color": "{color12}"
+            },
+            "Header H3": {
+                "selected-text-color": "{color12}",
+                "text-color": "{color12}"
+            },
+            "Header H4": {
+                "selected-text-color": "{color12}",
+                "text-color": "{color12}"
+            },
+            "Header H5": {
+                "selected-text-color": "{color12}",
+                "text-color": "{color12}"
+            },
+            "Header H6": {
+                "selected-text-color": "{color12}",
+                "text-color": "{color12}"
+            },
+            "Inline Image": {
+                "selected-text-color": "{color9}",
+                "text-color": "{color9}"
+            },
+            "Inline Image: Link": {
+                "selected-text-color": "{color14}",
+                "text-color": "{color14}"
+            },
+            "Link": {
+                "selected-text-color": "{color14}",
+                "text-color": "{color14}"
+            },
+            "List: Emphasis Text": {
+                "selected-text-color": "{color11}",
+                "text-color": "{color11}"
+            },
+            "List: Link": {
+                "selected-text-color": "{color14}",
+                "text-color": "{color14}"
+            },
+            "List: Strong Text": {
+                "selected-text-color": "{color9}",
+                "text-color": "{color9}"
+            },
+            "Normal Text: Link": {
+                "selected-text-color": "{color14}",
+                "text-color": "{color14}"
+            },
+            "Reference Image": {
+                "selected-text-color": "{color9}",
+                "text-color": "{color9}"
+            },
+            "Reference-Link": {
+                "selected-text-color": "{color14}",
+                "text-color": "{color14}"
+            },
+            "Reference-Link Name": {
+                "selected-text-color": "{color13}",
+                "text-color": "{color13}",
+                "underline": false
+            },
+            "Reference-Link Target": {
+                "selected-text-color": "{color13}",
+                "text-color": "{color13}"
+            },
+            "Reference-Link Target: Link": {
+                "selected-text-color": "{color14}",
+                "text-color": "{color14}"
+            },
+            "Reference-Link: Link": {
+                "selected-text-color": "{color14}",
+                "text-color": "{color14}"
+            },
+            "Strong Text": {
+                "selected-text-color": "{color9}",
+                "text-color": "{color9}"
+            }
+        },
+        "Modelines": {
+            "Variable": {
+                "selected-text-color": "{color3}",
+                "text-color": "{color3}"
+            }
+        },
+        "PHP/PHP": {
+            "Backslash Code": {
+                "bold": false,
+                "selected-text-color": "{color13}",
+                "text-color": "{color13}"
+            },
+            "Control Structures": {
+                "selected-text-color": "{color13}",
+                "text-color": "{color13}"
+            },
+            "Library Constant": {
+                "bold": false,
+                "selected-text-color": "{color12}",
+                "text-color": "{color12}"
+            },
+            "Special Variable": {
+                "bold": false,
+                "selected-text-color": "{color12}",
+                "text-color": "{color12}"
+            },
+            "Variable": {
+                "selected-text-color": "{foreground}",
+                "text-color": "{foreground}"
+            }
+        },
+        "Pascal": {
+            "ISO/Delphi Extended": {
+                "text-color": "{color13}"
+            }
+        },
+        "Odin": {
+            "Context Variable": {
+                "italic": true,
+                "selected-text-color": "{color12}",
+                "text-color": "{color12}"
+            }
+        },
+        "Python": {
+            "Builtin Function": {
+                "selected-text-color": "{color10}",
+                "text-color": "{color10}"
+            },
+            "Special Variable": {
+                "selected-text-color": "{color12}",
+                "text-color": "{color12}"
+            }
+        },
+        "QMake": {
+            "Backslash Code": {
+                "bold": false
+            },
+            "Predefined Variable": {
+                "bold": false,
+                "selected-text-color": "{color9}",
+                "text-color": "{color9}"
+            }
+        },
+        "Ruby": {
+            "Access Control": {
+                "bold": false,
+                "selected-text-color": "{color10}",
+                "text-color": "{color10}"
+            },
+            "Default globals": {
+                "bold": false
+            },
+            "Definition": {
+                "selected-text-color": "{color10}",
+                "text-color": "{color10}"
+            },
+            "Global Constant": {
+                "bold": false,
+                "italic": true,
+                "selected-text-color": "{color14}",
+                "text-color": "{color14}"
+            },
+            "Kernel methods": {
+                "bold": false,
+                "selected-text-color": "{color14}",
+                "text-color": "{color14}"
+            },
+            "Message": {
+                "selected-text-color": "{color10}",
+                "text-color": "{color10}"
+            },
+            "Module mixin methods": {
+                "bold": false
+            },
+            "Pseudo variable": {
+                "selected-text-color": "{color10}",
+                "text-color": "{color10}"
+            }
+        },
+        "Rust": {
+            "Attribute": {
+                "selected-text-color": "{foreground}",
+                "text-color": "{foreground}"
+            },
+            "CConstant": {
+                "bold": false
+            },
+            "CType": {
+                "italic": true,
+                "selected-text-color": "{color14}",
+                "text-color": "{color14}"
+            },
+            "Constant": {
+                "bold": false
+            },
+            "Definition": {
+                "selected-text-color": "{color10}",
+                "text-color": "{color10}"
+            },
+            "Lifetime": {
+                "selected-text-color": "{color13}",
+                "text-color": "{color13}"
+            },
+            "Macro": {
+                "selected-text-color": "{color14}",
+                "text-color": "{color14}"
+            },
+            "Scope": {
+                "selected-text-color": "{foreground}",
+                "text-color": "{foreground}"
+            },
+            "Self": {
+                "italic": true,
+                "selected-text-color": "{color12}",
+                "text-color": "{color12}"
+            },
+            "Trait": {
+                "selected-text-color": "{foreground}",
+                "text-color": "{foreground}"
+            }
+        },
+        "SPDX-Comments": {
+            "SPDX Deprecated License": {
+                "selected-text-color": "{color5}",
+                "text-color": "{color5}"
+            },
+            "SPDX Deprecated License Exception": {
+                "selected-text-color": "{color5}",
+                "text-color": "{color5}"
+            },
+            "SPDX License": {
+                "selected-text-color": "{color5}",
+                "text-color": "{color5}"
+            },
+            "SPDX License Exception": {
+                "selected-text-color": "{color5}",
+                "text-color": "{color5}"
+            },
+            "SPDX Tag": {
+                "selected-text-color": "{color5}",
+                "text-color": "{color5}"
+            },
+            "SPDX Value": {
+                "selected-text-color": "{color5}",
+                "text-color": "{color5}"
+            }
+        },
+        "TypeScript": {
+            "Built-in Objects": {
+                "italic": true
+            },
+            "Function (Built-in)": {
+                "selected-text-color": "{color10}",
+                "text-color": "{color10}"
+            },
+            "Object Member": {
+                "selected-text-color": "{foreground}",
+                "text-color": "{foreground}"
+            }
+        },
+        "TypeScript React (TSX)": {
+            "Attribute": {
+                "italic": true
+            },
+            "Component Tag": {
+                "bold": false,
+                "selected-text-color": "{color14}",
+                "text-color": "{color14}"
+            }
+        },
+        "YAML": {
+            "Attribute": {
+                "selected-text-color": "{color11}",
+                "text-color": "{color11}"
+            },
+            "Key": {
+                "bold": false,
+                "selected-text-color": "{color14}",
+                "text-color": "{color14}"
+            },
+            "List": {
+                "selected-text-color": "{color11}",
+                "text-color": "{color11}"
+            }
+        },
+        "CSV": {
+            "Column 1": {
+                "selected-text-color": "{color13}",
+                "text-color": "{color13}"
+            },
+            "Column 2": {
+                "selected-text-color": "{color14}",
+                "text-color": "{color14}"
+            },
+            "Column 3": {
+                "selected-text-color": "{color9}",
+                "text-color": "{color9}"
+            },
+            "Column 4": {
+                "selected-text-color": "{color10}",
+                "text-color": "{color10}"
+            },
+            "Column 5": {
+                "selected-text-color": "{foreground}",
+                "text-color": "{foreground}"
+            },
+            "Column 6": {
+                "selected-text-color": "{color13}",
+                "text-color": "{color13}"
+            },
+            "Column 7": {
+                "selected-text-color": "{color14}",
+                "text-color": "{color14}"
+            },
+            "Column 8": {
+                "selected-text-color": "{color9}",
+                "text-color": "{color9}"
+            },
+            "Column 9": {
+                "selected-text-color": "{color10}",
+                "text-color": "{color10}",
+                "italic": false
+            },
+            "Column 1 Separator": {
+                "selected-text-color": "{color13}",
+                "text-color": "{color13}"
+            },
+            "Column 2 Separator": {
+                "selected-text-color": "{color14}",
+                "text-color": "{color14}"
+            },
+            "Column 3 Separator": {
+                "selected-text-color": "{color9}",
+                "text-color": "{color9}"
+            },
+            "Column 4 Separator": {
+                "selected-text-color": "{color10}",
+                "text-color": "{color10}"
+            },
+            "Column 5 Separator": {
+                "selected-text-color": "{foreground}",
+                "text-color": "{foreground}"
+            },
+            "Column 6 Separator": {
+                "selected-text-color": "{color13}",
+                "text-color": "{color13}"
+            },
+            "Column 7 Separator": {
+                "selected-text-color": "{color14}",
+                "text-color": "{color14}"
+            },
+            "Column 8 Separator": {
+                "selected-text-color": "{color9}",
+                "text-color": "{color9}"
+            },
+            "Column 9 Separator": {
+                "selected-text-color": "{color10}",
+                "text-color": "{color10}",
+                "italic": false
+            }
+        },
+        "TSV": {
+            "Column 1": {
+                "selected-text-color": "{color13}",
+                "text-color": "{color13}"
+            },
+            "Column 2": {
+                "selected-text-color": "{color14}",
+                "text-color": "{color14}"
+            },
+            "Column 3": {
+                "selected-text-color": "{color9}",
+                "text-color": "{color9}"
+            },
+            "Column 4": {
+                "selected-text-color": "{color10}",
+                "text-color": "{color10}"
+            },
+            "Column 5": {
+                "selected-text-color": "{foreground}",
+                "text-color": "{foreground}"
+            },
+            "Column 6": {
+                "selected-text-color": "{color13}",
+                "text-color": "{color13}"
+            },
+            "Column 7": {
+                "selected-text-color": "{color14}",
+                "text-color": "{color14}"
+            },
+            "Column 8": {
+                "selected-text-color": "{color9}",
+                "text-color": "{color9}"
+            },
+            "Column 9": {
+                "selected-text-color": "{color10}",
+                "text-color": "{color10}",
+                "italic": false
+            },
+            "Column 1 Separator": {
+                "selected-text-color": "{color13}",
+                "text-color": "{color13}"
+            },
+            "Column 2 Separator": {
+                "selected-text-color": "{color14}",
+                "text-color": "{color14}"
+            },
+            "Column 3 Separator": {
+                "selected-text-color": "{color9}",
+                "text-color": "{color9}"
+            },
+            "Column 4 Separator": {
+                "selected-text-color": "{color10}",
+                "text-color": "{color10}"
+            },
+            "Column 5 Separator": {
+                "selected-text-color": "{foreground}",
+                "text-color": "{foreground}"
+            },
+            "Column 6 Separator": {
+                "selected-text-color": "{color13}",
+                "text-color": "{color13}"
+            },
+            "Column 7 Separator": {
+                "selected-text-color": "{color14}",
+                "text-color": "{color14}"
+            },
+            "Column 8 Separator": {
+                "selected-text-color": "{color9}",
+                "text-color": "{color9}"
+            },
+            "Column 9 Separator": {
+                "selected-text-color": "{color10}",
+                "text-color": "{color10}",
+                "italic": false
+            }
+        },
+        "CSV (semicolon)": {
+            "Column 1": {
+                "selected-text-color": "{color13}",
+                "text-color": "{color13}"
+            },
+            "Column 2": {
+                "selected-text-color": "{color14}",
+                "text-color": "{color14}"
+            },
+            "Column 3": {
+                "selected-text-color": "{color9}",
+                "text-color": "{color9}"
+            },
+            "Column 4": {
+                "selected-text-color": "{color10}",
+                "text-color": "{color10}"
+            },
+            "Column 5": {
+                "selected-text-color": "{foreground}",
+                "text-color": "{foreground}"
+            },
+            "Column 6": {
+                "selected-text-color": "{color13}",
+                "text-color": "{color13}"
+            },
+            "Column 7": {
+                "selected-text-color": "{color14}",
+                "text-color": "{color14}"
+            },
+            "Column 8": {
+                "selected-text-color": "{color9}",
+                "text-color": "{color9}"
+            },
+            "Column 9": {
+                "selected-text-color": "{color10}",
+                "text-color": "{color10}",
+                "italic": false
+            },
+            "Column 1 Separator": {
+                "selected-text-color": "{color13}",
+                "text-color": "{color13}"
+            },
+            "Column 2 Separator": {
+                "selected-text-color": "{color14}",
+                "text-color": "{color14}"
+            },
+            "Column 3 Separator": {
+                "selected-text-color": "{color9}",
+                "text-color": "{color9}"
+            },
+            "Column 4 Separator": {
+                "selected-text-color": "{color10}",
+                "text-color": "{color10}"
+            },
+            "Column 5 Separator": {
+                "selected-text-color": "{foreground}",
+                "text-color": "{foreground}"
+            },
+            "Column 6 Separator": {
+                "selected-text-color": "{color13}",
+                "text-color": "{color13}"
+            },
+            "Column 7 Separator": {
+                "selected-text-color": "{color14}",
+                "text-color": "{color14}"
+            },
+            "Column 8 Separator": {
+                "selected-text-color": "{color9}",
+                "text-color": "{color9}"
+            },
+            "Column 9 Separator": {
+                "selected-text-color": "{color10}",
+                "text-color": "{color10}",
+                "italic": false
+            }
+        },
+        "CSV (whitespace)": {
+            "Column 1": {
+                "selected-text-color": "{color13}",
+                "text-color": "{color13}"
+            },
+            "Column 2": {
+                "selected-text-color": "{color14}",
+                "text-color": "{color14}"
+            },
+            "Column 3": {
+                "selected-text-color": "{color9}",
+                "text-color": "{color9}"
+            },
+            "Column 4": {
+                "selected-text-color": "{color10}",
+                "text-color": "{color10}"
+            },
+            "Column 5": {
+                "selected-text-color": "{foreground}",
+                "text-color": "{foreground}"
+            },
+            "Column 6": {
+                "selected-text-color": "{color13}",
+                "text-color": "{color13}"
+            },
+            "Column 7": {
+                "selected-text-color": "{color14}",
+                "text-color": "{color14}"
+            },
+            "Column 8": {
+                "selected-text-color": "{color9}",
+                "text-color": "{color9}"
+            },
+            "Column 9": {
+                "selected-text-color": "{color10}",
+                "text-color": "{color10}",
+                "italic": false
+            },
+            "Column 1 Separator": {
+                "selected-text-color": "{color13}",
+                "text-color": "{color13}"
+            },
+            "Column 2 Separator": {
+                "selected-text-color": "{color14}",
+                "text-color": "{color14}"
+            },
+            "Column 3 Separator": {
+                "selected-text-color": "{color9}",
+                "text-color": "{color9}"
+            },
+            "Column 4 Separator": {
+                "selected-text-color": "{color10}",
+                "text-color": "{color10}"
+            },
+            "Column 5 Separator": {
+                "selected-text-color": "{foreground}",
+                "text-color": "{foreground}"
+            },
+            "Column 6 Separator": {
+                "selected-text-color": "{color13}",
+                "text-color": "{color13}"
+            },
+            "Column 7 Separator": {
+                "selected-text-color": "{color14}",
+                "text-color": "{color14}"
+            },
+            "Column 8 Separator": {
+                "selected-text-color": "{color9}",
+                "text-color": "{color9}"
+            },
+            "Column 9 Separator": {
+                "selected-text-color": "{color10}",
+                "text-color": "{color10}",
+                "italic": false
+            }
+        },
+        "CSV (pipe)": {
+            "Column 1": {
+                "selected-text-color": "{color13}",
+                "text-color": "{color13}"
+            },
+            "Column 2": {
+                "selected-text-color": "{color14}",
+                "text-color": "{color14}"
+            },
+            "Column 3": {
+                "selected-text-color": "{color9}",
+                "text-color": "{color9}"
+            },
+            "Column 4": {
+                "selected-text-color": "{color10}",
+                "text-color": "{color10}"
+            },
+            "Column 5": {
+                "selected-text-color": "{foreground}",
+                "text-color": "{foreground}"
+            },
+            "Column 6": {
+                "selected-text-color": "{color13}",
+                "text-color": "{color13}"
+            },
+            "Column 7": {
+                "selected-text-color": "{color14}",
+                "text-color": "{color14}"
+            },
+            "Column 8": {
+                "selected-text-color": "{color9}",
+                "text-color": "{color9}"
+            },
+            "Column 9": {
+                "selected-text-color": "{color10}",
+                "text-color": "{color10}",
+                "italic": false
+            },
+            "Column 1 Separator": {
+                "selected-text-color": "{color13}",
+                "text-color": "{color13}"
+            },
+            "Column 2 Separator": {
+                "selected-text-color": "{color14}",
+                "text-color": "{color14}"
+            },
+            "Column 3 Separator": {
+                "selected-text-color": "{color9}",
+                "text-color": "{color9}"
+            },
+            "Column 4 Separator": {
+                "selected-text-color": "{color10}",
+                "text-color": "{color10}"
+            },
+            "Column 5 Separator": {
+                "selected-text-color": "{foreground}",
+                "text-color": "{foreground}"
+            },
+            "Column 6 Separator": {
+                "selected-text-color": "{color13}",
+                "text-color": "{color13}"
+            },
+            "Column 7 Separator": {
+                "selected-text-color": "{color14}",
+                "text-color": "{color14}"
+            },
+            "Column 8 Separator": {
+                "selected-text-color": "{color9}",
+                "text-color": "{color9}"
+            },
+            "Column 9 Separator": {
+                "selected-text-color": "{color10}",
+                "text-color": "{color10}",
+                "italic": false
+            }
+        }
+    },
+    "editor-colors": {
+        "BackgroundColor": "{background}",
+        "BracketMatching": "{color12}",
+        "CodeFolding": "{color0}",
+        "CurrentLine": "{color0}",
+        "CurrentLineNumber": "{foreground}",
+        "IconBorder": "{background}",
+        "IndentationLine": "{color8}",
+        "LineNumbers": "{color8}",
+        "MarkBookmark": "{color14}",
+        "MarkBreakpointActive": "{color1}",
+        "MarkBreakpointDisabled": "{color12}",
+        "MarkBreakpointReached": "{color11}",
+        "MarkError": "{color1}",
+        "MarkExecution": "{color0}",
+        "MarkWarning": "{color9}",
+        "ModifiedLines": "{color13}",
+        "ReplaceHighlight": "{color2}",
+        "SavedLines": "{color10}",
+        "SearchHighlight": "{color4}",
+        "Separator": "{color7}",
+        "SpellChecking": "{color1}",
+        "TabMarker": "{color8}",
+        "TemplateBackground": "{background}",
+        "TemplateFocusedPlaceholder": "{background}",
+        "TemplatePlaceholder": "{background}",
+        "TemplateReadOnlyPlaceholder": "{color0}",
+        "TextSelection": "{color0}",
+        "WordWrapMarker": "{background}"
+    },
+    "metadata": {
+        "copyright": [
+            "SPDX-FileCopyrightText: 2026 Pywal Autogenerated Theme",
+            "SPDX-FileCopyrightText: 2026 Pywal Autogenerated Theme"
+        ],
+        "license": "SPDX-License-Identifier: MIT",
+        "name": "Pywal Autogenerated",
+        "revision": 11
+    },
+    "text-styles": {
+        "Alert": {
+            "bold": true,
+            "selected-text-color": "{color1}",
+            "text-color": "{color1}"
+        },
+        "Annotation": {
+            "selected-text-color": "{color13}",
+            "text-color": "{color13}"
+        },
+        "Attribute": {
+            "selected-text-color": "{color13}",
+            "text-color": "{color13}"
+        },
+        "BaseN": {
+            "selected-text-color": "{color12}",
+            "text-color": "{color12}"
+        },
+        "BuiltIn": {
+            "selected-text-color": "{color14}",
+            "text-color": "{color14}"
+        },
+        "Char": {
+            "selected-text-color": "{color11}",
+            "text-color": "{color11}"
+        },
+        "Comment": {
+            "selected-text-color": "{color8}",
+            "text-color": "{color8}"
+        },
+        "CommentVar": {
+            "selected-text-color": "{color14}",
+            "text-color": "{color14}"
+        },
+        "Constant": {
+            "bold": true,
+            "selected-text-color": "{color12}",
+            "text-color": "{color12}"
+        },
+        "ControlFlow": {
+            "selected-text-color": "{color13}",
+            "text-color": "{color13}"
+        },
+        "DataType": {
+            "italic": true,
+            "selected-text-color": "{color14}",
+            "text-color": "{color14}"
+        },
+        "DecVal": {
+            "selected-text-color": "{color12}",
+            "text-color": "{color12}"
+        },
+        "Documentation": {
+            "selected-text-color": "{color9}",
+            "text-color": "{color9}"
+        },
+        "Error": {
+            "selected-text-color": "{color1}",
+            "text-color": "{color1}",
+            "underline": true
+        },
+        "Extension": {
+            "selected-text-color": "{color14}",
+            "text-color": "{color14}"
+        },
+        "Float": {
+            "selected-text-color": "{color12}",
+            "text-color": "{color12}"
+        },
+        "Function": {
+            "selected-text-color": "{color10}",
+            "text-color": "{color10}"
+        },
+        "Import": {
+            "selected-text-color": "{color13}",
+            "text-color": "{color13}"
+        },
+        "Information": {
+            "selected-text-color": "{color11}",
+            "text-color": "{color11}"
+        },
+        "Keyword": {
+            "selected-text-color": "{color13}",
+            "text-color": "{color13}"
+        },
+        "Normal": {
+            "selected-text-color": "{foreground}",
+            "text-color": "{foreground}"
+        },
+        "Operator": {
+            "selected-text-color": "{foreground}",
+            "text-color": "{foreground}"
+        },
+        "Others": {
+            "selected-text-color": "{color10}",
+            "text-color": "{color10}"
+        },
+        "Preprocessor": {
+            "selected-text-color": "{color13}",
+            "text-color": "{color13}"
+        },
+        "RegionMarker": {
+            "selected-text-color": "{color14}",
+            "text-color": "{color14}"
+        },
+        "SpecialChar": {
+            "selected-text-color": "{color13}",
+            "text-color": "{color13}"
+        },
+        "SpecialString": {
+            "selected-text-color": "{color11}",
+            "text-color": "{color11}"
+        },
+        "String": {
+            "selected-text-color": "{color11}",
+            "text-color": "{color11}"
+        },
+        "Variable": {
+            "selected-text-color": "{color14}",
+            "text-color": "{color14}"
+        },
+        "VerbatimString": {
+            "selected-text-color": "{color3}",
+            "text-color": "{color3}"
+        },
+        "Warning": {
+            "selected-text-color": "{color1}",
+            "text-color": "{color1}"
+        }
+    }
+}
+
