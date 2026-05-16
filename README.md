@@ -20,11 +20,11 @@ Personal collection of dotfiles for linux desktop personalization.
   - [Framagit](https://framagit.org/MarianArlt/sddm-sugar-candy)
 
 - **Klassy** - Global Theme
-  - [KDE Store](https://store.kde.org/p/2303161)
+  - [KDE Store](https://store.kde.org/p/2349019)
   - [GitHub](https://github.com/paulmcauley/klassy)
 
 - **Yet Another Monochrome Icon Set** - Icon Pack
-  - [KDE Store](https://store.kde.org/p/1918405/)
+  - [KDE Store](https://store.kde.org/p/2303161)
   - [Bitbucket](https://bitbucket.org/dirn-typo/yet-another-monochrome-icon-set/src/main/)
 
 - **Candy Icons** - Icon Pack
@@ -58,6 +58,7 @@ Personal collection of dotfiles for linux desktop personalization.
   - [GitHub](https://github.com/KDE/latte-dock)
 
 - **Panel Colorizer** - Dock replacement KDE6
+  - [KDE Store](https://store.kde.org/p/2130967)
   - [GitHub](https://github.com/luisbocanegra/plasma-panel-colorizer)
 
 - **pywal16** - Color scheme generator
