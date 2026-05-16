@@ -20,12 +20,12 @@ Personal collection of dotfiles for linux desktop personalization.
   - [Framagit](https://framagit.org/MarianArlt/sddm-sugar-candy)
 
 - **Klassy** - Global Theme
-  - [KDE Store](https://store.kde.org/p/2137614)
+  - [KDE Store](https://store.kde.org/p/2303161)
   - [GitHub](https://github.com/paulmcauley/klassy)
 
-- **Stone** - Global Theme
+- **Yet Another Monochrome Icon Set** - Icon Pack
   - [KDE Store](https://store.kde.org/p/1918405/)
-  - [GitHub](https://github.com/ddh4r4m/Stone)
+  - [Bitbucket](https://bitbucket.org/dirn-typo/yet-another-monochrome-icon-set/src/main/)
 
 - **Candy Icons** - Icon Pack
   - [KDE Store](https://store.kde.org/p/1305251/)
@@ -35,10 +35,6 @@ Personal collection of dotfiles for linux desktop personalization.
   - [KDE Store](https://store.kde.org/p/2091068)
   - [GitHub](https://github.com/L4ki/Colorful-Plasma-Themes)
 
-- **Active accent border** - Window decorations
-  - [KDE Store](https://store.kde.org/p/2118297)
-  - [GitHub](https://github.com/nclarius/Plasma-window-decorations)
-
 - **Active Blur** - Wallpaper blur plugin
   - [KDE Store](https://store.kde.org/p/2134907)
   - [GitHub](https://github.com/bouteillerAlan/blurredwallpaper)
@@ -47,9 +43,16 @@ Personal collection of dotfiles for linux desktop personalization.
   - [KDE Store](https://store.kde.org/p/2145723)
   - [GitHub](https://github.com/luisbocanegra/plasma-wallpaper-effects)
 
+- **Glass** - Plasma 6 blur effect
+  - [GitHub](https://github.com/4v3ngR/kwin-effects-glass)
+
 - **KZones** - KWin Script for tiling zones
   - [KDE Store](https://store.kde.org/p/1909220)
   - [GitHub](https://github.com/gerritdevriese/kzones)
+
+- **Active accent border** - Window decorations KDE5
+  - [KDE Store](https://store.kde.org/p/2118297)
+  - [GitHub](https://github.com/nclarius/Plasma-window-decorations)
 
 - **Latte Dock** - Dock replacement KDE5
   - [GitHub](https://github.com/KDE/latte-dock)
