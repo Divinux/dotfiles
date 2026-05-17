@@ -18,7 +18,11 @@ cp ~/.cache/wal/colors-kate.theme \
 # Wezterm
 cp ~/.cache/wal/wezterm.toml \
    ~/.config/wezterm/colors/pywal.toml
-touch ~/.config/wezterm/wezterm.lua
+touch ~/.config/wezterm/wezterm-pywal.lua
+
+# Konsole
+cp ~/.cache/wal/colors-konsole.colorscheme \
+    ~/.local/share/konsole/colors-pywal.colorscheme
 
 # Firefox content
 cp ~/.cache/wal/colors-firefox.css \
