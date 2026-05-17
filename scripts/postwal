@@ -1,0 +1,25 @@
+#!/usr/bin/env bash
+# Script containing snippets that need to run after generating a new color theme
+firefoxfolder="/home/siri/.mozilla/firefox/4v9ny5hv.default-release"
+
+# KDE Plasma
+cp ~/.cache/wal/kde.colors \
+   ~/.local/share/color-schemes/Pywal16.colors
+
+# Since it doesn't provide a method to refresh an esisting theme
+# and refuses to set a scheme that is already set
+plasma-apply-colorscheme BreezeDark
+plasma-apply-colorscheme Pywal16
+
+# KDE Kate
+cp ~/.cache/wal/colors-kate.theme \
+   ~/.local/share/org.kde.syntax-highlighting/themes/
+
+# Wezterm
+cp ~/.cache/wal/wezterm.toml \
+   .config/wezterm/colors/
+touch .config/wezterm/wezterm.lua
+
+# Firefox content
+cp ~/.cache/wal/colors-firefox.css \
+   $firefoxfolder/chrome/
