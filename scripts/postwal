@@ -13,12 +13,12 @@ plasma-apply-colorscheme Pywal16
 
 # KDE Kate
 cp ~/.cache/wal/colors-kate.theme \
-   ~/.local/share/org.kde.syntax-highlighting/themes/
+   ~/.local/share/org.kde.syntax-highlighting/themes/kate-pywal.theme
 
 # Wezterm
 cp ~/.cache/wal/wezterm.toml \
    .config/wezterm/colors/
-touch .config/wezterm/wezterm.lua
+touch .config/wezterm/pywal.lua
 
 # Firefox content
 cp ~/.cache/wal/colors-firefox.css \
