@@ -6,7 +6,7 @@ firefoxfolder="/home/siri/.mozilla/firefox/4v9ny5hv.default-release"
 cp ~/.cache/wal/kde.colors \
    ~/.local/share/color-schemes/Pywal16.colors
 
-# Since it doesn't provide a method to refresh an esisting theme
+# Since plasma-apply doesn't provide a method to refresh an existing theme
 # and refuses to set a scheme that is already set
 plasma-apply-colorscheme BreezeDark
 plasma-apply-colorscheme Pywal16
