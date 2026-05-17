@@ -1,7 +1,7 @@
 [metadata]
-name = "pywal"
-author = "Divinux"
-origin_url = "https://github.com/Divinux/dotfiles"
+name = "Pywal16"
+author = "Pywal"
+origin_url = ""
 
 [colors]
 foreground = "{color15}"
