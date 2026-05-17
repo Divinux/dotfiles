@@ -1,65 +1,150 @@
-@-moz-document domain("github.com") {
-    :root {
-        --bgColor-default: var(--background) !important;
-        --bgColor-muted: var(--surface_container_low) !important;
-        --bgColor-inset: var(--surface_container_lowest) !important;
-        --bgColor-emphasis: var(--surface_bright) !important;
+:root {
 
-        /* Borders */
-        --borderColor-default: var(--outline_variant) !important;
-        --borderColor-muted: var(--outline_variant) !important;
-        --borderColor-emphasis: var(--outline) !important;
+    /* Base */
+    --background: {background};
+    --surface: {background};
+    --surface_dim: {color0};
+    --surface_bright: {color8};
 
-        /* Text Colors */
-        --fgColor-default: var(--on_surface) !important;
-        --fgColor-muted: var(--on_surface_variant) !important;
-        --fgColor-accent: var(--primary) !important;
+    /* Surface containers */
+    --surface_container_lowest: {color0};
+    --surface_container_low: {color0};
+    --surface_container: {color1};
+    --surface_container_high: {color2};
+    --surface_container_highest: {color8};
 
-        /* Buttons */
-        --button-primary-bgColor-rest: var(--primary) !important;
-        --button-primary-fgColor-rest: var(--on_primary) !important;
-        --button-primary-bgColor-hover: var(--primary_fixed_dim) !important;
-        --button-primary-bgColor-active: var(--primary_fixed) !important;
-        --button-primary-borderColor-rest: var(--outline_variant) !important;
+    /* Text */
+    --on_background: {foreground};
+    --on_surface: {foreground};
+    --on_surface_variant: {color15};
 
-        --button-default-bgColor-rest: var(--surface_container_high) !important;
-        --button-default-fgColor-rest: var(--on_surface) !important;
-        --button-default-bgColor-hover: var(--surface_bright) !important;
-        --buttonCounter-default-bgColor-rest: var(--surface_container_highest) !important;
+    /* Outline */
+    --outline: {color7};
+    --outline_variant: {color8};
 
-        --bgColor-accent-emphasis: var(--primary) !important;
-        --borderColor-accent-emphasis: var(--primary) !important;
-        --bgColor-accent-muted: var(--primary_container) !important;
-        --borderColor-accent-muted: var(--primary_container) !important;
+    /* Primary */
+    --primary: {color12};
+    --primary_container: {color4};
+    --primary_fixed: {color12};
+    --primary_fixed_dim: {color4};
 
-        /* Looks kinda bad in issues but here if you want it */
-        /* --bgColor-success-emphasis: var(--tertiary) !important; */
-        /* --fgColor-success: var(--tertiary) !important; */
+    --on_primary: {background};
+    --on_primary_container: {foreground};
+    --on_primary_fixed: {background};
+    --on_primary_fixed_variant: {color15};
 
-        --bgColor-danger-emphasis: var(--error) !important;
-        --fgColor-danger: var(--error) !important;
-        --button-danger-fgColor-rest: var(--error) !important;
-        --button-danger-bgColor-hover: var(--error_container) !important;
+    --inverse_primary: {color4};
 
-        --bgColor-attention-emphasis: var(--secondary) !important;
-        --borderColor-attention-muted: var(--secondary_container) !important;
+    /* Secondary */
+    --secondary: {color14};
+    --secondary_container: {color6};
+    --secondary_fixed: {color14};
+    --secondary_fixed_dim: {color6};
 
-        --control-checked-bgColor-rest: var(--primary) !important;
-        --control-checked-bgColor-hover: var(--primary_fixed_dim) !important;
-        --control-checked-bgColor-active: var(--primary_fixed) !important;
+    --on_secondary: {background};
+    --on_secondary_container: {foreground};
+    --on_secondary_fixed: {background};
+    --on_secondary_fixed_variant: {color15};
 
-        /* Disabled buttons */
-        --button-default-bgColor-disabled: var(--surface_container_high) !important;
-        --button-default-fgColor-disabled: var(--on_surface_variant) !important;
-        --button-default-borderColor-disabled: var(--outline_variant) !important;
+    /* Tertiary */
+    --tertiary: {color13};
+    --tertiary_container: {color5};
+    --tertiary_fixed: {color13};
+    --tertiary_fixed_dim: {color5};
 
-        /* Star button */
-        --button-star-iconColor: var(--primary) !important;
+    --on_tertiary: {background};
+    --on_tertiary_container: {foreground};
+    --on_tertiary_fixed: {background};
+    --on_tertiary_fixed_variant: {color15};
 
-        /* Hovered button color */
-        --control-bgColor-active: var(--surface_container_highest) !important;
+    /* Error */
+    --error: {color9};
+    --error_container: {color1};
 
-        /* Profile popout color */
-        --overlay-bgColor: var(--surface_container) !important;
-    }
+    --on_error: {background};
+    --on_error_container: {foreground};
+
+    /* Misc */
+    --scrim: #000000;
+    --shadow: #000000;
+
+    --inverse_surface: {foreground};
+    --inverse_on_surface: {background};
+
+    --surface_tint: {color12};
+    --surface_variant: {color2};
+
+    --source_color: {color4};
+
+
+
+    /* RGB variants */
+
+    --background_rgb: {background.rgb};
+    --surface_rgb: {background.rgb};
+    --surface_dim_rgb: {color0.rgb};
+    --surface_bright_rgb: {color8.rgb};
+
+    --surface_container_lowest_rgb: {color0.rgb};
+    --surface_container_low_rgb: {color0.rgb};
+    --surface_container_rgb: {color1.rgb};
+    --surface_container_high_rgb: {color2.rgb};
+    --surface_container_highest_rgb: {color8.rgb};
+
+    --on_background_rgb: {foreground.rgb};
+    --on_surface_rgb: {foreground.rgb};
+    --on_surface_variant_rgb: {color15.rgb};
+
+    --outline_rgb: {color7.rgb};
+    --outline_variant_rgb: {color8.rgb};
+
+    --primary_rgb: {color12.rgb};
+    --primary_container_rgb: {color4.rgb};
+    --primary_fixed_rgb: {color12.rgb};
+    --primary_fixed_dim_rgb: {color4.rgb};
+
+    --on_primary_rgb: {background.rgb};
+    --on_primary_container_rgb: {foreground.rgb};
+    --on_primary_fixed_rgb: {background.rgb};
+    --on_primary_fixed_variant_rgb: {color15.rgb};
+
+    --inverse_primary_rgb: {color4.rgb};
+
+    --secondary_rgb: {color14.rgb};
+    --secondary_container_rgb: {color6.rgb};
+    --secondary_fixed_rgb: {color14.rgb};
+    --secondary_fixed_dim_rgb: {color6.rgb};
+
+    --on_secondary_rgb: {background.rgb};
+    --on_secondary_container_rgb: {foreground.rgb};
+    --on_secondary_fixed_rgb: {background.rgb};
+    --on_secondary_fixed_variant_rgb: {color15.rgb};
+
+    --tertiary_rgb: {color13.rgb};
+    --tertiary_container_rgb: {color5.rgb};
+    --tertiary_fixed_rgb: {color13.rgb};
+    --tertiary_fixed_dim_rgb: {color5.rgb};
+
+    --on_tertiary_rgb: {background.rgb};
+    --on_tertiary_container_rgb: {foreground.rgb};
+    --on_tertiary_fixed_rgb: {background.rgb};
+    --on_tertiary_fixed_variant_rgb: {color15.rgb};
+
+    --error_rgb: {color9.rgb};
+    --error_container_rgb: {color1.rgb};
+
+    --on_error_rgb: {background.rgb};
+    --on_error_container_rgb: {foreground.rgb};
+
+    --scrim_rgb: 0 0 0;
+    --shadow_rgb: 0 0 0;
+
+    --inverse_surface_rgb: {foreground.rgb};
+    --inverse_on_surface_rgb: {background.rgb};
+
+    --surface_tint_rgb: {color12.rgb};
+    --surface_variant_rgb: {color2.rgb};
+
+    --source_color_rgb: {color4.rgb};
+
 }
