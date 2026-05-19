@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # Script containing snippets that need to run after generating a new color theme
-firefoxfolder="/home/siri/.mozilla/firefox/4v9ny5hv.default-release"
+firefoxfolder="~/.mozilla/firefox/4v9ny5hv.default-release"
 
 # KDE Plasma
 cp ~/.cache/wal/kde.colors \
@@ -23,6 +23,10 @@ touch ~/.config/wezterm/wezterm-pywal.lua
 # Konsole
 cp ~/.cache/wal/colors-konsole.colorscheme \
     ~/.local/share/konsole/colors-pywal.colorscheme
+
+# btop
+cp ~/.cache/wal/btopwal.theme \
+    ~/.config/btop/themes
 
 # Firefox content
 cp ~/.cache/wal/colors-firefox.css \
