@@ -286,6 +286,7 @@ alias br='kate ~/.bashrc'
 alias brr='. ~/.bashrc'
 alias cv="grep -Ec '(vmx|svm)' /proc/cpuinfo"
 alias path='echo "$PATH" | tr ":" "\n"'
+alias mv='mv -b'
 
 alias ll='ls -alF'
 alias la='ls -lah'
