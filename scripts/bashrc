@@ -1130,11 +1130,10 @@ checkreboot() {
         # Get running kernel version
         local active_kernel=$(uname -r)
 
-        # Query the current kernel version from list
-        local current_kernel=$(grep '^linux-image-' /run/reboot-required.pkgs)
-
         # Check if a reboot is required via /var/run/reboot-required
         if grep -q '^linux-image-' /run/reboot-required.pkgs 2>/dev/null; then
+       		# Query the current kernel version from list
+        	local current_kernel=$(grep '^linux-image-' /run/reboot-required.pkgs)
             echo -e "${RESET} Kernel ${WHITE}${current_kernel}${RESET} listed as requiring reboot${RESET}. Running kernel ${WHITE}${active_kernel}${RESET}."
             reboot_required=1
         else
