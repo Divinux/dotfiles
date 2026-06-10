@@ -249,7 +249,7 @@ export GCC_COLORS='error=01;31:warning=01;35:note=01;36:caret=01;32:locus=01:quo
 # Detect distribution and set alias for package updates
 if [ -f /etc/arch-release ]; then
     # Arch
-    alias u='lastupdate && sudo pacman -Syu && checkreboot'
+    alias u='lastupdate && sudo pacman -Syu && flatpak update -y && checkreboot'
     alias i='sudo pacman -S '
     alias f='pacman -Ss '
     alias r='sudo pacman -R '
@@ -260,7 +260,7 @@ if [ -f /etc/arch-release ]; then
     alias p='paru'
 elif [ -f /etc/lsb-release ]; then
     # Debian
-    alias u='lastupdate && sudo apt update && sudo apt upgrade && checkreboot'
+    alias u='lastupdate && sudo apt update && sudo apt upgrade && flatpak update -y && checkreboot'
     alias i='sudo apt install '
     alias f='apt search '
     alias r='sudo apt remove '
