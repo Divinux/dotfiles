@@ -1105,6 +1105,7 @@ checkreboot() {
 
     printf "${BOLD}${LBLUE}::${RESET} ${BOLD}Checking kernel...${REGULAR}\n"
     # Check if pacman exists (indicative of an Arch-based system)
+    # For Arch we compare active vs most recent kernel
     if command -v pacman &> /dev/null; then
         # Normalize running kernel version string
         local active_kernel=$(uname -r | tr '-' '.')
@@ -1124,12 +1125,17 @@ checkreboot() {
         fi
 
     # Check for Debian/Ubuntu
+    # For Debian we check if the kernel is listed as requiring a reboot
     elif command -v dpkg &> /dev/null; then
         # Get running kernel version
         local active_kernel=$(uname -r)
 
+        # Query the current kernel version from list
+        local current_kernel=$(grep '^linux-image-' /run/reboot-required.pkgs)
+
         # Check if a reboot is required via /var/run/reboot-required
-        if [[ -f /var/run/reboot-required ]]; then
+        if grep -q '^linux-image-' /run/reboot-required.pkgs 2>/dev/null; then
+            echo -e "${RESET} Kernel ${WHITE}${current_kernel}${RESET} listed as requiring reboot${RESET}. Running kernel ${WHITE}${active_kernel}${RESET}."
             reboot_required=1
         else
             echo -e "${LGRAY} running kernel (${active_kernel}) is up to date${RESET}"
