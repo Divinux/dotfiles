@@ -1130,7 +1130,6 @@ checkreboot() {
 
         # Check if a reboot is required via /var/run/reboot-required
         if [[ -f /var/run/reboot-required ]]; then
-            echo -e "${LGRAY} a reboot is required${RESET}"
             reboot_required=1
         else
             echo -e "${LGRAY} running kernel (${active_kernel}) is up to date${RESET}"
