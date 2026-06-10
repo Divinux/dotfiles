@@ -261,7 +261,7 @@ if [ -f /etc/arch-release ]; then
     alias p='paru'
 elif [ -f /etc/lsb-release ]; then
     # Debian
-    alias u='lastupdate && sudo apt update && sudo apt upgrade && flatpak update -y && checkreboot'
+    alias u='lastupdate && sudo apt update && sudo apt upgrade && cinnamon-spice-updater --update-all && flatpak update -y && checkreboot'
     alias i='sudo apt install '
     alias f='apt search '
     alias r='sudo apt remove '
