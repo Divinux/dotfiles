@@ -20,8 +20,13 @@ run_in_bashrc() {
         touch test.txt
         rm test.txt
 
-		[[ ! -f test.txt ]] || exit 1
-		[[ -f "$HOME/.trash/test.txt" ]] || exit 1
+        [[ ! -f test.txt ]] || exit 1
+
+        # check file exists in trash with timestamp suffix
+        shopt -s nullglob
+        files=( "$HOME/.trash/test.txt."* )
+
+        [[ ${#files[@]} -gt 0 ]] || exit 1
     '
 
     [ "$status" -eq 0 ]
