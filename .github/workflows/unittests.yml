@@ -19,4 +19,4 @@ jobs:
 
       - name: Run tests
         run: |
-          bats -t tests
+          bats --verbose-run tests

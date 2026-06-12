@@ -31,3 +31,21 @@ run_in_bashrc() {
 
     [ "$status" -eq 0 ]
 }
+
+@test "bu creates timestamped backup file" {
+    mkdir -p "$BATS_TEST_TMPDIR/work"
+
+    run run_in_bashrc '
+        cd "$BATS_TEST_TMPDIR/work"
+        echo "hello" > test.txt
+        bu test.txt
+
+        shopt -s nullglob
+        files=( test.txt-*.bu )
+
+        [[ ${#files[@]} -ge 1 ]] || exit 1
+        [[ -f "${files[0]}" ]] || exit 1
+    '
+
+    [ "$status" -eq 0 ]
+}
