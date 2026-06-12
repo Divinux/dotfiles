@@ -1,0 +1,26 @@
+OWNER="NAMEHERE"
+REPO="REPOHERE"
+TOKEN="TOKENHERE"
+
+page=1
+
+while true; do
+  alerts=$(curl -s -H "Authorization: token $TOKEN" \
+    "https://api.github.com/repos/$OWNER/$REPO/code-scanning/alerts?state=open&per_page=100&page=$page")
+
+  ids=$(echo "$alerts" | jq '.[].number')
+
+  if [ -z "$ids" ] || [ "$ids" = "null" ]; then
+    break
+  fi
+
+  for id in $ids; do
+    curl -s -X PATCH \
+      -H "Authorization: token $TOKEN" \
+      -H "Accept: application/vnd.github+json" \
+      "https://api.github.com/repos/$OWNER/$REPO/code-scanning/alerts/$id" \
+      -d '{"state":"dismissed","dismissed_reason":"false positive"}'
+  done
+
+  page=$((page+1))
+done
