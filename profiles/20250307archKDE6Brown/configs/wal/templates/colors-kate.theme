@@ -927,7 +927,7 @@
     },
     "editor-colors": {
         "BackgroundColor": "{background}",
-        "BracketMatching": "{color12}",
+        "BracketMatching": "{color1}",
         "CodeFolding": "{color0}",
         "CurrentLine": "{color0}",
         "CurrentLineNumber": "{foreground}",
