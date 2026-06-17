@@ -30,4 +30,4 @@ cp ~/.cache/wal/btopwal.theme \
 
 # Firefox content
 cp ~/.cache/wal/colors-firefox.css \
-   $firefoxfolder/chrome/
+   $firefoxfolder/chrome/colors.css

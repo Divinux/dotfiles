@@ -37,7 +37,7 @@ end)
 -- Font size and color scheme.
 config.font_size = 10
 config.font = wezterm.font 'Hack'
-config.color_scheme = 'srsGray'
+config.color_scheme = 'Pywal16'
 
 -- color overrides
 --local fg  = '#c3c4c4' -- foreground
