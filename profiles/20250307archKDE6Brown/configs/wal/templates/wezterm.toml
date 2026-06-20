@@ -4,7 +4,7 @@ author = "Pywal"
 origin_url = ""
 
 [colors]
-foreground = "{color15}"
+foreground = "{color14}"
 background = "{background}"
 
 cursor_fg = "{background}"
@@ -48,7 +48,7 @@ inactive_tab_edge_hover = "{color0}"
 
 [colors.tab_bar.active_tab]
 bg_color = "{background}"
-fg_color = "{color15}"
+fg_color = "{color14}"
 intensity = "Normal"
 italic = false
 strikethrough = false
@@ -56,7 +56,7 @@ underline = "None"
 
 [colors.tab_bar.inactive_tab]
 bg_color = "{color1}"
-fg_color = "{color15}"
+fg_color = "{color14}"
 intensity = "Normal"
 italic = false
 strikethrough = false
@@ -72,7 +72,7 @@ underline = "None"
 
 [colors.tab_bar.new_tab]
 bg_color = "{color1}"
-fg_color = "{color15}"
+fg_color = "{background}"
 intensity = "Normal"
 italic = false
 strikethrough = false
