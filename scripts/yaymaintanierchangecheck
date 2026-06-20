@@ -1,0 +1,13 @@
+# thanks to u/nullstring
+# https://www.reddit.com/r/archlinux/comments/1u914mp/psa_yay_now_supports_aur_preinstall_lua_hooks/osi1njt/
+# requires yay >= 13.0
+
+mkdir -p ~/.config/yay/hooks
+
+wget -q https://raw.githubusercontent.com/Jguer/yay/refs/heads/next/doc/init.lua -O ~/.config/yay/init.lua
+
+wget -q https://raw.githubusercontent.com/Jguer/yay/refs/heads/next/doc/examples/maintainer_change.lua -O ~/.config/yay/hooks/maintainer_change.lua
+wget -q https://raw.githubusercontent.com/Jguer/yay/refs/heads/next/doc/examples/recently_modified.lua -O ~/.config/yay/hooks/recently_modified.lua
+
+echo 'dofile(os.getenv("HOME") .. "/.config/yay/hooks/maintainer_change.lua")' >> ~/.config/yay/init.lua
+echo 'dofile(os.getenv("HOME") .. "/.config/yay/hooks/recently_modified.lua")' >> ~/.config/yay/init.lua

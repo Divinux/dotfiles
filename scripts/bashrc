@@ -273,9 +273,9 @@ else
 fi
 
 #alias ff='fastfetch'
-#alias ff='fastfetch -l /home/siri/archh.png --logo-type kitty --logo-width 45 --logo-padding-top 2 --logo-padding-left 0'
+alias ff='fastfetch -l /home/siri/archh.png --logo-type kitty --logo-width 45 --logo-padding-top 2 --logo-padding-left 0'
 #alias ff='fastfetch -l /home/siri/archblu.png --logo-type kitty --logo-width 45 --logo-padding-top 1 --logo-padding-left 0'
-alias ff='fastfetch -l /home/siri/archprpl.png --logo-type kitty --logo-width 45 --logo-padding-top 2 --logo-padding-left 0'
+#alias ff='fastfetch -l /home/siri/archprpl.png --logo-type kitty --logo-width 45 --logo-padding-top 2 --logo-padding-left 0'
 alias h='history'
 alias hg='history | grep '
 alias con='lsof -i'
@@ -1418,3 +1418,40 @@ draw_separator() {
     done
     echo -e "\033[0;90m$q"
 }
+
+### Opens a file picker and pastes in the path of a selected file
+# auto, kdialog, zenity
+FILE_PICKER="auto"
+
+pickfile() {
+    local file
+
+    case "$FILE_PICKER" in
+        kdialog)
+            file=$(kdialog --getopenfilename 2>/dev/null)
+            ;;
+        zenity)
+            file=$(zenity --file-selection 2>/dev/null)
+            ;;
+        auto)
+            if command -v kdialog >/dev/null 2>&1; then
+                file=$(kdialog --getopenfilename "$PWD" 2>/dev/null)
+            elif command -v zenity >/dev/null 2>&1; then
+                file=$(zenity --file-selection --filename="$PWD/" 2>/dev/null)
+            else
+                echo "No supported file picker found (kdialog or zenity)." >&2
+                return 1
+            fi
+            ;;
+        *)
+            echo "Invalid FILE_PICKER: $FILE_PICKER" >&2
+            echo "Valid options: auto, kdialog, zenity" >&2
+            return 1
+            ;;
+    esac || return
+
+    READLINE_LINE="${READLINE_LINE}${file@Q}"
+    READLINE_POINT=${#READLINE_LINE}
+}
+
+bind -x '"\C-f":pickfile'

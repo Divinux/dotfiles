@@ -725,3 +725,76 @@ EOF
     [[ "$output" == *":"* ]]   # timestamp contains :
     [[ -n "$output" ]]
 }
+
+@test "pickfile uses kdialog when configured" {
+    run run_in_bashrc '
+        FILE_PICKER=kdialog
+
+        kdialog() {
+            echo "/tmp/test file.txt"
+        }
+
+        READLINE_LINE=""
+        READLINE_POINT=0
+
+        pickfile
+
+        echo "$READLINE_LINE"
+    '
+
+    [ "$status" -eq 0 ]
+    [[ "$output" == *"'/tmp/test file.txt'"* ]]
+}
+
+@test "pickfile uses zenity when configured" {
+    run run_in_bashrc '
+        FILE_PICKER=zenity
+
+        zenity() {
+            echo "/tmp/test.txt"
+        }
+
+        READLINE_LINE=""
+        READLINE_POINT=0
+
+        pickfile
+
+        echo "$READLINE_LINE"
+    '
+
+    [ "$status" -eq 0 ]
+    [[ "$output" == *"'/tmp/test.txt'"* ]]
+}
+
+@test "pickfile fails when no picker exists" {
+    run run_in_bashrc '
+        FILE_PICKER=auto
+
+        PATH=""
+
+        pickfile
+    '
+
+    [ "$status" -eq 1 ]
+    [[ "$output" == *"No supported file picker found"* ]]
+}
+
+@test "pickfile appends to existing readline buffer" {
+    run run_in_bashrc '
+        FILE_PICKER=kdialog
+
+        kdialog() {
+            echo "/tmp/test.txt"
+        }
+
+        READLINE_LINE="cp "
+        READLINE_POINT=3
+
+        pickfile
+
+        echo "$READLINE_LINE"
+    '
+
+    [ "$status" -eq 0 ]
+    [[ "$output" == *"cp '/tmp/test.txt'"* ]]
+}
