@@ -1455,3 +1455,26 @@ pickfile() {
 }
 
 bind -x '"\C-f":pickfile'
+
+# WindowTracker health check
+trackercheck() {
+    if [ -f ~/.config/systemd/user/windowtracker.service ]; then
+        kwin_ok=$(qdbus org.kde.KWin /Scripting org.kde.kwin.Scripting.isScriptLoaded kwin.windowtracker 2>/dev/null)
+        kwin_state=$(qdbus kwin.windowtracker /Logger kwin.windowtracker.Ping 2>/dev/null)
+        dbus_ok=$(busctl --user list 2>/dev/null | grep -q kwin.windowtracker && echo true || echo false)
+
+        if [[ "$kwin_ok" != "true" ]]; then
+            echo "WARN: Window Tracker not loaded"
+        fi
+
+        if [[ "$kwin_state" != "ok" ]]; then
+            echo "WARN: Window Tracker not responding"
+        fi
+
+        if [[ "$dbus_ok" != "true" ]]; then
+            echo "WARN: kwin.windowtracker DBus service not running"
+        fi
+    fi
+}
+
+trackercheck
