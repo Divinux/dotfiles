@@ -580,13 +580,13 @@ fi
 
 ### Find binary names installed by a package
 fb() {
-    if [ -f /etc/arch-release ]; then
+    if command -v pacman >/dev/null 2>&1; then
         # Arch / Manjaro / EndeavourOS / etc.
         pacman -Ql "$1" \
             | awk '$2 ~ /(\/(usr\/local\/)?s?bin\/)/ && $2 !~ /(\/(usr\/local\/)?s?bin\/?)$/' \
             | xargs -n1 basename
 
-    elif [ -f /etc/lsb-release ]; then
+    elif command -v apt >/dev/null 2>&1; then
         # Debian / Ubuntu / Mint / Pop!_OS / etc.
         dpkg -L "$1" \
             | awk '$0 ~ /(\/(usr\/local\/)?s?bin\/)/ && $0 !~ /(\/(usr\/local\/)?s?bin\/?)$/' \
@@ -600,12 +600,12 @@ fb() {
 
 ### Find binary names installed by a package and displays the path
 fbp() {
-    if [ -f /etc/arch-release ]; then
+    if command -v pacman >/dev/null 2>&1; then
         # Arch
         pacman -Ql "$1" \
             | awk '$2 ~ /(\/(usr\/local\/)?s?bin\/)/ && $2 !~ /(\/(usr\/local\/)?s?bin\/?)$/ { print $2 }'
 
-    elif [ -f /etc/lsb-release ]; then
+    elif command -v apt >/dev/null 2>&1; then
         # Debian/Ubuntu
         dpkg -L "$1" \
             | awk '$0 ~ /(\/(usr\/local\/)?s?bin\/)/ && $0 !~ /(\/(usr\/local\/)?s?bin\/?)$/ { print $0 }'
@@ -618,11 +618,11 @@ fbp() {
 
 ### Find which package owns a file
 whoowns() {
-    if [ -f /etc/arch-release ]; then
+    if command -v pacman >/dev/null 2>&1; then
         # Arch / Manjaro / etc.
         pacman -Qo "$1"
 
-    elif [ -f /etc/lsb-release ]; then
+    elif command -v apt >/dev/null 2>&1; then
         # Debian / Ubuntu / etc.
         dpkg -S "$1"
 
@@ -634,11 +634,11 @@ whoowns() {
 
 ### List all files in a package
 listfiles() {
-    if [ -f /etc/arch-release ]; then
+    if command -v pacman >/dev/null 2>&1; then
         # Arch / Manjaro / etc.
         pacman -Ql "$1"
 
-    elif [ -f /etc/lsb-release ]; then
+    elif command -v apt >/dev/null 2>&1; then
         # Debian / Ubuntu / etc.
         dpkg -L "$1"
 
@@ -650,11 +650,11 @@ listfiles() {
 
 ### Show description, size, deps of a package
 pkginfo() {
-    if [ -f /etc/arch-release ]; then
+    if command -v pacman >/dev/null 2>&1; then
         # Arch / Manjaro / etc.
         pacman -Si "$1"
 
-    elif [ -f /etc/lsb-release ]; then
+    elif command -v apt >/dev/null 2>&1; then
         # Debian / Ubuntu / etc.
         apt show "$1"
 
@@ -673,7 +673,7 @@ packagereason() {
 
     local pkg="$1"
 
-    if [ -f /etc/arch-release ]; then
+    if command -v pacman >/dev/null 2>&1; then
         # ---- Arch / Manjaro / etc. ----
 
         echo "==> pacman -Qi $pkg"
@@ -691,7 +691,7 @@ packagereason() {
         echo "==> Reverse dependencies (pacman -Rns --print)"
         pacman -Rns --print "$pkg" 2>/dev/null || echo "Nothing would be removed"
 
-    elif [ -f /etc/lsb-release ]; then
+    elif command -v apt >/dev/null 2>&1; then
         # ---- Debian / Ubuntu / Mint ----
 
         echo "==> apt show $pkg"
@@ -729,11 +729,11 @@ packagereason() {
 
 ### List dependencies of a package
 ld() {
-    if [ -f /etc/arch-release ]; then
+    if command -v pacman >/dev/null 2>&1; then
         # Arch / Manjaro / etc.
         pactree -r "$1"
 
-    elif [ -f /etc/lsb-release ]; then
+    elif command -v apt >/dev/null 2>&1; then
         # Debian / Ubuntu / etc.
         if command -v apt-rdepends >/dev/null 2>&1; then
             apt-rdepends "$1"
@@ -914,7 +914,7 @@ ro() {
 
 ### List all user installed packages
 li() {
-    if [ -f /etc/arch-release ]; then
+    if command -v pacman >/dev/null 2>&1; then
         # Arch / Manjaro / etc.
         echo -e "${YELLOW}Packages installed through pacman:${RESET}"
         echo
@@ -923,7 +923,7 @@ li() {
         echo -e "${YELLOW}Packages installed through AUR:${RESET}"
         echo
         pacman -Qm
-    elif [ -f /etc/lsb-release ]; then
+    elif command -v apt >/dev/null 2>&1; then
         # Debian / Ubuntu / etc.
         echo -e "${YELLOW}Packages installed manually (apt):${RESET}"
         apt-mark showmanual
@@ -977,7 +977,7 @@ lid() {
         printf "%s" "$desc"
     }
 
-    if [ -f /etc/arch-release ]; then
+    if command -v pacman >/dev/null 2>&1; then
         echo -e "${YELLOW}Packages installed through pacman:${RESET}\n"
         pacman -Qe | while read -r pkg _; do
             desc=$(get_desc_arch "$pkg")
@@ -990,7 +990,7 @@ lid() {
             printf "${CYAN}%-20s${RESET} %s\n" "$pkg" "$desc"
         done
 
-    elif [ -f /etc/lsb-release ]; then
+    elif command -v apt >/dev/null 2>&1; then
         echo -e "${YELLOW}Manually installed packages:${RESET}"
         apt-mark showmanual | while read -r pkg; do
             desc=$(get_desc_deb "$pkg")
@@ -1007,7 +1007,7 @@ lid() {
 installdeps() {
     echo "Installing dependencies for this Bash configuration..."
 
-    if [ -f /etc/arch-release ]; then
+    if command -v pacman >/dev/null 2>&1; then
         # Arch / Manjaro / Endeavour / etc.
         for pkg in $packagelist; do
             if pacman -Qi "$pkg" >/dev/null 2>&1; then
@@ -1019,7 +1019,7 @@ installdeps() {
             fi
         done
 
-    elif [ -f /etc/lsb-release ]; then
+    elif command -v apt >/dev/null 2>&1; then
         # Debian / Ubuntu / Mint / Pop!_OS / etc.
         for pkg in $packagelist; do
             # Check if the package exists in apt-cache (skip if unknown)
