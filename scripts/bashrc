@@ -16,6 +16,11 @@ case $- in
       *) return;;
 esac
 
+case ":$PATH:" in
+  *":$HOME/.local/bin:"*) ;;
+  *) export PATH="$PATH:$HOME/.local/bin" ;;
+esac
+
 # If set, the pattern "**" used in a pathname expansion context will
 # match all files and zero or more directories and subdirectories.
 #shopt -s globstar
@@ -625,6 +630,10 @@ whoowns() {
         echo "whoowns: unsupported or undetected distribution" >&2
         return 1
     fi
+case ":$PATH:" in
+  *":$HOME/.local/bin:"*) ;;
+  *) export PATH="$PATH:$HOME/.local/bin" ;;
+esac
 }
 
 ### List all files in a package
