@@ -1,4 +1,5 @@
 /* add @import "/home/user/.cache/wal/gtk.css" to $HOME/.config/gtk-X.0/gtk.css */
+/* noot needed on plasma, that's handled by the breeze scheme itself */
 @define-color accent_color {color4};
 @define-color accent_fg_color {background};
 @define-color accent_bg_color {color4};
