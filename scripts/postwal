@@ -8,8 +8,8 @@ cp ~/.cache/wal/kde.colors \
 
 # Since plasma-apply doesn't provide a method to refresh an existing theme
 # and refuses to set a scheme that is already set
-plasma-apply-colorscheme BreezeDark
-plasma-apply-colorscheme Pywal16
+plasma-apply-colorscheme BreezeDark > /dev/null 2>&1
+plasma-apply-colorscheme Pywal16 > /dev/null 2>&1
 
 # KDE Kate
 cp ~/.cache/wal/colors-kate.theme \
