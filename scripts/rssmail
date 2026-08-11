@@ -1,0 +1,77 @@
+#!/bin/bash
+
+# Script to read the three most recent headlines from the Arch RSS feed
+# and the five most recent threads from the AUR mailing list.
+
+ARCH_URL="https://www.archlinux.org/feeds/news/"
+AUR_URL="https://lists.archlinux.org/archives/list/aur-general@lists.archlinux.org/latest?count=5"
+
+arch_feed=$(wget -qO- "$ARCH_URL")
+aur_page=$(wget -qO- "$AUR_URL")
+
+make_link() {
+    local url="$1"
+    local text="$2"
+
+    printf "${BLGRAY}"
+    printf '\e]8;;%s\a\e[1m%s\e[0m\e]8;;\a' "$url" "$text"
+}
+
+printf "${YELLOW}Arch News\n"
+
+for i in 1 2 3; do
+    printf "${RED}"
+    title=$(echo "$arch_feed" |
+        xmlstarlet sel -T -t -v "/rss/channel/item[$i]/title")
+
+    date=$(echo "$arch_feed" |
+        xmlstarlet sel -T -t -v "/rss/channel/item[$i]/pubDate" |
+        awk '{print $2 " " $3 " " $4}')
+
+    link=$(echo "$arch_feed" |
+        xmlstarlet sel -T -t -v "/rss/channel/item[$i]/link")
+
+    echo "$date - $(make_link "$link" "$title")"
+    printf "${RESET}"
+done
+
+printf "\n${YELLOW}AUR General\n"
+
+# Extract the five thread URLs.
+mapfile -t aur_links < <(
+    echo "$aur_page" |
+        tr '\n' ' ' |
+        sed 's/<div class="thread">/\n/g' |
+        grep 'class="thread-title"' |
+        sed -E 's/.*href="([^"]+)"[^>]*class="thread-title".*/\1/'
+)
+
+# Extract the five thread titles.
+mapfile -t aur_titles < <(
+    echo "$aur_page" |
+        tr '\n' ' ' |
+        sed 's/<div class="thread">/\n/g' |
+        grep 'class="thread-title"' |
+        sed -E 's/.*class="thread-title">[^<]*<[^>]*>[^<]*<\/i>([^<]*).*/\1/' |
+        sed 's/&quot;/"/g; s/&#x27;/'"'"'/g; s/&amp;/\&/g' |
+        sed -E 's/^[[:space:]]+//; s/[[:space:]]+$//'
+)
+
+# Extract the five thread dates.
+mapfile -t aur_dates < <(
+    echo "$aur_page" |
+        tr '\n' ' ' |
+        sed 's/<div class="thread">/\n/g' |
+        grep 'class="thread-title"' |
+        sed -E 's/.*class="thread-date[^"]*"[^>]*title="([^"]+)".*/\1/' |
+        sed -E 's/^[^,]+, //' |
+		awk '{print $1 " " substr($2,1,3) " " $3}'
+)
+
+# Combine them.
+for i in "${!aur_titles[@]}"; do
+    printf "${RED}"
+    link="https://lists.archlinux.org${aur_links[$i]}"
+    echo "${aur_dates[$i]} - $(make_link "$link" "${aur_titles[$i]}")"
+    printf "${RESET}"
+done
