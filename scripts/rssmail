@@ -20,7 +20,6 @@ make_link() {
 printf "${YELLOW}Arch News\n"
 
 for i in 1 2 3; do
-    printf "${RED}"
     title=$(echo "$arch_feed" |
         xmlstarlet sel -T -t -v "/rss/channel/item[$i]/title")
 
@@ -31,6 +30,7 @@ for i in 1 2 3; do
     link=$(echo "$arch_feed" |
         xmlstarlet sel -T -t -v "/rss/channel/item[$i]/link")
 
+    printf "${RED}"
     echo "$date - $(make_link "$link" "$title")"
     printf "${RESET}"
 done
