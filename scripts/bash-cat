@@ -1,0 +1,219 @@
+# courtesy of damian.sk@discord
+# include in bashrc with
+# [ -f "$HOME/bash-cat" ] && source "$HOME/bash-cat"
+[[ $- == *i* ]] || return
+
+DASHBOARD_STATE_FILE="$HOME/.bash_dashboard_state"
+
+if [ ! -f "$DASHBOARD_STATE_FILE" ]; then
+    printf 'CALENDAR_ENABLED=1\nCAT_ENABLED=1\n' > "$DASHBOARD_STATE_FILE"
+fi
+
+source "$DASHBOARD_STATE_FILE"
+
+_dashboard_save_state() {
+    printf 'CALENDAR_ENABLED=%s\nCAT_ENABLED=%s\n' "$CALENDAR_ENABLED" "$CAT_ENABLED" > "$DASHBOARD_STATE_FILE"
+}
+
+calendar-enable()  { CALENDAR_ENABLED=1; _dashboard_save_state; }
+calendar-disable() { CALENDAR_ENABLED=0; _dashboard_save_state; }
+cat-enable()       { CAT_ENABLED=1; _dashboard_save_state; }
+cat-disable()      { CAT_ENABLED=0; _dashboard_save_state; }
+
+_cat1=$(cat <<'CATEOF'
+
+        _
+      |\'/-..--.
+     / _ _   ,  ;
+    `~=`Y'~_<._./
+     <`-....__.'
+CATEOF
+)
+_cat2=$(cat <<'CATEOF'
+
+
+    |\__/,|   (`\
+    |_ _  |.--.) )
+    ( T   )     /
+   (((^_(((/(((_/
+CATEOF
+)
+_cat3=$(cat <<'CATEOF'
+
+
+    \    /\
+     )  ( ')
+    (  /  )
+     \(__)|
+CATEOF
+)
+_cat4=$(cat <<'CATEOF'
+
+
+       ^~^  ,
+      ('Y') )
+      /   \/
+     (\|||/)
+CATEOF
+)
+_cat5=$(cat <<'CATEOF'
+    .       .
+    \`-"'"-'/
+     } 6 6 {
+    =.  Y  ,=
+      /^^^\  .
+     /     \  )
+    (  )-(  )/
+     ""   ""
+CATEOF
+)
+_cat6=$(cat <<'CATEOF'
+
+
+          /\_/\
+     ____/ o o \
+   /~____  =Y= /
+  (______)__m_m)
+CATEOF
+)
+
+CATS=("$_cat1" "$_cat2" "$_cat3" "$_cat4" "$_cat5" "$_cat6")
+
+_build_calendar() {
+    local month year today month_name first_dow last_day
+    month=$(date +%m)
+    year=$(date +%Y)
+    today=$(date +%-d)
+    month_name=$(date +%B)
+
+    first_dow=$(date -d "$year-$month-01" +%u)
+    last_day=$(date -d "$year-$month-01 +1 month -1 day" +%-d)
+
+    local dof=$(( first_dow - 1 ))
+    local header="$month_name $today, $year"
+    local pad=$(( (28 - ${#header}) / 2 + 1 ))
+
+    printf '%*s%s\n' "$pad" '' "$header"
+    printf ' Mo  Tu  We  Th  Fr  Sa  Su\n'
+
+    local row="" col=0 i d numstr
+    for ((i=0; i<dof; i++)); do
+        row+="    "
+        col=$((col+1))
+    done
+
+    for ((d=1; d<=last_day; d++)); do
+        if (( d < 10 )); then
+            if (( d == today )); then numstr=" *${d}"; else numstr="  ${d}"; fi
+        else
+            if (( d == today )); then numstr="*${d}"; else numstr=" ${d}"; fi
+        fi
+        col=$((col+1))
+        if (( col == 7 )); then
+            row+="$numstr"
+            printf '%s\n' "$row"
+            row=""
+            col=0
+        else
+            row+="${numstr} "
+        fi
+    done
+    [ -n "$row" ] && printf '%s\n' "$row"
+}
+
+_build_box() {
+    local title="$1" width="$2" height="$3"
+    shift 3
+    local -a content=("$@")
+    local dash_total=$(( width - ${#title} - 2 ))
+    local dash_left=$(( dash_total / 2 ))
+    local dash_right=$(( dash_total - dash_left ))
+
+    printf '┌'; printf '─%.0s' $(seq 1 "$dash_left"); printf '%s' "$title"; printf '─%.0s' $(seq 1 "$dash_right"); printf '┐\n'
+
+    local i line pad
+    for ((i=0; i<height; i++)); do
+        line="${content[$i]:-}"
+        pad=$(( width - ${#line} ))
+        (( pad < 0 )) && pad=0
+        printf '%s' "$line"; printf ' %.0s' $(seq 1 "$pad"); printf '\n'
+    done
+
+    printf '└'; printf '─%.0s' $(seq 1 "$((width - 2))"); printf '┘\n'
+}
+
+show-dashboard() {
+    [ "$CALENDAR_ENABLED" = "1" ] || [ "$CAT_ENABLED" = "1" ] || return
+
+    local -a cal_lines=() cat_lines=()
+
+    if [ "$CALENDAR_ENABLED" = "1" ]; then
+        mapfile -t cal_lines < <(_build_calendar)
+    fi
+
+    if [ "$CAT_ENABLED" = "1" ]; then
+        local cat_idx=$(( RANDOM % ${#CATS[@]} ))
+        local cat_art="${CATS[$cat_idx]}"
+        local -a raw_cat_lines
+        mapfile -t raw_cat_lines <<< "$cat_art"
+
+        local min_indent=-1 l indent
+        for l in "${raw_cat_lines[@]}"; do
+            [ -z "$l" ] && continue
+            [[ $l =~ ^([[:space:]]*) ]]
+            indent=${#BASH_REMATCH[1]}
+            if (( min_indent == -1 || indent < min_indent )); then
+                min_indent=$indent
+            fi
+        done
+        (( min_indent == -1 )) && min_indent=0
+
+        local -a trimmed_lines=()
+        local max_len=0
+        for l in "${raw_cat_lines[@]}"; do
+            trimmed_lines+=("${l:$min_indent}")
+            (( ${#l} - min_indent > max_len )) && max_len=$(( ${#l} - min_indent ))
+        done
+
+        local cat_pad=$(( (20 - max_len) / 2 ))
+        (( cat_pad < 0 )) && cat_pad=0
+        (( cat_idx == 4 )) && cat_pad=$(( cat_pad + 1 ))
+        local prefix
+        printf -v prefix '%*s' "$cat_pad" ''
+        for l in "${trimmed_lines[@]}"; do
+            cat_lines+=("${prefix}${l}")
+        done
+    fi
+
+    local cal_height=0 cat_height=0
+    [ "$CALENDAR_ENABLED" = "1" ] && cal_height=${#cal_lines[@]}
+    [ "$CAT_ENABLED" = "1" ] && cat_height=${#cat_lines[@]}
+
+    local height
+    if [ "$CALENDAR_ENABLED" = "1" ] && [ "$CAT_ENABLED" = "1" ]; then
+        height=$cal_height
+        (( cat_height > height )) && height=$cat_height
+    elif [ "$CALENDAR_ENABLED" = "1" ]; then
+        height=$cal_height
+    else
+        height=$cat_height
+    fi
+    (( height += 1 ))
+
+    local -a cal_box=() cat_box=()
+    [ "$CALENDAR_ENABLED" = "1" ] && mapfile -t cal_box < <(_build_box "Calendar" 30 "$height" "${cal_lines[@]}")
+    [ "$CAT_ENABLED" = "1" ] && mapfile -t cat_box < <(_build_box "Cat" 20 "$height" "${cat_lines[@]}")
+
+    if [ "$CALENDAR_ENABLED" = "1" ] && [ "$CAT_ENABLED" = "1" ]; then
+        local n=$(( height + 2 )) i
+        for ((i=0; i<n; i++)); do
+            printf '%s%s\n' "${cal_box[$i]:-}" "${cat_box[$i]:-}"
+        done
+    elif [ "$CALENDAR_ENABLED" = "1" ]; then
+        printf '%s\n' "${cal_box[@]}"
+    else
+        printf '%s\n' "${cat_box[@]}"
+    fi
+}
+
+show-dashboard
