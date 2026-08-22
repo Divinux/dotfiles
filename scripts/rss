@@ -5,8 +5,8 @@
 
 SHOW_TODAY_IN_HISTORY=true
 SHOW_RANDOM_WIKI=true
-SHOW_ARCH_NEWS=false
-SHOW_AUR_THREADS=false
+SHOW_ARCH_NEWS=true
+SHOW_AUR_THREADS=true
 
 ARCH_URL="https://www.archlinux.org/feeds/news/"
 AUR_URL="https://lists.archlinux.org/archives/list/aur-general@lists.archlinux.org/latest?count=5"
