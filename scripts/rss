@@ -1,23 +1,115 @@
 #!/bin/bash
-# Script to read the three most recent headlines from the Arch RSS feed
-RSS_URL="https://www.archlinux.org/feeds/news/"
+# Script to read the three most recent headlines from the Arch RSS feed,
+# the five most recent threads from the AUR mailing list,
+# and a random fact about today in history.
 
-# Fetch the RSS feed once and store it in a variable
-rss_feed=$(wget -qO- "$RSS_URL")
+SHOW_TODAY_IN_HISTORY=true
+SHOW_ARCH_NEWS=true
+SHOW_AUR_THREADS=true
+
+ARCH_URL="https://www.archlinux.org/feeds/news/"
+AUR_URL="https://lists.archlinux.org/archives/list/aur-general@lists.archlinux.org/latest?count=5"
 
 make_link() {
     local url="$1"
     local text="$2"
+
     printf "${BLGRAY}"
     printf '\e]8;;%s\a\e[1m%s\e[0m\e]8;;\a' "$url" "$text"
+    printf "${RESET}"
 }
 
-# Loop through the first 3 items
-for i in 1 2 3; do
-    printf "${YELLOW}"
-    title=$(echo "$rss_feed" | xmlstarlet sel -T -t -v "/rss/channel/item[$i]/title")
-    date=$(echo "$rss_feed" | xmlstarlet sel -T -t -v "/rss/channel/item[$i]/pubDate" | awk '{print $2 " " $3 " " $4}')
-    link=$(echo "$rss_feed" | xmlstarlet sel -T -t -v "/rss/channel/item[$i]/link")
-    echo "$date - $(make_link "$link" "$title")"
-done
+# Today in history
+if [[ "$SHOW_TODAY_IN_HISTORY" == true ]]; then
+    local date year text url
 
+    date=$(date '+%m/%d')
+
+    IFS=$'\t' read -r year text url < <(
+        curl -s "https://en.wikipedia.org/api/rest_v1/feed/onthisday/all/${date}" |
+            jq -r '
+                .events
+                | map(select(.pages | length > 0))
+                | .[]
+                | [.year, .text, .pages[0].content_urls.desktop.page]
+                | @tsv
+            ' |
+            shuf -n 1
+    )
+
+    printf "${YELLOW}Today in history\n"
+    printf '%s %s - ' "$(date '+%d %b')" "$year"
+    make_link "$url" "$text"
+    printf '\n\n'
+fi
+
+# Arch News
+if [[ "$SHOW_ARCH_NEWS" == true ]]; then
+    arch_feed=$(wget -qO- "$ARCH_URL")
+
+    printf "${YELLOW}Arch News\n"
+
+    for i in 1 2 3; do
+        title=$(echo "$arch_feed" |
+            xmlstarlet sel -T -t -v "/rss/channel/item[$i]/title")
+
+        date=$(echo "$arch_feed" |
+            xmlstarlet sel -T -t -v "/rss/channel/item[$i]/pubDate" |
+            awk '{print $2 " " $3 " " $4}')
+
+        link=$(echo "$arch_feed" |
+            xmlstarlet sel -T -t -v "/rss/channel/item[$i]/link")
+
+        printf "${YELLOW}"
+        echo "$date - $(make_link "$link" "$title")"
+        printf "${RESET}"
+    done
+
+    printf "\n"
+fi
+
+# AUR General
+if [[ "$SHOW_AUR_THREADS" == true ]]; then
+    aur_page=$(wget -qO- "$AUR_URL")
+
+    printf "${YELLOW}AUR General\n"
+
+    # Extract the five thread URLs
+    mapfile -t aur_links < <(
+        echo "$aur_page" |
+            tr '\n' ' ' |
+            sed 's/<div class="thread">/\n/g' |
+            grep 'class="thread-title"' |
+            sed -E 's/.*href="([^"]+)"[^>]*class="thread-title".*/\1/'
+    )
+
+    # Extract the five thread titles
+    mapfile -t aur_titles < <(
+        echo "$aur_page" |
+            tr '\n' ' ' |
+            sed 's/<div class="thread">/\n/g' |
+            grep 'class="thread-title"' |
+            sed -E 's/.*class="thread-title">[^<]*<[^>]*>[^<]*<\/i>([^<]*).*/\1/' |
+            sed 's/&quot;/"/g; s/&#x27;/'"'"'/g; s/&amp;/\&/g' |
+            sed -E 's/^[[:space:]]+//; s/[[:space:]]+$//'
+    )
+
+    # Extract the five thread dates
+    mapfile -t aur_dates < <(
+        echo "$aur_page" |
+            tr '\n' ' ' |
+            sed 's/<div class="thread">/\n/g' |
+            grep 'class="thread-title"' |
+            sed -E 's/.*class="thread-date[^"]*"[^>]*title="([^"]+)".*/\1/' |
+            sed -E 's/^[^,]+, //' |
+            awk '{print $1 " " substr($2,1,3) " " $3}'
+    )
+
+    # Combine them
+    for i in "${!aur_titles[@]}"; do
+        printf "${YELLOW}"
+        link="https://lists.archlinux.org${aur_links[$i]}"
+        echo "${aur_dates[$i]} - $(make_link "$link" "${aur_titles[$i]}")"
+        printf "${RESET}"
+    done
+fi
