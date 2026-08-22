@@ -4,8 +4,9 @@
 # and a random fact about today in history.
 
 SHOW_TODAY_IN_HISTORY=true
-SHOW_ARCH_NEWS=true
-SHOW_AUR_THREADS=true
+SHOW_RANDOM_WIKI=true
+SHOW_ARCH_NEWS=false
+SHOW_AUR_THREADS=false
 
 ARCH_URL="https://www.archlinux.org/feeds/news/"
 AUR_URL="https://lists.archlinux.org/archives/list/aur-general@lists.archlinux.org/latest?count=5"
@@ -18,6 +19,45 @@ make_link() {
     printf '\e]8;;%s\a\e[1m%s\e[0m\e]8;;\a' "$url" "$text"
     printf "${RESET}"
 }
+
+# Random wiki article
+randomwiki() {
+    local article title extract url
+
+    article=$(
+        curl -sL "https://en.wikipedia.org/api/rest_v1/page/random/title" |
+            jq -r '.items[0].title'
+    )
+
+    title=$(
+        curl -s "https://en.wikipedia.org/api/rest_v1/page/summary/$(printf '%s' "$article" | jq -sRr @uri)" |
+            jq -r '.title'
+    )
+
+    extract=$(
+    curl -s "https://en.wikipedia.org/api/rest_v1/page/summary/$(printf '%s' "$article" | jq -sRr @uri)" |
+        jq -r '.extract // ""' |
+        awk '{
+            match($0, /[.!?][[:space:]]+[A-Z]/)
+            if (RSTART) {
+                print substr($0, 1, RSTART)
+            } else {
+                print
+            }
+        }'
+    )
+
+    url="https://en.wikipedia.org/wiki/${article}"
+
+    printf "${YELLOW}Random Wikipedia article\n"
+    printf '%s - ' "$title"
+    make_link "$url" "$extract"
+    printf '\n\n'
+}
+
+if [[ "$SHOW_RANDOM_WIKI" == true ]]; then
+    randomwiki
+fi
 
 # Today in history
 if [[ "$SHOW_TODAY_IN_HISTORY" == true ]]; then
