@@ -1490,3 +1490,31 @@ trackercheck() {
 }
 
 trackercheck
+
+### TTS using piper-tts
+say() {
+    local text
+    SAY_VOICE="$HOME/voices/hal.onnx"
+
+    if [ ! -f "$SAY_VOICE" ]; then
+        echo "say: voice file not found: $SAY_VOICE"
+        return 1
+    fi
+
+    if [ -t 0 ]; then
+        text="$*"
+    else
+        text="$(cat)"
+    fi
+
+    [ -z "$text" ] && {
+        echo "Usage: say \"text\" or echo \"text\" | say"
+        return 1
+    }
+
+    printf '%s\n' "$text" | \
+        piper-tts \
+            -m "$SAY_VOICE" \
+            --output-raw |
+        paplay --raw --rate=22050 --format=s16le --channels=1
+}
