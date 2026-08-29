@@ -1317,8 +1317,8 @@ colorconvert() {
 }
 
 ### Use hex colors in the terminal
-# Usage: colored_text "#ffffff" "Hello " "#000000" "World!"
-colored_text() {
+# Usage: ct "#ffffff" "Hello " "#000000" "World!"
+ct() {
     local text=""
 
     while [[ $# -gt 0 ]]; do
@@ -1329,6 +1329,16 @@ colored_text() {
     done
 
     echo -e "$text"
+}
+
+### Show a colored block in a given color
+sc() {
+    [[ $# -eq 1 ]] || {
+        echo "Usage: sc \"#RRGGBB\"" >&2
+        return 1
+    }
+
+    colortext "$1" "██████████\n██$1██\n██████████"
 }
 
 # Subfunction to color text in the terminal
