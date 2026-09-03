@@ -1218,38 +1218,94 @@ rre() {
 ### Display the last time the system was updated
 lastupdate() {
     local stamp_file="$HOME/.last_update"
-    local now
-    now=$(date +%s)
+
+    printf "${BOLD}${LBLUE}::${RESET} ${BOLD}Last update:${RESET}"
 
     if [[ -f "$stamp_file" ]]; then
         local last
         last=$(cat "$stamp_file")
 
         if [[ "$last" =~ ^[0-9]+$ ]]; then
-            local diff=$((now - last))
-
-            local days=$((diff / 86400))
-            local hours=$(((diff % 86400) / 3600))
-            local minutes=$(((diff % 3600) / 60))
-
-            printf "${BOLD}${LBLUE}::${RESET} ${BOLD}Last update:${RESET}"
             date -d "@$last" "+ %Y-%m-%d %H:%M:%S"
-
-            echo -n " "
-            if (( days > 0 )); then
-                echo -n "${days}d "
-            fi
-            if (( hours > 0 )); then
-                echo -n "${hours}h "
-            fi
-            echo "${minutes}m ago"
+            printf " "
+            timediff "$last"
+        else
+            echo " Invalid timestamp"
         fi
     else
-        printf "${BOLD}${LBLUE}::${RESET} ${BOLD}No previous update timestamp found.${RESET}"
-        echo
+        echo " No previous update timestamp found."
     fi
 
     date +%s > "$stamp_file"
+}
+
+### Display time difference between a given date/time and now
+timediff() {
+    local input="$1"
+    local now
+    local target
+    local diff
+    local prefix=""
+    local suffix=" ago"
+    local result=""
+
+    if [[ -z "$input" ]]; then
+        echo "Usage: timediff <unix timestamp|date>"
+        echo "Date in ISO: 1970-12-30 23:59"
+        return 1
+    fi
+
+    now=$(date +%s)
+
+    if [[ "$input" =~ ^[0-9]+$ ]]; then
+        target="$input"
+    else
+        target=$(date -d "$input" +%s 2>/dev/null) || {
+            echo "Invalid date/time: $input"
+            return 1
+        }
+    fi
+
+    diff=$((now - target))
+
+    if (( diff < 0 )); then
+        diff=$((-diff))
+        prefix="in "
+        suffix=""
+    fi
+
+    local years=$((diff / 31536000))
+    diff=$((diff % 31536000))
+
+    local months=$((diff / 2592000))
+    diff=$((diff % 2592000))
+
+    local weeks=$((diff / 604800))
+    diff=$((diff % 604800))
+
+    local days=$((diff / 86400))
+    diff=$((diff % 86400))
+
+    local hours=$((diff / 3600))
+    diff=$((diff % 3600))
+
+    local minutes=$((diff / 60))
+    local seconds=$((diff % 60))
+
+    (( years > 0 ))   && result+="${years}y "
+    (( months > 0 ))  && result+="${months}mo "
+    (( weeks > 0 ))   && result+="${weeks}w "
+    (( days > 0 ))    && result+="${days}d "
+    (( hours > 0 ))   && result+="${hours}h "
+    (( minutes > 0 )) && result+="${minutes}m "
+
+    if [[ -z "$result" ]]; then
+        result="${seconds}s"
+    else
+        result="${result% }"
+    fi
+
+    echo "${prefix}${result}${suffix}"
 }
 
 ### Push to github repo, autodetecting branch and remote
