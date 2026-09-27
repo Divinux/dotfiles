@@ -1,1 +1,4 @@
 "Tux" (https://skfb.ly/U6Av) by Andy Cuccaro is licensed under Creative Commons Attribution (http://creativecommons.org/licenses/by/4.0/).
+animFetchMacOS by https://boreddev.nl/
+bash-cat by damian.sk@discord
+bashrc sections by jeffguy77 via https://www.linuxquestions.org/questions/linux-general-1/ultimate-prompt-and-bashrc-file-4175518169/
