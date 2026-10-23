@@ -70,7 +70,8 @@
         {
             "key": "Packages     ",
             "keyColor": "green",
-            "type": "packages"
+            "type": "packages",
+            "format": "{pacman} (pacman), {flatpak-all} (flatpak)"
         },
         {
             "type": "command",
