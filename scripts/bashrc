@@ -249,7 +249,7 @@ export GCC_COLORS='error=01;31:warning=01;35:note=01;36:caret=01;32:locus=01:quo
 # Detect distribution and set alias for package updates
 if command -v pacman >/dev/null 2>&1; then
     # Arch
-    alias u='lastupdate && sudo pacman -Syu && checkreboot'
+    alias u='time (lastupdate && sudo pacman -Syu && checkreboot); echo "update finished"'
 	alias uu='yay && flatpak update'
     alias i='sudo pacman -S'
     alias f='pacman -Ss'
