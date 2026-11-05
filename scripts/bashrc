@@ -273,8 +273,9 @@ else
 fi
 
 #alias ff='fastfetch'
-#alias ff='fastfetch -l /home/siri/archh.png --logo-type kitty --logo-width 45 --logo-padding-top 2 --logo-padding-left 0'
-alias ff='fastfetch -l /home/siri/katie.png --logo-type kitty --logo-width 45 --logo-padding-top 3 --logo-padding-left 2'
+alias ff='fastfetch -l /home/siri/archh.png --logo-type kitty --logo-width 45 --logo-padding-top 3 --logo-padding-left 0'
+#alias ff='fastfetch -l /home/siri/katie.png --logo-type kitty --logo-width 45 --logo-padding-top 3 --logo-padding-left 2'
+#alias ff='fastfetch -l /home/siri/aff.png --logo-type kitty --logo-width 45 --logo-padding-top 3 --logo-padding-left 2'
 #alias ff='fastfetch -l /home/siri/archblu.png --logo-type kitty --logo-width 45 --logo-padding-top 1 --logo-padding-left 0'
 #alias ff='fastfetch -l /home/siri/archprpl.png --logo-type kitty --logo-width 45 --logo-padding-top 2 --logo-padding-left 0'
 alias h='history'
@@ -1535,27 +1536,9 @@ pickfile() {
 bind -x '"\C-f":pickfile'
 
 # WindowTracker health check
-trackercheck() {
-    if [ -f ~/.config/systemd/user/windowtracker.service ]; then
-        kwin_ok=$(qdbus org.kde.KWin /Scripting org.kde.kwin.Scripting.isScriptLoaded kwin.windowtracker 2>/dev/null)
-        kwin_state=$(qdbus kwin.windowtracker /Logger kwin.windowtracker.Ping 2>/dev/null)
-        dbus_ok=$(busctl --user list 2>/dev/null | grep -q kwin.windowtracker && echo true || echo false)
-
-        if [[ "$kwin_ok" != "true" ]]; then
-            echo "WARN: Window Tracker not loaded"
-        fi
-
-        if [[ "$kwin_state" != "ok" ]]; then
-            echo "WARN: Window Tracker not responding"
-        fi
-
-        if [[ "$dbus_ok" != "true" ]]; then
-            echo "WARN: kwin.windowtracker DBus service not running"
-        fi
-    fi
-}
-
-trackercheck
+if [ -f ~/KDE-Window-Tracker/addons/trackercheck ]; then
+    . ~/KDE-Window-Tracker/addons/trackercheck
+fi
 
 ### TTS using piper-tts
 say() {
